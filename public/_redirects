@@ -1,0 +1,3 @@
+# Legacy paths → new routes (trailing slash matches Next `trailingSlash: true`)
+/strands-hint/* /:splat/ 302
+/strands-hint / 302

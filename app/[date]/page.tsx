@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title,
     description,
-    alternates: { canonical: `/${date}` },
+    alternates: { canonical: `/${date}/` },
     openGraph: {
       title,
       description,
@@ -80,15 +80,15 @@ export default async function DatePage({ params }: Props) {
         </h1>
         <p className="mt-2 text-sm text-ink-500">
           Jump to:{" "}
-          <a href={`/${date}#wordle`} className="underline-offset-2 hover:underline">
+          <a href={`/${date}/#wordle`} className="underline-offset-2 hover:underline">
             Wordle
           </a>
           {" · "}
-          <a href={`/${date}#connections`} className="underline-offset-2 hover:underline">
+          <a href={`/${date}/#connections`} className="underline-offset-2 hover:underline">
             Connections
           </a>
           {" · "}
-          <a href={`/${date}#strands`} className="underline-offset-2 hover:underline">
+          <a href={`/${date}/#strands`} className="underline-offset-2 hover:underline">
             Strands
           </a>
         </p>
