@@ -1,0 +1,56 @@
+{
+  "pageTitle": "NYT Games hints — April 11, 2026",
+  "games": {
+    "wordle": {
+      "hints": [
+        "Common starter letter S or C.",
+        "Ends with a silent letter pattern.",
+        "Think coastal geography."
+      ],
+      "answer": "FJORD"
+    },
+    "strands": {
+      "hints": [
+        "Theme: on the water.",
+        "Spangram is a compound about ocean travel.",
+        "Small craft and big vessels both appear."
+      ],
+      "answer": "SEAFARING"
+    },
+    "pips": {
+      "hints": [
+        "Middle column has two forced 6s.",
+        "Use pairs to collapse the southwest."
+      ],
+      "answer": "Key deduction: center pip parity"
+    },
+    "connections": {
+      "hints": [
+        "Green: things you fold.",
+        "Blue: measurement words."
+      ],
+      "answer": "Categories: ORIGAMI, RULER, …"
+    },
+    "sports": {
+      "hints": [
+        "Pitching duel expected—low run total.",
+        "Check bullpen availability for extra innings."
+      ],
+      "answer": "Lean under on total runs"
+    },
+    "crossword": {
+      "hints": [
+        "Reveal a tricky rebus in the southeast.",
+        "The pun clue references a Beatles song."
+      ],
+      "answer": "Featured entry: SUBMARINE (rebus)"
+    },
+    "mini": {
+      "hints": [
+        "Theme entries read across the center.",
+        "Thursday mini has a hidden word."
+      ],
+      "answer": "Mini meta: READ"
+    }
+  }
+}

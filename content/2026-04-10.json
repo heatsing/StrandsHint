@@ -1,0 +1,57 @@
+{
+  "pageTitle": "NYT Games hints — April 10, 2026",
+  "games": {
+    "wordle": {
+      "hints": [
+        "Starts with a consonant cluster.",
+        "Two vowels, no repeated letters.",
+        "Rhymes with a word for a small valley."
+      ],
+      "answer": "CRISP"
+    },
+    "strands": {
+      "title": "Strands",
+      "hints": [
+        "Theme: things that shine.",
+        "The spangram is nine letters and starts with L.",
+        "Think bioluminescence and city lights."
+      ],
+      "answer": "LUMINOUS"
+    },
+    "pips": {
+      "hints": [
+        "Count face totals early.",
+        "Look for forced chains on high faces."
+      ],
+      "answer": "Layout: 3-4-5 / 2-6-1 (example)"
+    },
+    "connections": {
+      "hints": [
+        "Yellow group: kitchen verbs.",
+        "Purple is tricky—think spelling patterns."
+      ],
+      "answer": "Groups: CUT, MIX, WHISK, ZEST | …"
+    },
+    "sports": {
+      "hints": [
+        "Western Conference matchup.",
+        "Watch the injury report on the starting guard."
+      ],
+      "answer": "Final pick: home team by 4"
+    },
+    "crossword": {
+      "hints": [
+        "1-Across is a familiar three-letter filler.",
+        "The long marquee entry runs across row 7."
+      ],
+      "answer": "Grid highlight: REPLENISH at 23-Across"
+    },
+    "mini": {
+      "hints": [
+        "Top-left is a three-letter animal.",
+        "Bottom row has two proper nouns."
+      ],
+      "answer": "Completed mini theme: WATER"
+    }
+  }
+}

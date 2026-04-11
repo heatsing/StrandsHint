@@ -1,0 +1,55 @@
+{
+  "pageTitle": "NYT Games hints — April 12, 2026",
+  "games": {
+    "wordle": {
+      "hints": [
+        "Double letters in the middle.",
+        "Often used in cooking and chemistry."
+      ],
+      "answer": "BROWN"
+    },
+    "strands": {
+      "hints": [
+        "Theme: brainy stuff.",
+        "Spangram is what puzzles train.",
+        "Think memory, logic, and ideas."
+      ],
+      "answer": "THINKING"
+    },
+    "pips": {
+      "hints": [
+        "Start by marking impossible 1s.",
+        "The northwest 2×2 resolves first."
+      ],
+      "answer": "Unique solution after X-wing"
+    },
+    "connections": {
+      "hints": [
+        "One group is synonyms for 'fast'.",
+        "Look for a quartet of birds."
+      ],
+      "answer": "Purple: hawk, crow, …"
+    },
+    "sports": {
+      "hints": [
+        "Divisional rematch—recent H2H trends matter.",
+        "Weather may favor the run game."
+      ],
+      "answer": "ATS lean: dog +3.5"
+    },
+    "crossword": {
+      "hints": [
+        "Sunday-sized reference—film titles abound.",
+        "A tricky clue uses a question mark for wordplay."
+      ],
+      "answer": "Showstopper: OSCARSWEEP"
+    },
+    "mini": {
+      "hints": [
+        "All corners are consonants.",
+        "Center square is a vowel."
+      ],
+      "answer": "Quick solve: under 45s"
+    }
+  }
+}
