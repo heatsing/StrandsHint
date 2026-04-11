@@ -1,32 +1,32 @@
-/** Unified daily JSON in /content/YYYY-MM-DD.json */
-export type GameId =
-  | "wordle"
-  | "strands"
-  | "pips"
-  | "connections"
-  | "sports"
-  | "crossword"
-  | "mini";
+/** Blog post JSON in /content/YYYY-MM-DD.json */
 
-export type GameHintsBlock = {
-  /** Optional H2 override; defaults from tab label */
-  title?: string;
-  hints: string[];
+export type ConnectionsGroup = {
+  title: string;
+  words: string[];
+};
+
+export type FaqItem = {
+  question: string;
   answer: string;
 };
 
-export type DailyHintsJson = {
-  /** Main H1 for the page */
-  pageTitle: string;
-  games: Record<GameId, GameHintsBlock>;
+export type DailyPostJson = {
+  /** SEO intro paragraph (shown under H1) */
+  intro: string;
+  wordle: {
+    hints: [string, string, string];
+    answer: string;
+  };
+  strands: {
+    theme: string;
+    hints: string[];
+    spangramHint: string;
+    spangram: string;
+    themeWords: string[];
+  };
+  connections: {
+    groups: [ConnectionsGroup, ConnectionsGroup, ConnectionsGroup, ConnectionsGroup];
+  };
+  /** 2–3 entries recommended for FAQ schema */
+  faq: FaqItem[];
 };
-
-export const GAME_ORDER: { id: GameId; label: string }[] = [
-  { id: "wordle", label: "Wordle" },
-  { id: "strands", label: "Strands" },
-  { id: "pips", label: "Pips" },
-  { id: "connections", label: "Connections" },
-  { id: "sports", label: "Sports" },
-  { id: "crossword", label: "Crossword" },
-  { id: "mini", label: "Mini" },
-];

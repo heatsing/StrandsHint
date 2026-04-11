@@ -1,57 +1,56 @@
 {
-  "pageTitle": "NYT Games hints — April 10, 2026",
-  "games": {
-    "wordle": {
-      "hints": [
-        "Starts with a consonant cluster.",
-        "Two vowels, no repeated letters.",
-        "Rhymes with a word for a small valley."
-      ],
-      "answer": "CRISP"
+  "intro": "Welcome to your April 10, 2026 NYT Games cheat sheet. Below you will find progressive Wordle clues, today’s Strands theme and spangram hint, and Connections group breakdowns—each designed so you can stop reading the moment you feel unstuck. Use the toggles to keep full answers out of sight until you are ready.",
+  "wordle": {
+    "hints": [
+      "The answer has one vowel used twice.",
+      "It describes something crisp or brittle, not soft.",
+      "Think snack aisles and autumn leaves."
+    ],
+    "answer": "CRISP"
+  },
+  "strands": {
+    "theme": "Things that shine",
+    "hints": [
+      "Every solution word fits a bright, glowing idea.",
+      "The spangram is nine letters and starts with L.",
+      "From fireflies to city lights—stay luminous."
+    ],
+    "spangramHint": "A single word for giving off light—often used for nature and neon alike.",
+    "spangram": "LUMINOUS",
+    "themeWords": ["STAR", "BEAM", "GLOW", "FLASH"]
+  },
+  "connections": {
+    "groups": [
+      {
+        "title": "Yellow — Kitchen verbs",
+        "words": ["WHISK", "ZEST", "MINCE", "GRATE"]
+      },
+      {
+        "title": "Green — Kinds of light",
+        "words": ["RAY", "BEAM", "GLOW", "FLASH"]
+      },
+      {
+        "title": "Blue — Card suits",
+        "words": ["HEART", "CLUB", "SPADE", "DIAMOND"]
+      },
+      {
+        "title": "Purple — Words that follow 'sun'",
+        "words": ["RISE", "SET", "BURN", "SPOT"]
+      }
+    ]
+  },
+  "faq": [
+    {
+      "question": "Do I need an NYT subscription to use these hints?",
+      "answer": "Hints here are free to read. Playing the actual games on NYTimes.com may require a subscription or free article allowance, depending on your account."
     },
-    "strands": {
-      "title": "Strands",
-      "hints": [
-        "Theme: things that shine.",
-        "The spangram is nine letters and starts with L.",
-        "Think bioluminescence and city lights."
-      ],
-      "answer": "LUMINOUS"
+    {
+      "question": "What order should I read the sections in?",
+      "answer": "Start with Wordle if that is your first daily stop, then Strands, then Connections—or jump to whichever game you are stuck on. Each section is written to stand alone."
     },
-    "pips": {
-      "hints": [
-        "Count face totals early.",
-        "Look for forced chains on high faces."
-      ],
-      "answer": "Layout: 3-4-5 / 2-6-1 (example)"
-    },
-    "connections": {
-      "hints": [
-        "Yellow group: kitchen verbs.",
-        "Purple is tricky—think spelling patterns."
-      ],
-      "answer": "Groups: CUT, MIX, WHISK, ZEST | …"
-    },
-    "sports": {
-      "hints": [
-        "Western Conference matchup.",
-        "Watch the injury report on the starting guard."
-      ],
-      "answer": "Final pick: home team by 4"
-    },
-    "crossword": {
-      "hints": [
-        "1-Across is a familiar three-letter filler.",
-        "The long marquee entry runs across row 7."
-      ],
-      "answer": "Grid highlight: REPLENISH at 23-Across"
-    },
-    "mini": {
-      "hints": [
-        "Top-left is a three-letter animal.",
-        "Bottom row has two proper nouns."
-      ],
-      "answer": "Completed mini theme: WATER"
+    {
+      "question": "Are the Connections groups in difficulty order?",
+      "answer": "Groups are labeled by color name only on this page; in the real game, yellow is typically the easiest category and purple the trickiest."
     }
-  }
+  ]
 }

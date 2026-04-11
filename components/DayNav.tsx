@@ -39,7 +39,7 @@ export function DayNav({ prevDate, nextDate, yesterdayHref, tomorrowHref }: Prop
       <div className="flex flex-wrap gap-2 text-sm">
         {prevDate ? (
           <Link
-            href={`/${prevDate}`}
+            href={`/${prevDate}/`}
             className="rounded-lg border border-ink-200 bg-white px-3 py-1.5 text-ink-700 hover:border-ink-400 hover:bg-ink-50"
           >
             ← Previous puzzle
@@ -51,7 +51,7 @@ export function DayNav({ prevDate, nextDate, yesterdayHref, tomorrowHref }: Prop
         )}
         {nextDate ? (
           <Link
-            href={`/${nextDate}`}
+            href={`/${nextDate}/`}
             className="rounded-lg border border-ink-200 bg-white px-3 py-1.5 text-ink-700 hover:border-ink-400 hover:bg-ink-50"
           >
             Next puzzle →

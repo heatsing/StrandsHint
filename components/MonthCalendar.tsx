@@ -117,7 +117,7 @@ export function MonthCalendar({
             return (
               <Link
                 key={`${cell.iso}-${cell.day}`}
-                href={`/${cell.iso}`}
+                href={`/${cell.iso}/`}
                 className={`${base} border border-ink-200 bg-white font-medium text-ink-900 hover:border-ink-500 hover:bg-ink-50${muted}${todayRing}`}
               >
                 {cell.day}

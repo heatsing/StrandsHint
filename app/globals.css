@@ -9,11 +9,3 @@
 body {
   @apply min-h-screen bg-ink-50 text-ink-900 antialiased;
 }
-
-.prose-strands h2 {
-  @apply mt-10 text-xl font-semibold tracking-tight text-ink-900 first:mt-0;
-}
-
-.prose-strands p {
-  @apply mt-2 leading-relaxed text-ink-700;
-}

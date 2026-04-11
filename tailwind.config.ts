@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import typography from "@tailwindcss/typography";
 
 const config: Config = {
   content: [
@@ -9,8 +10,9 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-geist-sans)", "system-ui", "sans-serif"],
-        mono: ["var(--font-geist-mono)", "ui-monospace", "monospace"],
+        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+        serif: ["var(--font-serif)", "Georgia", "serif"],
+        mono: ["ui-monospace", "monospace"],
       },
       colors: {
         ink: {
@@ -24,11 +26,12 @@ const config: Config = {
           700: "#44403c",
           800: "#292524",
           900: "#1c1917",
+          950: "#0c0a09",
         },
       },
     },
   },
-  plugins: [],
+  plugins: [typography],
 };
 
 export default config;

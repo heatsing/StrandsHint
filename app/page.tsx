@@ -1,55 +1,49 @@
 import Link from "next/link";
 import { MonthCalendar } from "@/components/MonthCalendar";
-import { listContentDates, todayIsoUtc } from "@/lib/content";
+import { formatDisplayDate, listContentDates, todayIsoUtc } from "@/lib/content";
 
 export default async function HomePage() {
   const contentDates = await listContentDates();
   const todayIso = todayIsoUtc();
 
   return (
-    <main>
-      <div className="mb-8">
-        <h1 className="text-3xl font-semibold tracking-tight text-ink-900 sm:text-4xl">
-          NYT games hints calendar
+    <main className="max-w-3xl">
+      <header className="mb-10">
+        <h1 className="font-serif text-3xl font-bold tracking-tight text-ink-950 sm:text-4xl">
+          NYT Hints &amp; Answers — calendar
         </h1>
-        <p className="mt-3 max-w-prose text-ink-600">
-          Pick a date for Wordle, Strands, Connections, Crossword, Mini, and more—tabbed hints with
-          spoiler answers and anchor links like{" "}
-          <code className="rounded bg-ink-100 px-1.5 py-0.5 font-mono text-sm">#connections</code>.
+        <p className="mt-4 text-lg leading-relaxed text-ink-600">
+          Choose a date below to open a full blog-style post with Wordle hints, Strands (theme + spangram),
+          Connections groups, and an FAQ—built for reading top to bottom, with spoilers tucked away.
         </p>
-        <div className="mt-5 flex flex-wrap gap-3">
+        <div className="mt-6 flex flex-wrap gap-3">
           <Link
-            href={`/${todayIso}`}
-            className="inline-flex items-center rounded-xl bg-ink-900 px-4 py-2.5 text-sm font-medium text-white hover:bg-ink-800"
+            href={`/${todayIso}/`}
+            className="inline-flex items-center rounded-full bg-ink-900 px-5 py-2.5 text-sm font-medium text-white hover:bg-ink-800"
           >
-            Open today&apos;s page
+            Today&apos;s article
           </Link>
           <Link
-            href="/strands-hint"
-            className="inline-flex items-center rounded-xl border border-ink-200 bg-white px-4 py-2.5 text-sm font-medium text-ink-800 hover:border-ink-400"
+            href="/sitemap.xml"
+            className="inline-flex items-center rounded-full border border-ink-200 bg-white px-5 py-2.5 text-sm font-medium text-ink-800 hover:border-ink-400"
           >
-            Legacy /strands-hint → today
+            Sitemap
           </Link>
         </div>
-      </div>
+      </header>
 
       <div id="calendar">
+        <h2 className="mb-4 font-serif text-xl font-semibold text-ink-900">Pick a date</h2>
         <MonthCalendar contentDates={contentDates} todayIso={todayIso} />
       </div>
 
-      <section className="mt-12 rounded-2xl border border-ink-200 bg-white p-6 shadow-sm">
-        <h2 className="text-base font-semibold text-ink-900">Internal links</h2>
-        <ul className="mt-3 space-y-2 text-sm text-ink-600">
-          <li>
-            <Link className="text-ink-800 underline-offset-4 hover:underline" href="/sitemap.xml">
-              Sitemap
-            </Link>
-          </li>
-          {contentDates.slice(-5).map((d) => (
+      <section className="prose prose-stone mt-14 max-w-none border-t border-ink-200 pt-10 prose-headings:font-serif">
+        <h2>Recent posts</h2>
+        <ul>
+          {contentDates.slice(-6).map((d) => (
             <li key={d}>
-              <Link className="text-ink-800 underline-offset-4 hover:underline" href={`/${d}`}>
-                {d}
-              </Link>
+              <Link href={`/${d}/`}>{formatDisplayDate(d)}</Link>{" "}
+              <span className="text-ink-400">({d})</span>
             </li>
           ))}
         </ul>

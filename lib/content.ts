@@ -1,7 +1,6 @@
 import fs from "fs/promises";
 import path from "path";
-import type { DailyHintsJson, GameHintsBlock, GameId } from "./daily-types";
-import { GAME_ORDER } from "./daily-types";
+import type { ConnectionsGroup, DailyPostJson, FaqItem } from "./daily-types";
 
 const CONTENT_DIR = path.join(process.cwd(), "content");
 
@@ -23,33 +22,84 @@ export async function listContentDates(): Promise<string[]> {
   }
 }
 
-function defaultGame(): GameHintsBlock {
-  return { hints: [], answer: "—" };
+function padHints3(h: string[] | undefined): [string, string, string] {
+  const a = [...(h ?? [])];
+  while (a.length < 3) a.push("");
+  return [a[0] ?? "", a[1] ?? "", a[2] ?? ""];
 }
 
-function normalizeDailyHints(parsed: Partial<DailyHintsJson>): DailyHintsJson | null {
-  if (!parsed?.pageTitle || !parsed?.games) return null;
-  const games = {} as Record<GameId, GameHintsBlock>;
-  for (const { id } of GAME_ORDER) {
-    const g = parsed.games![id];
-    games[id] = {
-      ...defaultGame(),
-      ...g,
-      hints: Array.isArray(g?.hints) ? g!.hints : [],
-      answer: typeof g?.answer === "string" ? g.answer : defaultGame().answer,
-    };
+function defaultGroup(title: string): ConnectionsGroup {
+  return { title, words: ["—", "—", "—", "—"] };
+}
+
+function normalizePost(parsed: Partial<DailyPostJson>): DailyPostJson | null {
+  if (typeof parsed?.intro !== "string" || !parsed.intro.trim()) return null;
+
+  const w = parsed.wordle;
+  const hints = padHints3(w?.hints as string[] | undefined);
+  const wordle = {
+    hints,
+    answer: typeof w?.answer === "string" ? w.answer : "—",
+  };
+
+  const s = parsed.strands;
+  const strands = {
+    theme: typeof s?.theme === "string" ? s.theme : "",
+    hints: Array.isArray(s?.hints) ? s.hints : [],
+    spangramHint: typeof s?.spangramHint === "string" ? s.spangramHint : "",
+    spangram: typeof s?.spangram === "string" ? s.spangram : "",
+    themeWords: Array.isArray(s?.themeWords) ? s.themeWords : [],
+  };
+
+  const g = parsed.connections?.groups;
+  const groups = [
+    g?.[0] ?? defaultGroup("Group 1"),
+    g?.[1] ?? defaultGroup("Group 2"),
+    g?.[2] ?? defaultGroup("Group 3"),
+    g?.[3] ?? defaultGroup("Group 4"),
+  ] as [ConnectionsGroup, ConnectionsGroup, ConnectionsGroup, ConnectionsGroup];
+
+  const rawFaq = parsed.faq;
+  let faq: FaqItem[] = Array.isArray(rawFaq)
+    ? rawFaq
+        .map((f) => ({
+          question: typeof f?.question === "string" ? f.question.trim() : "",
+          answer: typeof f?.answer === "string" ? f.answer.trim() : "",
+        }))
+        .filter((f) => f.question && f.answer)
+    : [];
+  if (faq.length < 2) {
+    faq = [
+      {
+        question: "Are these the official New York Times answers?",
+        answer:
+          "This site is an independent reference for hints and solutions. For the authentic experience, play Wordle, Strands, and Connections on NYTimes.com or in the official NYT Games app.",
+      },
+      {
+        question: "Why are some solutions hidden behind a button?",
+        answer:
+          "So you can read progressive hints first and only reveal full answers when you want them—without spoiling the puzzle by accident.",
+      },
+    ];
   }
-  return { pageTitle: parsed.pageTitle, games };
+  if (faq.length > 3) faq = faq.slice(0, 3);
+
+  return {
+    intro: parsed.intro.trim(),
+    wordle,
+    strands,
+    connections: { groups },
+    faq,
+  };
 }
 
-/** Daily tabbed hints (unified schema with `pageTitle` + `games`). */
-export async function readDailyHints(date: string): Promise<DailyHintsJson | null> {
+export async function readDailyPost(date: string): Promise<DailyPostJson | null> {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return null;
   const file = path.join(CONTENT_DIR, `${date}.json`);
   try {
     const raw = await fs.readFile(file, "utf8");
-    const parsed = JSON.parse(raw) as Partial<DailyHintsJson>;
-    return normalizeDailyHints(parsed);
+    const parsed = JSON.parse(raw) as Partial<DailyPostJson>;
+    return normalizePost(parsed);
   } catch {
     return null;
   }
