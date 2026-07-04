@@ -5,8 +5,6 @@ import { SpoilerReveal } from "@/components/SpoilerReveal";
 import { getTodayPuzzle } from "@/lib/puzzle-data";
 import { breadcrumbSchema } from "@/lib/seo";
 
-export const dynamic = "force-dynamic";
-
 export const metadata: Metadata = {
   title: "NYT Strands Hints Today",
   description: "Spoiler-light strands hints for today's puzzle, with deeper clues hidden until you reveal them.",

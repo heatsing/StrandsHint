@@ -6,8 +6,6 @@ import { JsonLd } from "@/components/JsonLd";
 import { getPublishedPuzzles } from "@/lib/puzzle-data";
 import { breadcrumbSchema } from "@/lib/seo";
 
-export const dynamic = "force-dynamic";
-
 export const metadata: Metadata = {
   title: "Strands Archive",
   description:

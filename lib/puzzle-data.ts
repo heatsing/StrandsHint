@@ -1,43 +1,53 @@
-import type { Puzzle } from "@prisma/client";
-import { prisma } from "./db";
-import { parseJsonList, toDateOnly } from "./utils";
+import puzzles from "@/data/puzzles.json";
 
-export type PuzzleView = Puzzle & {
+export type Difficulty = "EASY" | "MEDIUM" | "HARD";
+
+export type PuzzleView = {
+  id: string;
+  date: string;
+  puzzleNumber?: number;
+  title: string;
+  themeHint: string;
+  difficulty: Difficulty;
+  spangram: string;
+  spangramHint1: string;
+  spangramHint2: string;
+  spangramDirection: string;
+  words: string[];
+  wordHints: string[];
+  spoilerLevelContent: string;
+  seoTitle: string;
+  seoDescription: string;
+  slug: string;
+  published: boolean;
+  dateLabel: string;
   wordList: string[];
   hintList: string[];
-  dateLabel: string;
 };
 
-export function hydratePuzzle(puzzle: Puzzle): PuzzleView {
+function hydrate(puzzle: (typeof puzzles)[number]): PuzzleView {
   return {
     ...puzzle,
-    wordList: parseJsonList(puzzle.words),
-    hintList: parseJsonList(puzzle.wordHints),
-    dateLabel: toDateOnly(puzzle.date),
+    difficulty: puzzle.difficulty as Difficulty,
+    dateLabel: puzzle.date,
+    wordList: puzzle.words,
+    hintList: puzzle.wordHints,
   };
 }
 
-export async function getTodayPuzzle() {
-  const latest = await prisma.puzzle.findFirst({
-    where: { published: true },
-    orderBy: { date: "desc" },
-  });
-  return latest ? hydratePuzzle(latest) : null;
+export function getPublishedPuzzles(): PuzzleView[] {
+  return puzzles
+    .filter((puzzle) => puzzle.published)
+    .map(hydrate)
+    .sort((a, b) => b.date.localeCompare(a.date));
 }
 
-export async function getPublishedPuzzles() {
-  const puzzles = await prisma.puzzle.findMany({
-    where: { published: true },
-    orderBy: { date: "desc" },
-  });
-  return puzzles.map(hydratePuzzle);
+export function getTodayPuzzle(): PuzzleView | null {
+  const published = getPublishedPuzzles();
+  const today = new Date().toISOString().slice(0, 10);
+  return published.find((puzzle) => puzzle.date === today) ?? published[0] ?? null;
 }
 
-export async function getPuzzleByDate(date: string) {
-  const start = new Date(`${date}T00:00:00.000Z`);
-  const end = new Date(`${date}T23:59:59.999Z`);
-  const puzzle = await prisma.puzzle.findFirst({
-    where: { published: true, date: { gte: start, lte: end } },
-  });
-  return puzzle ? hydratePuzzle(puzzle) : null;
+export function getPuzzleByDate(date: string): PuzzleView | null {
+  return getPublishedPuzzles().find((puzzle) => puzzle.date === date) ?? null;
 }

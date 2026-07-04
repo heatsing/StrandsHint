@@ -3,12 +3,14 @@ import { notFound } from "next/navigation";
 import { FAQ } from "@/components/FAQ";
 import { JsonLd } from "@/components/JsonLd";
 import { PuzzleAnswerContent } from "@/components/PuzzleAnswerContent";
-import { getPuzzleByDate } from "@/lib/puzzle-data";
+import { getPublishedPuzzles, getPuzzleByDate } from "@/lib/puzzle-data";
 import { breadcrumbSchema } from "@/lib/seo";
 
 type Props = { params: { date: string } };
 
-export const dynamic = "force-dynamic";
+export function generateStaticParams() {
+  return getPublishedPuzzles().map((puzzle) => ({ date: puzzle.date }));
+}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const puzzle = await getPuzzleByDate(params.date);

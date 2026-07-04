@@ -1,25 +1,16 @@
-import type { Metadata } from "next";
-import { loginAction } from "../actions";
+import Link from "next/link";
 
-export const metadata: Metadata = { title: "Admin Login" };
-
-export default function AdminLoginPage({ searchParams }: { searchParams: { error?: string } }) {
+export default function AdminLoginPage() {
   return (
-    <div className="mx-auto max-w-md rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
-      <h1 className="text-2xl font-bold text-slate-950">Admin login</h1>
-      <p className="mt-2 text-sm text-slate-600">Enter the password from ADMIN_PASSWORD.</p>
-      {searchParams.error ? <p className="mt-4 rounded-md bg-rose-50 p-3 text-sm text-rose-700">Wrong password.</p> : null}
-      <form action={loginAction} className="mt-5 space-y-4">
-        <input
-          name="password"
-          type="password"
-          className="w-full rounded-md border border-slate-300 px-3 py-2 outline-none focus:border-slate-800"
-          placeholder="Password"
-        />
-        <button className="w-full rounded-md bg-slate-900 px-4 py-2 font-semibold text-white hover:bg-slate-700">
-          Log in
-        </button>
-      </form>
-    </div>
+    <>
+      <h1 className="text-3xl font-bold text-slate-950">Admin login</h1>
+      <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-600">
+        Login is disabled in the no-database static build. Content is maintained by editing
+        <code className="mx-1 rounded bg-slate-100 px-1">data/puzzles.json</code> locally.
+      </p>
+      <Link href="/admin/puzzles/new" className="mt-6 inline-flex rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold">
+        Generate JSON entry
+      </Link>
+    </>
   );
 }

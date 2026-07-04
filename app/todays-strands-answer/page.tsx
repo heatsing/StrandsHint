@@ -5,8 +5,6 @@ import { PuzzleAnswerContent } from "@/components/PuzzleAnswerContent";
 import { getTodayPuzzle } from "@/lib/puzzle-data";
 import { breadcrumbSchema } from "@/lib/seo";
 
-export const dynamic = "force-dynamic";
-
 export const metadata: Metadata = {
   title: "Today's Strands Answer, Hints & Spangram",
   description:

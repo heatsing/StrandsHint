@@ -1,11 +1,12 @@
 import { AdminPuzzleForm } from "@/components/AdminPuzzleForm";
-import { requireAdmin } from "@/lib/auth";
 
 export default function NewPuzzlePage() {
-  requireAdmin();
   return (
     <>
-      <h1 className="mb-6 text-3xl font-bold text-slate-950">New Strands content</h1>
+      <h1 className="mb-4 text-3xl font-bold text-slate-950">Generate a puzzle JSON entry</h1>
+      <p className="mb-6 max-w-3xl text-slate-600">
+        This helper does not save data. It creates a JSON object for manual maintenance.
+      </p>
       <AdminPuzzleForm />
     </>
   );

@@ -1,0 +1,33 @@
+[
+  {
+    "id": "sample-strands-helper-puzzle",
+    "date": "2026-07-04",
+    "puzzleNumber": 1,
+    "title": "Sample Strands Helper Puzzle",
+    "themeHint": "Things you might pack for a sunny picnic.",
+    "difficulty": "MEDIUM",
+    "spangram": "PICNICBASKET",
+    "spangramHint1": "It can hold the whole meal.",
+    "spangramHint2": "Two words, often carried by a handle.",
+    "spangramDirection": "left to right",
+    "words": [
+      "BLANKET",
+      "LEMONADE",
+      "NAPKINS",
+      "SANDWICH",
+      "SUNSCREEN"
+    ],
+    "wordHints": [
+      "Something to sit on.",
+      "A sweet drink.",
+      "Useful for cleanup.",
+      "The main bite.",
+      "Helpful on a bright day."
+    ],
+    "spoilerLevelContent": "This is fictional sample content for local development. Replace it by manually editing data/puzzles.json.",
+    "seoTitle": "Sample Strands Hints and Answers",
+    "seoDescription": "A fictional sample puzzle for testing Strands Hint without copying official puzzle content.",
+    "slug": "sample-strands-helper-puzzle",
+    "published": true
+  }
+]

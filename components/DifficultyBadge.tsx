@@ -1,4 +1,4 @@
-import type { Difficulty } from "@prisma/client";
+import type { Difficulty } from "@/lib/puzzle-data";
 
 const styles: Record<Difficulty, string> = {
   EASY: "bg-emerald-50 text-emerald-700 ring-emerald-200",
