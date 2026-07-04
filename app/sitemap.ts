@@ -1,26 +1,24 @@
 import type { MetadataRoute } from "next";
-import { listContentDates } from "@/lib/content";
+import {
+  getAllPuzzles,
+  getAvailableMonths,
+  getAvailableYears,
+} from "@/lib/puzzles";
+import { siteUrl } from "@/lib/seo";
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const base =
-    process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "http://localhost:3000";
+export default function sitemap(): MetadataRoute.Sitemap {
+  const now = new Date();
+  const staticRoutes = ["/", "/today/", "/yesterday/", "/archive/", "/solver/"];
+  const answerRoutes = getAllPuzzles().map((puzzle) => `/answers/${puzzle.date}/`);
+  const yearRoutes = getAvailableYears().map((year) => `/archive/${year}/`);
+  const monthRoutes = getAvailableYears().flatMap((year) =>
+    getAvailableMonths(year).map((month) => `/archive/${year}/${month}/`),
+  );
 
-  const dates = await listContentDates();
-
-  const entries: MetadataRoute.Sitemap = [
-    {
-      url: `${base}/`,
-      lastModified: new Date(),
-      changeFrequency: "daily",
-      priority: 1,
-    },
-    ...dates.map((date) => ({
-      url: `${base}/${date}/`,
-      lastModified: new Date(),
-      changeFrequency: "weekly" as const,
-      priority: 0.85,
-    })),
-  ];
-
-  return entries;
+  return [...staticRoutes, ...answerRoutes, ...yearRoutes, ...monthRoutes].map((route) => ({
+    url: `${siteUrl}${route}`,
+    lastModified: now,
+    changeFrequency: route === "/today/" ? "daily" : "weekly",
+    priority: route === "/" ? 1 : 0.8,
+  }));
 }
