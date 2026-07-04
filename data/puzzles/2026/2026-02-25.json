@@ -1,0 +1,21 @@
+{
+  "id": 724,
+  "date": "2026-02-25",
+  "theme": "That's really out there!",
+  "difficulty": 2,
+  "spangram": "SPACECRAFT",
+  "answers": [
+    "LANDER",
+    "MODULE",
+    "ORBITER",
+    "PROBE",
+    "ROVER",
+    "SATELLITE"
+  ],
+  "hints": [
+    "Read the theme clue \"That's really out there!\" as literally as you can before checking the list.",
+    "One answer starts with L.",
+    "The spangram is 10 letters and names the idea behind the set."
+  ],
+  "editorNote": "A friendly solve once the theme clicks, with a spangram that keeps the set tidy."
+}
