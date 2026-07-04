@@ -1,64 +1,44 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArchiveList } from "@/components/ArchiveList";
-import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { getAllPuzzles, getAvailableMonths, getAvailableYears } from "@/lib/puzzles";
-import { pageTitle } from "@/lib/seo";
+import { DifficultyBadge } from "@/components/DifficultyBadge";
+import { FAQ } from "@/components/FAQ";
+import { JsonLd } from "@/components/JsonLd";
+import { getPublishedPuzzles } from "@/lib/puzzle-data";
+import { breadcrumbSchema } from "@/lib/seo";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: pageTitle("Strands Archive"),
+  title: "Strands Archive",
   description:
-    "Browse past Strands hints, spangrams, and answers by date. Each entry links to a full puzzle page.",
-  alternates: { canonical: "/archive/" },
+    "Browse manually published Strands Hint editorial pages. Nothing here is auto-scraped from official puzzle sources.",
 };
 
-export default function ArchivePage() {
-  const puzzles = getAllPuzzles().reverse();
-  const years = getAvailableYears();
-
+export default async function ArchivePage() {
+  const puzzles = await getPublishedPuzzles();
   return (
     <>
-      <Breadcrumbs items={[{ label: "Archive" }]} />
-      <header className="max-w-3xl">
-        <h1 className="text-3xl font-bold tracking-tight text-stone-950">Strands Archive</h1>
-        <p className="mt-4 text-lg leading-8 text-stone-600">
-          Pick a date to open the theme, hints, spangram, and answer list. New JSON files appear
-          here automatically after a build.
-        </p>
-      </header>
-
-      <div className="mt-8 flex flex-wrap gap-2">
-        {years.map((year) => (
-          <Link key={year} href={`/archive/${year}/`} className="rounded-md border border-stone-300 bg-white px-3 py-2 text-sm font-medium hover:bg-stone-50">
-            {year}
+      <JsonLd data={breadcrumbSchema([{ name: "Home", url: "/" }, { name: "Archive", url: "/archive" }])} />
+      <h1 className="text-3xl font-bold text-slate-950">Strands Archive</h1>
+      <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-600">
+        Manually entered daily pages for Strands hints and answers. The archive only shows content
+        published from the admin area.
+      </p>
+      <div className="mt-8 grid gap-4">
+        {puzzles.map((puzzle) => (
+          <Link key={puzzle.id} href={`/archive/${puzzle.dateLabel}`} className="rounded-lg border border-slate-200 bg-white p-5 hover:bg-slate-50">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <p className="text-sm text-slate-500">{puzzle.dateLabel}{puzzle.puzzleNumber ? ` - #${puzzle.puzzleNumber}` : ""}</p>
+                <h2 className="mt-1 text-xl font-bold text-slate-950">{puzzle.title}</h2>
+                <p className="mt-2 text-sm text-slate-600">{puzzle.themeHint}</p>
+              </div>
+              <DifficultyBadge difficulty={puzzle.difficulty} />
+            </div>
           </Link>
         ))}
       </div>
-
-      <section className="mt-8">
-        <ArchiveList puzzles={puzzles} />
-      </section>
-
-      <section className="mt-12 max-w-3xl border-t border-stone-200 pt-8 text-stone-700">
-        <h2 className="text-2xl font-semibold text-stone-950">A simple date trail</h2>
-        <p className="mt-4 leading-7">
-          The archive is meant for quick backtracking. Use it when you want to compare a theme
-          from an older day, check a spangram, or fill a missing answer list without scrolling
-          through a long feed. If a year has many entries, the year and month pages make it easier
-          to narrow the list.
-        </p>
-        {years.length > 0 ? (
-          <div className="mt-5 flex flex-wrap gap-2 text-sm">
-            {years.flatMap((year) =>
-              getAvailableMonths(year).map((month) => (
-                <Link key={`${year}-${month}`} href={`/archive/${year}/${month}/`} className="rounded-md border border-stone-300 bg-white px-3 py-2 hover:bg-stone-50">
-                  {year}-{month}
-                </Link>
-              )),
-            )}
-          </div>
-        ) : null}
-      </section>
+      <FAQ items={[{ question: "Is this archive scraped?", answer: "No. Archive entries are manually created and published by an administrator." }]} />
     </>
   );
 }

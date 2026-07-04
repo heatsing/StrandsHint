@@ -1,23 +1,41 @@
 # Strands Hint
 
-Static Strands hints and answers site for `strandshint.net`.
+Independent fan-made helper site for `strandshint.net`.
 
-## Daily update
+This site is not affiliated with The New York Times. It does not use the NYT logo, does not copy
+the official game UI, does not fetch NYT APIs, and does not auto-scrape official puzzle content.
+Daily puzzle notes are entered manually through the admin area.
 
-1. Play or collect today's puzzle data.
-2. Run `pnpm new:puzzle`.
-3. Enter date, theme, spangram, answers, hints, and editor note.
-4. Run `pnpm build`.
-5. Commit and push.
-6. Cloudflare Pages deploys the static export.
+## Local Setup
+
+1. Copy `.env.example` to `.env.local` or export the same variables in your shell.
+2. Run `npm install`.
+3. Run `npm run db:push`.
+4. Run `npm run db:seed`.
+5. Run `npm run dev`.
+
+Default local variables:
+
+```bash
+DATABASE_URL="file:./dev.db"
+ADMIN_PASSWORD="change-me"
+NEXT_PUBLIC_SITE_URL="https://strandshint.net"
+```
 
 ## Commands
 
-- `pnpm dev` starts local development.
-- `pnpm new:puzzle` creates `data/puzzles/YYYY/YYYY-MM-DD.json`.
-- `pnpm lint` checks the app.
-- `pnpm build` creates the static export in `out/`.
+- `npm run dev` starts Next.js.
+- `npm run lint` runs Next lint.
+- `npm run build` runs `prisma generate` and builds the app.
+- `npm run db:push` syncs Prisma schema to SQLite.
+- `npm run db:seed` creates one fictional sample puzzle.
 
-## Solver notes
+## Daily Publishing
 
-The solver is a scratchpad today. A later version can add DFS plus dictionary lookup by walking adjacent board letters, filtering candidates by known word length, and ranking matches against the theme.
+1. Visit `/admin/login`.
+2. Log in with `ADMIN_PASSWORD`.
+3. Open `/admin/puzzles/new`.
+4. Enter the puzzle content manually.
+5. Publish it when ready.
+
+All public answer and archive pages read from the database.

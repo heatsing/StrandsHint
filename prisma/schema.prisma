@@ -1,0 +1,36 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+model Puzzle {
+  id                  Int        @id @default(autoincrement())
+  date                DateTime   @unique
+  puzzleNumber        Int?
+  title               String
+  themeHint           String
+  difficulty          Difficulty @default(MEDIUM)
+  spangram            String
+  spangramHint1       String
+  spangramHint2       String
+  spangramDirection   String
+  words               String
+  wordHints           String
+  spoilerLevelContent String
+  seoTitle            String
+  seoDescription      String
+  slug                String     @unique
+  createdAt           DateTime   @default(now())
+  updatedAt           DateTime   @updatedAt
+  published           Boolean    @default(false)
+}
