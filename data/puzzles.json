@@ -3,7 +3,7 @@
     "id": "sample-strands-helper-puzzle",
     "date": "2026-07-04",
     "puzzleNumber": 1,
-    "title": "Sample Strands Helper Puzzle",
+    "title": "Today's Strands Helper Demo",
     "themeHint": "Things you might pack for a sunny picnic.",
     "difficulty": "MEDIUM",
     "spangram": "PICNICBASKET",
@@ -24,9 +24,9 @@
       "The main bite.",
       "Helpful on a bright day."
     ],
-    "spoilerLevelContent": "This is fictional sample content for local development. Replace it by manually editing data/puzzles.json.",
-    "seoTitle": "Sample Strands Hints and Answers",
-    "seoDescription": "A fictional sample puzzle for testing Strands Hint without copying official puzzle content.",
+    "spoilerLevelContent": "This spoiler-safe demo shows how daily hints are layered before answers. Editorial entries are added manually and are not copied from official puzzle feeds.",
+    "seoTitle": "Today's Strands Hints and Answers Demo",
+    "seoDescription": "A spoiler-safe demo page showing how Strands Hint layers theme hints, spangram clues, and answer reveals.",
     "slug": "sample-strands-helper-puzzle",
     "published": true
   }

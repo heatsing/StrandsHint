@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Eye, Grid3X3, Search, Sparkles } from "lucide-react";
+import { ArrowRight, CalendarCheck, Eye, Grid3X3, Sparkles } from "lucide-react";
 import { FAQ } from "@/components/FAQ";
 import { JsonLd } from "@/components/JsonLd";
 import { PuzzleCard } from "@/components/PuzzleCard";
@@ -83,6 +83,30 @@ export default async function HomePage() {
             <p className="mt-2 text-sm leading-6 text-slate-600">{text}</p>
           </div>
         ))}
+      </section>
+
+      <section className="mt-14 grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+        <div className="rounded-lg border border-slate-200 bg-white p-6">
+          <CalendarCheck className="h-6 w-6 text-sky-700" />
+          <h2 className="mt-4 text-2xl font-bold text-slate-950">Make it your daily Strands stop</h2>
+          <p className="mt-3 text-sm leading-6 text-slate-600">
+            Start spoiler-free, use only the hint you need, then come back tomorrow for a fresh
+            manually reviewed page.
+          </p>
+        </div>
+        <div className="grid gap-3 sm:grid-cols-3">
+          {[
+            ["1", "Open today", "Check the theme and difficulty before revealing anything."],
+            ["2", "Nudge first", "Reveal the theme hint or spangram clue without seeing every answer."],
+            ["3", "Keep playing", "Use the solver or archive when you want another route forward."],
+          ].map(([step, title, text]) => (
+            <div key={step} className="rounded-lg border border-slate-200 bg-white p-5">
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-slate-900 text-sm font-bold text-white">{step}</span>
+              <h3 className="mt-4 font-bold text-slate-950">{title}</h3>
+              <p className="mt-2 text-sm leading-6 text-slate-600">{text}</p>
+            </div>
+          ))}
+        </div>
       </section>
 
       <section className="mt-14 rounded-lg border border-slate-200 bg-white p-6">

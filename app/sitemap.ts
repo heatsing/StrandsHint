@@ -11,10 +11,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/strands-spangram-helper",
     "/strands-word-finder",
     "/archive",
-    "/admin",
-    "/admin/login",
-    "/admin/puzzles",
-    "/admin/puzzles/new",
   ];
 
   return [

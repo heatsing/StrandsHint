@@ -49,7 +49,9 @@ export function PuzzleAnswerContent({ puzzle }: { puzzle: PuzzleView }) {
       </SpoilerReveal>
 
       <div className="flex flex-wrap gap-3 pt-3 text-sm">
+        <Link href="/strands-hints" className="rounded-md border border-slate-300 px-4 py-2 hover:bg-slate-50">Back to hints only</Link>
         <Link href="/strands-solver" className="rounded-md border border-slate-300 px-4 py-2 hover:bg-slate-50">Try the solver</Link>
+        <Link href="/strands-word-finder" className="rounded-md border border-slate-300 px-4 py-2 hover:bg-slate-50">Open word finder</Link>
         <Link href="/archive" className="rounded-md border border-slate-300 px-4 py-2 hover:bg-slate-50">Browse archive</Link>
       </div>
     </article>

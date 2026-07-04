@@ -1,4 +1,10 @@
 import { AdminPuzzleForm } from "@/components/AdminPuzzleForm";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "New Puzzle JSON Entry",
+  robots: { index: false, follow: false },
+};
 
 export default function NewPuzzlePage() {
   return (

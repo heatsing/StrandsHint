@@ -26,7 +26,6 @@ const nav = [
   ["/strands-spangram-helper", "Spangram"],
   ["/strands-word-finder", "Word Finder"],
   ["/archive", "Archive"],
-  ["/admin", "Admin"],
 ];
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -52,7 +51,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </header>
         <main className="mx-auto max-w-6xl px-4 py-10">{children}</main>
         <footer className="mx-auto max-w-6xl border-t border-slate-200 px-4 py-8 text-sm text-slate-500">
-          <p>{disclaimer}</p>
+          <div className="grid gap-5 sm:grid-cols-[1fr_auto] sm:items-start">
+            <p>{disclaimer}</p>
+            <nav className="flex flex-wrap gap-3 sm:justify-end" aria-label="Footer">
+              <Link href="/todays-strands-answer" className="hover:text-slate-900">Today</Link>
+              <Link href="/strands-solver" className="hover:text-slate-900">Solver</Link>
+              <Link href="/strands-word-finder" className="hover:text-slate-900">Word Finder</Link>
+              <Link href="/archive" className="hover:text-slate-900">Archive</Link>
+            </nav>
+          </div>
         </footer>
       </body>
     </html>

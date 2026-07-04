@@ -7,7 +7,7 @@ type Props = {
   onChange: (value: string) => void;
 };
 
-const sample = "FIREWORKSBRIGHTCOLORFULDAZZLINGEXCITINGSPARKLINGWORD";
+const sample = "COLORFULDAZZLINGEXCITINGSANDWICHBLANKETXRAINBOWY";
 
 export function LetterGridInput({ value, onChange }: Props) {
   const letters = value.toUpperCase().replace(/[^A-Z]/g, "").slice(0, 48).padEnd(48, " ");

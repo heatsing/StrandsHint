@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Strands Spangram Helper",
   description:
     "Find long edge-to-edge word candidates in a Strands grid and see likely spangram directions.",
+  alternates: { canonical: "/strands-spangram-helper" },
 };
 
 export default function SpangramHelperPage() {
@@ -19,8 +20,16 @@ export default function SpangramHelperPage() {
         Paste your grid to surface longer candidates that connect opposite or outer edges, including
         top to bottom and left to right directions.
       </p>
+      <div className="mt-5 rounded-lg border border-slate-200 bg-white p-5 text-sm leading-6 text-slate-600">
+        A spangram is the theme word or phrase that spans the board. Results here are only possible
+        candidates from your letters, not official answers.
+      </div>
       <div className="mt-8"><SolverTool mode="spangram" /></div>
-      <FAQ items={[{ question: "What makes a spangram candidate?", answer: "This helper marks longer words that can connect edge to edge in the grid." }]} />
+      <div className="mt-8 flex flex-wrap gap-3 text-sm">
+        <a href="/strands-hints" className="rounded-md border border-slate-300 px-4 py-2 hover:bg-slate-50">Today&apos;s hints</a>
+        <a href="/strands-solver" className="rounded-md border border-slate-300 px-4 py-2 hover:bg-slate-50">Full solver</a>
+      </div>
+      <FAQ items={[{ question: "What makes a spangram candidate?", answer: "This helper marks longer words that can connect edge to edge in the grid. It does not guarantee the official answer." }]} />
     </>
   );
 }

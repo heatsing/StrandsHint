@@ -1,5 +1,11 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { getPublishedPuzzles } from "@/lib/puzzle-data";
+
+export const metadata: Metadata = {
+  title: "Admin Puzzle Entries",
+  robots: { index: false, follow: false },
+};
 
 export default function AdminPuzzlesPage() {
   const puzzles = getPublishedPuzzles();
