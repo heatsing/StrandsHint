@@ -11,6 +11,9 @@ const requiredFiles = [
   "strands-solver/index.html",
   "strands-spangram-helper/index.html",
   "strands-word-finder/index.html",
+  "today/wordle-hints/index.html",
+  "today/connections-hints/index.html",
+  "today/strands-hints/index.html",
   "archive/index.html",
   "admin/puzzles/new/index.html",
   "404.html",
@@ -25,6 +28,9 @@ const pageChecks = [
   ["strands-solver/index.html", ["Strands Solver", "Find words", "No candidates yet", "rel=\"canonical\"", "FAQPage", "BreadcrumbList"]],
   ["strands-spangram-helper/index.html", ["Strands Spangram Helper", "Find spangram candidates", "not official answers", "FAQPage", "BreadcrumbList"]],
   ["strands-word-finder/index.html", ["Strands Word Finder", "Find words", "FAQPage", "BreadcrumbList"]],
+  ["today/wordle-hints/index.html", ["Today's Wordle Hints", "Progressive hints", "Related puzzle pages", "FAQPage", "BreadcrumbList"]],
+  ["today/connections-hints/index.html", ["Today's Connections Hints", "Progressive hints", "Related puzzle pages", "FAQPage", "BreadcrumbList"]],
+  ["today/strands-hints/index.html", ["Today's Strands Hints", "Progressive hints", "Related puzzle pages", "FAQPage", "BreadcrumbList"]],
   ["admin/puzzles/new/index.html", ["noindex", "Slug preview", "Copy JSON"]],
   ["404.html", ["Page not found", "Today's answer", "Solver"]],
 ];
@@ -58,7 +64,7 @@ if (!existsSync(outDir)) {
 
   const sitemap = readOutFile("sitemap.xml");
   if (sitemap.includes("/admin")) fail("sitemap.xml should not include admin URLs");
-  for (const route of ["/", "/todays-strands-answer", "/strands-hints", "/strands-solver", "/strands-spangram-helper", "/strands-word-finder", "/archive"]) {
+  for (const route of ["/", "/todays-strands-answer", "/strands-hints", "/strands-solver", "/strands-spangram-helper", "/strands-word-finder", "/archive", "/today/wordle-hints", "/today/connections-hints", "/today/strands-hints"]) {
     if (!sitemap.includes(`https://strandshint.net${route}`)) fail(`sitemap.xml is missing ${route}`);
   }
 }
