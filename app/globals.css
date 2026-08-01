@@ -3,9 +3,34 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: light;
+  color-scheme: dark;
 }
 
 body {
-  @apply min-h-screen bg-ink-50 text-ink-900 antialiased;
+  @apply min-h-screen bg-[#12172B] text-[#F6F1E6] antialiased;
+}
+
+::selection {
+  background: #e8a93d;
+  color: #12172b;
+}
+
+:focus-visible {
+  outline: 3px solid #e8a93d;
+  outline-offset: 3px;
+}
+
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }

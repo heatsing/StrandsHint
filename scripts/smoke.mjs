@@ -19,7 +19,7 @@ const requiredFiles = [
 ];
 
 const pageChecks = [
-  ["index.html", ["Strands Hint, Solve", "Powerful Tools for Every Player", "Frequently Asked Questions", "Fan-Made"]],
+  ["index.html", ["Reveal today", "Companion solving tools", "Frequently asked questions", "Independent"]],
   ["todays-strands-answer/index.html", ["Today's Strands Answer", "Spoiler warning", "Reveal All Answers", "FAQPage", "BreadcrumbList"]],
   ["strands-hints/index.html", ["Strands Hints Today", "Reveal Theme Hint", "Open spangram helper", "FAQPage", "BreadcrumbList"]],
   ["strands-solver/index.html", ["Strands Solver", "Find words", "No candidates yet", "rel=\"canonical\"", "FAQPage", "BreadcrumbList"]],
