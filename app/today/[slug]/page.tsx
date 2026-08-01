@@ -24,11 +24,11 @@ export function generateMetadata({ params }: PageProps): Metadata {
   if (!page) return {};
 
   return {
-    title: page.title,
+    title: page.dailyContent?.headline ?? page.title,
     description: page.metaDescription,
     alternates: { canonical: page.path },
     openGraph: {
-      title: page.title,
+      title: page.dailyContent?.headline ?? page.title,
       description: page.metaDescription,
       url: absoluteUrl(page.path),
       type: "article",
@@ -67,6 +67,11 @@ export default function DailySeoPage({ params }: PageProps) {
             <RefreshCw className="h-4 w-4" />
             Freshness target
           </div>
+          {page.dailyContent ? (
+            <p className="mt-3 font-mono text-sm font-bold text-[#F6F1E6]">
+              Last updated: {page.dailyContent.date}
+            </p>
+          ) : null}
           <p className="mt-3 text-sm leading-6 text-[#F6F1E6]/70">{page.freshContentNote}</p>
         </aside>
       </header>
@@ -106,7 +111,9 @@ export default function DailySeoPage({ params }: PageProps) {
       <section className="mt-8 grid gap-6 lg:grid-cols-2">
         <div className="rounded-2xl border border-[#F3ECDD]/15 bg-[#1B2138] p-6">
           <ListChecks className="h-8 w-8 text-[#2F8F7E]" />
-          <h2 className="mt-4 font-serif text-3xl font-black text-[#F6F1E6]">Answer explanation framework</h2>
+          <h2 className="mt-4 font-serif text-3xl font-black text-[#F6F1E6]">
+            {page.dailyContent?.answerLabel ?? "Answer explanation framework"}
+          </h2>
           <p className="mt-4 text-sm leading-7 text-[#F6F1E6]/75">{page.answerExplanation}</p>
           <p className="mt-4 rounded-xl bg-[#12172B] p-4 text-sm leading-6 text-[#F6F1E6]/65">
             {disclaimer}

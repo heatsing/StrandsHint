@@ -16,6 +16,7 @@ const requiredFiles = [
   "today/strands-hints/index.html",
   "archive/index.html",
   "admin/puzzles/new/index.html",
+  "admin/daily/new/index.html",
   "404.html",
   "robots.txt",
   "sitemap.xml",
@@ -28,10 +29,11 @@ const pageChecks = [
   ["strands-solver/index.html", ["Strands Solver", "Find words", "No candidates yet", "rel=\"canonical\"", "FAQPage", "BreadcrumbList"]],
   ["strands-spangram-helper/index.html", ["Strands Spangram Helper", "Find spangram candidates", "not official answers", "FAQPage", "BreadcrumbList"]],
   ["strands-word-finder/index.html", ["Strands Word Finder", "Find words", "FAQPage", "BreadcrumbList"]],
-  ["today/wordle-hints/index.html", ["Today's Wordle Hints", "Progressive hints", "Related puzzle pages", "FAQPage", "BreadcrumbList"]],
-  ["today/connections-hints/index.html", ["Today's Connections Hints", "Progressive hints", "Related puzzle pages", "FAQPage", "BreadcrumbList"]],
-  ["today/strands-hints/index.html", ["Today's Strands Hints", "Progressive hints", "Related puzzle pages", "FAQPage", "BreadcrumbList"]],
+  ["today/wordle-hints/index.html", ["Today's Wordle hints for August 1, 2026", "Progressive hints", "Related puzzle pages", "FAQPage", "BreadcrumbList"]],
+  ["today/connections-hints/index.html", ["Today's Connections hints for August 1, 2026", "Progressive hints", "Related puzzle pages", "FAQPage", "BreadcrumbList"]],
+  ["today/strands-hints/index.html", ["Today's Strands hints for August 1, 2026", "Progressive hints", "Related puzzle pages", "FAQPage", "BreadcrumbList"]],
   ["admin/puzzles/new/index.html", ["noindex", "Slug preview", "Copy JSON"]],
+  ["admin/daily/new/index.html", ["noindex", "Generate a daily SEO JSON entry", "Generated daily JSON", "Copy JSON"]],
   ["404.html", ["Page not found", "Today's answer", "Solver"]],
 ];
 

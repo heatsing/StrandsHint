@@ -1,0 +1,98 @@
+[
+  {
+    "id": "2026-08-01-strands-hints",
+    "date": "2026-08-01",
+    "slug": "strands-hints",
+    "published": true,
+    "headline": "Today's Strands hints for August 1, 2026",
+    "summary": "Use these manually prepared Strands hint layers as a spoiler-safe editorial template. Replace the placeholder clues with the day's reviewed puzzle notes before publishing.",
+    "progressiveHints": [
+      "Start by reading the theme clue and looking for a small cluster of related words.",
+      "If the board still feels stuck, scan for a long phrase that could connect opposite sides.",
+      "Open the full answer only after you have used the theme and spangram hints."
+    ],
+    "answerLabel": "Manual Strands answer note",
+    "answerExplanation": "A daily Strands explanation should connect the theme, spangram, and word list in plain language. This placeholder keeps the page useful without copying official puzzle content.",
+    "relatedPuzzlePages": [
+      {
+        "label": "Today's Strands Answer",
+        "href": "/todays-strands-answer",
+        "description": "Reveal the Strands answer in layers when you are ready."
+      },
+      {
+        "label": "Strands Spangram Helper",
+        "href": "/strands-spangram-helper",
+        "description": "Find possible spangram candidates from a grid."
+      },
+      {
+        "label": "Strands Archive",
+        "href": "/archive",
+        "description": "Browse manually published Strands hint pages."
+      }
+    ]
+  },
+  {
+    "id": "2026-08-01-wordle-hints",
+    "date": "2026-08-01",
+    "slug": "wordle-hints",
+    "published": true,
+    "headline": "Today's Wordle hints for August 1, 2026",
+    "summary": "A daily Wordle hint entry can hold broad clues, stronger letter guidance, and an answer explanation. Keep the answer out of sight until the final reveal.",
+    "progressiveHints": [
+      "Use a balanced starter word before looking for direct letter help.",
+      "Check whether your confirmed letters create a common ending.",
+      "If you are down to one guess, compare candidates by repeated letters."
+    ],
+    "answerLabel": "Manual Wordle answer note",
+    "answerExplanation": "A strong Wordle answer note explains the path from early guesses to the final word. This placeholder is intentionally non-official and should be replaced with reviewed daily notes.",
+    "relatedPuzzlePages": [
+      {
+        "label": "Today's Connections Hints",
+        "href": "/today/connections-hints",
+        "description": "Move to category hints after Wordle."
+      },
+      {
+        "label": "Today's Strands Hints",
+        "href": "/today/strands-hints",
+        "description": "Open today's Strands clue layers."
+      },
+      {
+        "label": "Word Finder",
+        "href": "/strands-word-finder",
+        "description": "Search for words by pattern or known letters."
+      }
+    ]
+  },
+  {
+    "id": "2026-08-01-connections-hints",
+    "date": "2026-08-01",
+    "slug": "connections-hints",
+    "published": true,
+    "headline": "Today's Connections hints for August 1, 2026",
+    "summary": "A daily Connections entry should help players reason through categories before showing any group answer.",
+    "progressiveHints": [
+      "Find one obvious pair, then test whether two more words share the same context.",
+      "Watch for decoys that fit the surface meaning but not the category.",
+      "Save your final guess until every word has a clear reason to belong."
+    ],
+    "answerLabel": "Manual Connections answer note",
+    "answerExplanation": "A useful Connections explanation names the category logic and explains common traps. This placeholder does not copy official puzzle content.",
+    "relatedPuzzlePages": [
+      {
+        "label": "Today's Wordle Hints",
+        "href": "/today/wordle-hints",
+        "description": "Get spoiler-safe Wordle clue layers."
+      },
+      {
+        "label": "Today's Strands Hints",
+        "href": "/today/strands-hints",
+        "description": "Continue with today's Strands hints."
+      },
+      {
+        "label": "Strands Solver",
+        "href": "/strands-solver",
+        "description": "Use the grid solver for Strands-style puzzles."
+      }
+    ]
+  }
+]

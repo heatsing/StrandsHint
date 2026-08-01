@@ -1,4 +1,20 @@
 import { absoluteUrl } from "@/lib/seo";
+import dailyContent from "@/data/daily-content.json";
+
+export type RelatedPage = { label: string; href: string; description: string };
+
+export type DailyContentEntry = {
+  id: string;
+  date: string;
+  slug: string;
+  published: boolean;
+  headline: string;
+  summary: string;
+  progressiveHints: string[];
+  answerLabel: string;
+  answerExplanation: string;
+  relatedPuzzlePages: RelatedPage[];
+};
 
 export type DailySeoPage = {
   game: "Wordle" | "Connections" | "Strands";
@@ -14,8 +30,9 @@ export type DailySeoPage = {
   progressiveHints: string[];
   answerExplanation: string;
   tips: string[];
-  relatedPages: { label: string; href: string; description: string }[];
+  relatedPages: RelatedPage[];
   faq: { question: string; answer: string }[];
+  dailyContent?: DailyContentEntry;
 };
 
 export const dailySeoPages: DailySeoPage[] = [
@@ -147,19 +164,41 @@ export const dailySeoPages: DailySeoPage[] = [
   },
 ];
 
-export function getDailySeoPage(slug: string) {
-  return dailySeoPages.find((page) => page.slug === slug) ?? null;
+function getLatestDailyContent(slug: string): DailyContentEntry | undefined {
+  return (dailyContent as DailyContentEntry[])
+    .filter((entry) => entry.slug === slug && entry.published)
+    .sort((a, b) => b.date.localeCompare(a.date))[0];
+}
+
+export function getDailySeoPage(slug: string): DailySeoPage | null {
+  const basePage = dailySeoPages.find((page) => page.slug === slug);
+  if (!basePage) return null;
+
+  const latestContent = getLatestDailyContent(slug);
+  if (!latestContent) return basePage;
+
+  return {
+    ...basePage,
+    h1: latestContent.headline,
+    intro: latestContent.summary,
+    progressiveHints: latestContent.progressiveHints,
+    answerExplanation: latestContent.answerExplanation,
+    relatedPages: latestContent.relatedPuzzlePages,
+    dailyContent: latestContent,
+  };
 }
 
 export function dailyPageSchema(page: DailySeoPage) {
+  const date = page.dailyContent?.date ?? new Date().toISOString().slice(0, 10);
+
   return {
     "@context": "https://schema.org",
     "@type": "Article",
-    headline: page.title,
+    headline: page.dailyContent?.headline ?? page.title,
     description: page.metaDescription,
     mainEntityOfPage: absoluteUrl(page.path),
-    datePublished: new Date().toISOString(),
-    dateModified: new Date().toISOString(),
+    datePublished: date,
+    dateModified: date,
     isAccessibleForFree: true,
     about: page.game,
   };
