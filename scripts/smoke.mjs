@@ -6,6 +6,7 @@ const outDir = path.join(root, "out");
 
 const requiredFiles = [
   "index.html",
+  "today/index.html",
   "todays-strands-answer/index.html",
   "strands-hints/index.html",
   "strands-solver/index.html",
@@ -24,6 +25,7 @@ const requiredFiles = [
 
 const pageChecks = [
   ["index.html", ["Reveal today", "Companion solving tools", "Frequently asked questions", "Independent"]],
+  ["today/index.html", ["Today's puzzle hints", "Daily hint hub", "Open daily hints", "FAQPage", "BreadcrumbList"]],
   ["todays-strands-answer/index.html", ["Today's Strands Answer", "Spoiler warning", "Reveal All Answers", "FAQPage", "BreadcrumbList"]],
   ["strands-hints/index.html", ["Strands Hints Today", "Reveal Theme Hint", "Open spangram helper", "FAQPage", "BreadcrumbList"]],
   ["strands-solver/index.html", ["Strands Solver", "Find words", "No candidates yet", "rel=\"canonical\"", "FAQPage", "BreadcrumbList"]],
@@ -66,7 +68,7 @@ if (!existsSync(outDir)) {
 
   const sitemap = readOutFile("sitemap.xml");
   if (sitemap.includes("/admin")) fail("sitemap.xml should not include admin URLs");
-  for (const route of ["/", "/todays-strands-answer", "/strands-hints", "/strands-solver", "/strands-spangram-helper", "/strands-word-finder", "/archive", "/today/wordle-hints", "/today/connections-hints", "/today/strands-hints"]) {
+  for (const route of ["/", "/today", "/todays-strands-answer", "/strands-hints", "/strands-solver", "/strands-spangram-helper", "/strands-word-finder", "/archive", "/today/wordle-hints", "/today/connections-hints", "/today/strands-hints"]) {
     if (!sitemap.includes(`https://strandshint.net${route}`)) fail(`sitemap.xml is missing ${route}`);
   }
 }

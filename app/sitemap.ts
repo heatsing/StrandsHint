@@ -6,6 +6,7 @@ import { siteUrl } from "@/lib/seo";
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [
     "/",
+    "/today",
     "/todays-strands-answer",
     "/strands-hints",
     "/strands-solver",

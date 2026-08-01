@@ -28,6 +28,7 @@ export const metadata: Metadata = {
 };
 
 const nav = [
+  ["/today", "Daily"],
   ["/todays-strands-answer", "Today's Answer"],
   ["/strands-hints", "Hints"],
   ["/strands-solver", "Solver"],
@@ -91,6 +92,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <Link href="/strands-spangram-helper" className="hover:text-[#E8A93D]">Spangram Helper</Link>
                 <Link href="/strands-word-finder" className="hover:text-[#E8A93D]">Word Finder</Link>
                 <Link href="/todays-strands-answer" className="hover:text-[#E8A93D]">Today&apos;s Answer</Link>
+                <Link href="/today" className="hover:text-[#E8A93D]">Daily Hints</Link>
               </nav>
             </div>
             <div>
