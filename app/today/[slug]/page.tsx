@@ -54,54 +54,54 @@ export default function DailySeoPage({ params }: PageProps) {
 
       <header className="grid gap-8 py-10 lg:grid-cols-[1fr_22rem] lg:items-end">
         <div>
-          <p className="font-mono text-sm font-bold uppercase tracking-[0.22em] text-[#E8A93D]">
+          <p className="font-mono text-sm font-bold uppercase tracking-[0.22em] text-[#315C4C]">
             Daily puzzle hints
           </p>
-          <h1 className="mt-4 max-w-3xl font-serif text-5xl font-black leading-tight text-[#F6F1E6]">
+          <h1 className="mt-4 max-w-3xl font-serif text-5xl font-black leading-tight text-[#20201E]">
             {page.h1}
           </h1>
-          <p className="mt-5 max-w-2xl text-lg leading-8 text-[#F6F1E6]/75">{page.intro}</p>
+          <p className="mt-5 max-w-2xl text-lg leading-8 text-[#68645E]">{page.intro}</p>
         </div>
-        <aside className="rounded-2xl border border-[#F3ECDD]/15 bg-[#1B2138] p-5">
-          <div className="flex items-center gap-3 font-mono text-xs font-bold uppercase tracking-[0.16em] text-[#E8A93D]">
+        <aside className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-5">
+          <div className="flex items-center gap-3 font-mono text-xs font-bold uppercase tracking-[0.16em] text-[#315C4C]">
             <RefreshCw className="h-4 w-4" />
             Freshness target
           </div>
           {page.dailyContent ? (
-            <p className="mt-3 font-mono text-sm font-bold text-[#F6F1E6]">
+            <p className="mt-3 font-mono text-sm font-bold text-[#20201E]">
               Last updated: {page.dailyContent.date}
             </p>
           ) : null}
-          <p className="mt-3 text-sm leading-6 text-[#F6F1E6]/70">{page.freshContentNote}</p>
+          <p className="mt-3 text-sm leading-6 text-[#68645E]">{page.freshContentNote}</p>
         </aside>
       </header>
 
       <section className="grid gap-6 lg:grid-cols-[0.75fr_1.25fr]">
-        <div className="rounded-2xl border border-[#F3ECDD]/15 bg-[#1B2138] p-6">
-          <CalendarDays className="h-8 w-8 text-[#E8A93D]" />
-          <h2 className="mt-4 font-serif text-3xl font-black text-[#F6F1E6]">Search intent</h2>
+        <div className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6">
+          <CalendarDays className="h-8 w-8 text-[#315C4C]" />
+          <h2 className="mt-4 font-serif text-3xl font-black text-[#20201E]">Search intent</h2>
           <dl className="mt-5 grid gap-4 text-sm">
             <div>
-              <dt className="font-mono font-bold uppercase tracking-[0.14em] text-[#E8A93D]">Keyword</dt>
-              <dd className="mt-1 text-[#F6F1E6]/75">{page.targetKeyword}</dd>
+              <dt className="font-mono font-bold uppercase tracking-[0.14em] text-[#315C4C]">Keyword</dt>
+              <dd className="mt-1 text-[#68645E]">{page.targetKeyword}</dd>
             </div>
             <div>
-              <dt className="font-mono font-bold uppercase tracking-[0.14em] text-[#E8A93D]">Intent</dt>
-              <dd className="mt-1 text-[#F6F1E6]/75">{page.searchIntent}</dd>
+              <dt className="font-mono font-bold uppercase tracking-[0.14em] text-[#315C4C]">Intent</dt>
+              <dd className="mt-1 text-[#68645E]">{page.searchIntent}</dd>
             </div>
           </dl>
         </div>
 
-        <div className="rounded-2xl border border-[#F3ECDD]/15 bg-[#1B2138] p-6">
-          <h2 className="font-serif text-3xl font-black text-[#F6F1E6]">Progressive hints</h2>
+        <div className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6">
+          <h2 className="font-serif text-3xl font-black text-[#20201E]">Progressive hints</h2>
           <div className="mt-5 grid gap-3">
             {page.progressiveHints.map((hint, index) => (
-              <details key={hint} className="group rounded-xl bg-[#12172B] p-4">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-mono text-sm font-bold uppercase tracking-[0.14em] text-[#F6F1E6]">
+              <details key={hint} className="group rounded-xl bg-[#FFFFFF] p-4">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-mono text-sm font-bold uppercase tracking-[0.14em] text-[#20201E]">
                   Hint {index + 1}
-                  <Lightbulb className="h-5 w-5 text-[#E8A93D]" />
+                  <Lightbulb className="h-5 w-5 text-[#315C4C]" />
                 </summary>
-                <p className="mt-3 text-sm leading-6 text-[#F6F1E6]/75">{hint}</p>
+                <p className="mt-3 text-sm leading-6 text-[#68645E]">{hint}</p>
               </details>
             ))}
           </div>
@@ -109,21 +109,21 @@ export default function DailySeoPage({ params }: PageProps) {
       </section>
 
       <section className="mt-8 grid gap-6 lg:grid-cols-2">
-        <div className="rounded-2xl border border-[#F3ECDD]/15 bg-[#1B2138] p-6">
+        <div className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6">
           <ListChecks className="h-8 w-8 text-[#2F8F7E]" />
-          <h2 className="mt-4 font-serif text-3xl font-black text-[#F6F1E6]">
+          <h2 className="mt-4 font-serif text-3xl font-black text-[#20201E]">
             {page.dailyContent?.answerLabel ?? "Answer explanation framework"}
           </h2>
-          <p className="mt-4 text-sm leading-7 text-[#F6F1E6]/75">{page.answerExplanation}</p>
-          <p className="mt-4 rounded-xl bg-[#12172B] p-4 text-sm leading-6 text-[#F6F1E6]/65">
+          <p className="mt-4 text-sm leading-7 text-[#68645E]">{page.answerExplanation}</p>
+          <p className="mt-4 rounded-xl bg-[#FFFFFF] p-4 text-sm leading-6 text-[#68645E]">
             {disclaimer}
           </p>
         </div>
-        <div className="rounded-2xl border border-[#F3ECDD]/15 bg-[#1B2138] p-6">
-          <h2 className="font-serif text-3xl font-black text-[#F6F1E6]">Helpful tips</h2>
+        <div className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6">
+          <h2 className="font-serif text-3xl font-black text-[#20201E]">Helpful tips</h2>
           <ul className="mt-5 grid gap-3">
             {page.tips.map((tip) => (
-              <li key={tip} className="rounded-xl bg-[#12172B] p-4 text-sm leading-6 text-[#F6F1E6]/75">
+              <li key={tip} className="rounded-xl bg-[#FFFFFF] p-4 text-sm leading-6 text-[#68645E]">
                 {tip}
               </li>
             ))}
@@ -131,18 +131,18 @@ export default function DailySeoPage({ params }: PageProps) {
         </div>
       </section>
 
-      <section className="mt-8 rounded-2xl border border-[#F3ECDD]/15 bg-[#1B2138] p-6">
-        <h2 className="font-serif text-3xl font-black text-[#F6F1E6]">Related puzzle pages</h2>
+      <section className="mt-8 rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6">
+        <h2 className="font-serif text-3xl font-black text-[#20201E]">Related puzzle pages</h2>
         <div className="mt-5 grid gap-4 md:grid-cols-3">
           {page.relatedPages.map((related) => (
             <Link
               key={related.href}
               href={related.href}
-              className="group rounded-xl border border-[#F3ECDD]/15 bg-[#12172B] p-5 hover:border-[#E8A93D]/70"
+              className="group rounded-xl border border-[#E5DED3] bg-[#FFFFFF] p-5 hover:border-[#315C4C]/70"
             >
-              <h3 className="font-serif text-xl font-black text-[#F6F1E6]">{related.label}</h3>
-              <p className="mt-2 text-sm leading-6 text-[#F6F1E6]/65">{related.description}</p>
-              <span className="mt-4 inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-[0.14em] text-[#E8A93D]">
+              <h3 className="font-serif text-xl font-black text-[#20201E]">{related.label}</h3>
+              <p className="mt-2 text-sm leading-6 text-[#68645E]">{related.description}</p>
+              <span className="mt-4 inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-[0.14em] text-[#315C4C]">
                 Next step <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
               </span>
             </Link>
@@ -150,13 +150,13 @@ export default function DailySeoPage({ params }: PageProps) {
         </div>
       </section>
 
-      <section className="mt-8 rounded-2xl border border-[#F3ECDD]/15 bg-[#1B2138] p-6">
-        <h2 className="font-serif text-3xl font-black text-[#F6F1E6]">FAQ</h2>
+      <section className="mt-8 rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6">
+        <h2 className="font-serif text-3xl font-black text-[#20201E]">FAQ</h2>
         <div className="mt-5 grid gap-3">
           {page.faq.map((item) => (
-            <details key={item.question} className="group rounded-xl bg-[#12172B] p-4">
-              <summary className="cursor-pointer list-none font-semibold text-[#F6F1E6]">{item.question}</summary>
-              <p className="mt-3 text-sm leading-6 text-[#F6F1E6]/70">{item.answer}</p>
+            <details key={item.question} className="group rounded-xl bg-[#FFFFFF] p-4">
+              <summary className="cursor-pointer list-none font-semibold text-[#20201E]">{item.question}</summary>
+              <p className="mt-3 text-sm leading-6 text-[#68645E]">{item.answer}</p>
             </details>
           ))}
         </div>

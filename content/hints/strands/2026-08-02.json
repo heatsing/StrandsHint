@@ -1,0 +1,20 @@
+{
+  "game": "strands",
+  "date": "2026-08-02",
+  "puzzleNumber": 0,
+  "title": "Strands hints for 2026-08-02",
+  "shortHint": "Look for words that feel connected by a shared everyday category.",
+  "mediumHints": [
+    "Start by finding one short answer near an edge of the grid.",
+    "The longer theme phrase should explain why the smaller answers belong together.",
+    "Use the spangram helper only after you have tested the most obvious path."
+  ],
+  "categoryHints": [
+    "Theme clue",
+    "Spangram clue",
+    "Answer check"
+  ],
+  "answers": [],
+  "explanation": "This is a manually maintained placeholder for the daily hint workflow. Fill in original editorial content before publishing real answers.",
+  "updatedAt": "2026-08-02T00:00:00.000Z"
+}

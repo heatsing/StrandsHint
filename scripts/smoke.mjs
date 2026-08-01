@@ -6,6 +6,8 @@ const outDir = path.join(root, "out");
 
 const requiredFiles = [
   "index.html",
+  "all-solvers/index.html",
+  "daily-hints/index.html",
   "today/index.html",
   "todays-strands-answer/index.html",
   "strands-hints/index.html",
@@ -15,6 +17,11 @@ const requiredFiles = [
   "today/wordle-hints/index.html",
   "today/connections-hints/index.html",
   "today/strands-hints/index.html",
+  "solvers/wordle-solver/index.html",
+  "solvers/spelling-bee-solver/index.html",
+  "solvers/anagram-solver/index.html",
+  "solvers/word-unscrambler/index.html",
+  "hints/strands/2026-08-02/index.html",
   "archive/index.html",
   "admin/puzzles/new/index.html",
   "admin/daily/new/index.html",
@@ -24,7 +31,9 @@ const requiredFiles = [
 ];
 
 const pageChecks = [
-  ["index.html", ["Reveal today", "Companion solving tools", "Frequently asked questions", "Independent"]],
+  ["index.html", ["Daily hints and quiet solver tools", "Find a solver", "Featured solvers", "Frequently asked questions"]],
+  ["all-solvers/index.html", ["All word puzzle solvers", "Wordle Solver", "Spelling Bee Solver"]],
+  ["daily-hints/index.html", ["Daily puzzle hints without instant spoilers", "Available today pages"]],
   ["today/index.html", ["Today's puzzle hints", "Daily hint hub", "Open daily hints", "FAQPage", "BreadcrumbList"]],
   ["todays-strands-answer/index.html", ["Today's Strands Answer", "Spoiler warning", "Reveal All Answers", "FAQPage", "BreadcrumbList"]],
   ["strands-hints/index.html", ["Strands Hints Today", "Reveal Theme Hint", "Open spangram helper", "FAQPage", "BreadcrumbList"]],
@@ -34,6 +43,10 @@ const pageChecks = [
   ["today/wordle-hints/index.html", ["Today's Wordle hints for August 1, 2026", "Progressive hints", "Related puzzle pages", "FAQPage", "BreadcrumbList"]],
   ["today/connections-hints/index.html", ["Today's Connections hints for August 1, 2026", "Progressive hints", "Related puzzle pages", "FAQPage", "BreadcrumbList"]],
   ["today/strands-hints/index.html", ["Today's Strands hints for August 1, 2026", "Progressive hints", "Related puzzle pages", "FAQPage", "BreadcrumbList"]],
+  ["solvers/wordle-solver/index.html", ["Wordle Solver", "Find possible words", "FAQPage", "BreadcrumbList", "WebApplication"]],
+  ["solvers/spelling-bee-solver/index.html", ["Spelling Bee Solver", "Center letter", "Pangram", "FAQPage", "BreadcrumbList"]],
+  ["solvers/anagram-solver/index.html", ["Anagram Solver", "Unscramble letters", "FAQPage", "BreadcrumbList"]],
+  ["hints/strands/2026-08-02/index.html", ["Strands hints for 2026-08-02", "Reveal short hint", "Reveal answers", "FAQPage", "BreadcrumbList"]],
   ["admin/puzzles/new/index.html", ["noindex", "Slug preview", "Copy JSON"]],
   ["admin/daily/new/index.html", ["noindex", "Generate a daily SEO JSON entry", "Generated daily JSON", "Copy JSON"]],
   ["404.html", ["Page not found", "Today's answer", "Solver"]],
@@ -68,7 +81,7 @@ if (!existsSync(outDir)) {
 
   const sitemap = readOutFile("sitemap.xml");
   if (sitemap.includes("/admin")) fail("sitemap.xml should not include admin URLs");
-  for (const route of ["/", "/today", "/todays-strands-answer", "/strands-hints", "/strands-solver", "/strands-spangram-helper", "/strands-word-finder", "/archive", "/today/wordle-hints", "/today/connections-hints", "/today/strands-hints"]) {
+  for (const route of ["/", "/all-solvers", "/daily-hints", "/today", "/todays-strands-answer", "/strands-hints", "/strands-solver", "/strands-spangram-helper", "/strands-word-finder", "/archive", "/today/wordle-hints", "/today/connections-hints", "/today/strands-hints", "/solvers/wordle-solver", "/solvers/spelling-bee-solver", "/solvers/anagram-solver", "/solvers/word-unscrambler", "/hints/strands/2026-08-02"]) {
     if (!sitemap.includes(`https://strandshint.net${route}`)) fail(`sitemap.xml is missing ${route}`);
   }
 }

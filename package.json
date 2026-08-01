@@ -2,11 +2,15 @@
   "name": "strands-hint",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test tests/*.mjs",
+    "create:daily-hint": "node scripts/create-daily-hint.mjs",
     "smoke": "node scripts/smoke.mjs"
   },
   "dependencies": {

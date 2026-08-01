@@ -69,23 +69,23 @@ export default function TodayHubPage() {
 
       <header className="grid gap-8 py-10 lg:grid-cols-[1fr_22rem] lg:items-end">
         <div>
-          <p className="font-mono text-sm font-bold uppercase tracking-[0.22em] text-[#E8A93D]">
+          <p className="font-mono text-sm font-bold uppercase tracking-[0.22em] text-[#315C4C]">
             Daily hint hub
           </p>
-          <h1 className="mt-4 max-w-3xl font-serif text-5xl font-black leading-tight text-[#F6F1E6]">
+          <h1 className="mt-4 max-w-3xl font-serif text-5xl font-black leading-tight text-[#20201E]">
             Today&apos;s puzzle hints, organized by game.
           </h1>
-          <p className="mt-5 max-w-2xl text-lg leading-8 text-[#F6F1E6]/75">
+          <p className="mt-5 max-w-2xl text-lg leading-8 text-[#68645E]">
             Start with the daily page you need, reveal clues one layer at a time, then move into
             solver tools only when a puzzle still feels stuck.
           </p>
         </div>
-        <aside className="rounded-2xl border border-[#F3ECDD]/15 bg-[#1B2138] p-5">
-          <div className="flex items-center gap-3 font-mono text-xs font-bold uppercase tracking-[0.16em] text-[#E8A93D]">
+        <aside className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-5">
+          <div className="flex items-center gap-3 font-mono text-xs font-bold uppercase tracking-[0.16em] text-[#315C4C]">
             <RefreshCw className="h-4 w-4" />
             Fresh daily structure
           </div>
-          <p className="mt-3 text-sm leading-6 text-[#F6F1E6]/70">
+          <p className="mt-3 text-sm leading-6 text-[#68645E]">
             Built for recurring players, Google freshness signals, and spoiler-safe daily puzzle
             routines without automated official-feed scraping.
           </p>
@@ -97,12 +97,12 @@ export default function TodayHubPage() {
           <Link
             key={page.slug}
             href={page.path}
-            className="group rounded-2xl border border-[#F3ECDD]/15 bg-[#1B2138] p-6 shadow-lg shadow-black/10 motion-safe:transition hover:-translate-y-1 hover:border-[#E8A93D]/70"
+            className="group rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-lg shadow-black/10 motion-safe:transition hover:-translate-y-1 hover:border-[#315C4C]/70"
           >
-            <CalendarDays className="h-8 w-8 text-[#E8A93D]" />
-            <h2 className="mt-5 font-serif text-3xl font-black text-[#F6F1E6]">{page.h1}</h2>
-            <p className="mt-3 text-sm leading-6 text-[#F6F1E6]/70">{page.searchIntent}</p>
-            <span className="mt-5 inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-[0.16em] text-[#E8A93D]">
+            <CalendarDays className="h-8 w-8 text-[#315C4C]" />
+            <h2 className="mt-5 font-serif text-3xl font-black text-[#20201E]">{page.h1}</h2>
+            <p className="mt-3 text-sm leading-6 text-[#68645E]">{page.searchIntent}</p>
+            <span className="mt-5 inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-[0.16em] text-[#315C4C]">
               Open daily hints <ArrowRight className="h-4 w-4 motion-safe:transition group-hover:translate-x-1" />
             </span>
           </Link>
@@ -110,12 +110,12 @@ export default function TodayHubPage() {
       </section>
 
       <section className="mt-8 grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
-        <div className="rounded-2xl border border-[#F3ECDD]/15 bg-[#1B2138] p-6">
+        <div className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6">
           <Sparkles className="h-8 w-8 text-[#2F8F7E]" />
-          <h2 className="mt-4 font-serif text-3xl font-black text-[#F6F1E6]">
+          <h2 className="mt-4 font-serif text-3xl font-black text-[#20201E]">
             Next steps after a hint
           </h2>
-          <p className="mt-4 text-sm leading-7 text-[#F6F1E6]/70">
+          <p className="mt-4 text-sm leading-7 text-[#68645E]">
             Strands players can continue into the solver, spangram helper, word finder, or archive
             when a single clue is not enough.
           </p>
@@ -129,7 +129,7 @@ export default function TodayHubPage() {
               <Link
                 key={href}
                 href={href}
-                className="rounded-full border border-[#F3ECDD]/20 px-4 py-2 text-sm font-bold text-[#F6F1E6] hover:bg-[#F3ECDD]/10"
+                className="rounded-full border border-[#D4CABD] px-4 py-2 text-sm font-bold text-[#20201E] hover:bg-[#E5DED3]/10"
               >
                 {label}
               </Link>
@@ -137,15 +137,15 @@ export default function TodayHubPage() {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-[#F3ECDD]/15 bg-[#1B2138] p-6">
-          <h2 className="font-serif text-3xl font-black text-[#F6F1E6]">FAQ</h2>
+        <div className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6">
+          <h2 className="font-serif text-3xl font-black text-[#20201E]">FAQ</h2>
           <div className="mt-5 grid gap-3">
             {faq.map((item) => (
-              <details key={item.question} className="rounded-xl bg-[#12172B] p-4">
-                <summary className="cursor-pointer list-none font-semibold text-[#F6F1E6]">
+              <details key={item.question} className="rounded-xl bg-[#FFFFFF] p-4">
+                <summary className="cursor-pointer list-none font-semibold text-[#20201E]">
                   {item.question}
                 </summary>
-                <p className="mt-3 text-sm leading-6 text-[#F6F1E6]/70">{item.answer}</p>
+                <p className="mt-3 text-sm leading-6 text-[#68645E]">{item.answer}</p>
               </details>
             ))}
           </div>

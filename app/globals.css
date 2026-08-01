@@ -3,20 +3,36 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
+  --background: #F8F5EF;
+  --surface: #FFFDF9;
+  --surface-elevated: #FFFFFF;
+  --foreground: #20201E;
+  --foreground-muted: #68645E;
+  --border: #E5DED3;
+  --border-strong: #D4CABD;
+  --primary: #315C4C;
+  --primary-hover: #274B3E;
+  --primary-foreground: #FFFFFF;
+  --secondary: #EDE6DC;
+  --secondary-hover: #E3D9CC;
+  --success: #327A57;
+  --warning: #9A6B24;
+  --error: #A7473D;
+  --focus-ring: rgba(49, 92, 76, 0.28);
 }
 
 body {
-  @apply min-h-screen bg-[#12172B] text-[#F6F1E6] antialiased;
+  @apply min-h-screen bg-[#F8F5EF] text-[#20201E] antialiased;
 }
 
 ::selection {
-  background: #e8a93d;
-  color: #12172b;
+  background: #315c4c;
+  color: #ffffff;
 }
 
 :focus-visible {
-  outline: 3px solid #e8a93d;
+  outline: 3px solid rgba(49, 92, 76, 0.28);
   outline-offset: 3px;
 }
 

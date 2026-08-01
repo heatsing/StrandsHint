@@ -84,12 +84,12 @@ export function AdminDailyContentForm() {
 
   return (
     <div className="grid gap-6 lg:grid-cols-2">
-      <form className="grid gap-4 rounded-2xl border border-[#12172B]/10 bg-[#F3ECDD] p-5 text-[#12172B]">
+      <form className="grid gap-4 rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-5 text-[#20201E]">
         <div className="rounded-xl bg-white/70 p-3 text-sm">
           Entry id: <span className="font-mono font-semibold">{normalized.id || "not-ready"}</span>
         </div>
         {errors.length > 0 ? (
-          <div className="rounded-xl border border-[#E8A93D] bg-[#E8A93D]/20 p-3 text-sm leading-6" role="alert">
+          <div className="rounded-xl border border-[#315C4C] bg-[#EDE6DC] p-3 text-sm leading-6" role="alert">
             {errors.map((error) => (
               <p key={error}>{error}</p>
             ))}
@@ -98,11 +98,11 @@ export function AdminDailyContentForm() {
 
         <label className="grid gap-2 text-sm font-semibold">
           date
-          <input value={form.date} onChange={(event) => update("date", event.target.value)} className="rounded-lg border border-[#12172B]/20 px-3 py-2" placeholder="2026-08-01" />
+          <input value={form.date} onChange={(event) => update("date", event.target.value)} className="rounded-lg border border-[#D4CABD] px-3 py-2" placeholder="2026-08-01" />
         </label>
         <label className="grid gap-2 text-sm font-semibold">
           page
-          <select value={form.slug} onChange={(event) => update("slug", event.target.value)} className="rounded-lg border border-[#12172B]/20 px-3 py-2">
+          <select value={form.slug} onChange={(event) => update("slug", event.target.value)} className="rounded-lg border border-[#D4CABD] px-3 py-2">
             {pageOptions.map(([value, label]) => (
               <option key={value} value={value}>
                 {label}
@@ -114,30 +114,30 @@ export function AdminDailyContentForm() {
           <label key={name} className="grid gap-2 text-sm font-semibold">
             {name}
             {name === "summary" || name === "answerExplanation" ? (
-              <textarea value={form[name]} onChange={(event) => update(name, event.target.value)} rows={4} className="rounded-lg border border-[#12172B]/20 px-3 py-2" />
+              <textarea value={form[name]} onChange={(event) => update(name, event.target.value)} rows={4} className="rounded-lg border border-[#D4CABD] px-3 py-2" />
             ) : (
-              <input value={form[name]} onChange={(event) => update(name, event.target.value)} className="rounded-lg border border-[#12172B]/20 px-3 py-2" />
+              <input value={form[name]} onChange={(event) => update(name, event.target.value)} className="rounded-lg border border-[#D4CABD] px-3 py-2" />
             )}
           </label>
         ))}
         <label className="grid gap-2 text-sm font-semibold">
           progressiveHints
-          <textarea value={form.progressiveHints} onChange={(event) => update("progressiveHints", event.target.value)} rows={5} className="rounded-lg border border-[#12172B]/20 px-3 py-2" placeholder="One hint per line" />
+          <textarea value={form.progressiveHints} onChange={(event) => update("progressiveHints", event.target.value)} rows={5} className="rounded-lg border border-[#D4CABD] px-3 py-2" placeholder="One hint per line" />
         </label>
         <label className="grid gap-2 text-sm font-semibold">
           relatedPuzzlePages
-          <textarea value={form.relatedPuzzlePages} onChange={(event) => update("relatedPuzzlePages", event.target.value)} rows={5} className="rounded-lg border border-[#12172B]/20 px-3 py-2" placeholder="Label|/path|Short description" />
+          <textarea value={form.relatedPuzzlePages} onChange={(event) => update("relatedPuzzlePages", event.target.value)} rows={5} className="rounded-lg border border-[#D4CABD] px-3 py-2" placeholder="Label|/path|Short description" />
         </label>
       </form>
 
-      <div className="rounded-2xl border border-[#F3ECDD]/15 bg-[#1B2138] p-5 text-[#F6F1E6]">
+      <div className="rounded-2xl border border-[#E5DED3] bg-[#FFFFFF] p-5 text-[#20201E]">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <h2 className="font-serif text-2xl font-black">Generated daily JSON</h2>
-          <button type="button" onClick={copyOutput} className="rounded-full bg-[#E8A93D] px-4 py-2 text-sm font-bold text-[#12172B] hover:bg-[#f0bd63]">
+          <button type="button" onClick={copyOutput} className="rounded-full bg-[#315C4C] px-4 py-2 text-sm font-bold text-[#20201E] hover:bg-[#f0bd63]">
             {copied ? "Copied" : "Copy JSON"}
           </button>
         </div>
-        <p className="mt-3 text-sm text-[#F6F1E6]/70">
+        <p className="mt-3 text-sm text-[#68645E]">
           Paste this object into <code>data/daily-content.json</code>, then commit and deploy.
         </p>
         <pre className="mt-4 max-h-[42rem] overflow-auto rounded-xl bg-black/35 p-4 text-xs">{output}</pre>
