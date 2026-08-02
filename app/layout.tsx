@@ -164,13 +164,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </details>
 
               <Link
-                href="/archive"
-                className="inline-flex items-center gap-1 rounded-full px-3 py-2 font-black text-[#24333A] hover:bg-[#EDE6DC] hover:text-[#008F83]"
-              >
-                Archives
-              </Link>
-
-              <Link
                 href="/all-solvers"
                 className="ml-0 grid h-11 w-11 place-items-center rounded-lg bg-[#008F83] text-white shadow-sm shadow-[#008F83]/20 hover:bg-[#00766D] lg:ml-3"
                 aria-label="Search word solvers"
