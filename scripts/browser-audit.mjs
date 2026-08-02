@@ -101,8 +101,9 @@ async function checkPage(page, route, viewportName) {
 
 async function exerciseTools(page) {
   await page.goto(`${baseUrl}/solvers/wordle-solver/`, { waitUntil: "networkidle" });
-  await page.getByRole("button", { name: "Load example" }).click();
-  await page.getByRole("button", { name: "Find possible words" }).click();
+  await page.getByLabel("Green letter 1").fill("A");
+  await page.getByLabel("Excluded Letters (Gray)").fill("RT");
+  await page.getByRole("button", { name: "Find Solutions" }).click();
   const wordleCount = await page.locator("text=APPLE").count();
   if (!wordleCount) record("Wordle Solver example did not produce APPLE");
 

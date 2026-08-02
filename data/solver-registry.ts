@@ -11,7 +11,27 @@ export type SolverConfig = {
     description: string;
   };
   implemented: boolean;
+  wordLength?: number;
 };
+
+const wordleLengthSolvers: SolverConfig[] = Array.from({ length: 10 }, (_, index) => {
+  const wordLength = index + 3;
+  return {
+    slug: `${wordLength}-letter-wordle-solver`,
+    name: `${wordLength} Letter Wordle Solver`,
+    shortDescription: `Find possible ${wordLength}-letter Wordle-style words from known letters, wrong-position letters, and excluded letters.`,
+    category: "Wordle Solvers",
+    icon: "grid",
+    inputType: "wordle",
+    relatedSolvers: ["wordle-solver", "anagram-solver", "word-unscrambler"],
+    seo: {
+      title: `${wordLength} Letter Wordle Solver - Find ${wordLength}-Letter Words`,
+      description: `Use a ${wordLength} letter Wordle solver to filter possible words by green letters, yellow letters, and excluded gray letters.`,
+    },
+    implemented: true,
+    wordLength,
+  };
+});
 
 export const solverRegistry: SolverConfig[] = [
   {
@@ -29,6 +49,7 @@ export const solverRegistry: SolverConfig[] = [
     },
     implemented: true,
   },
+  ...wordleLengthSolvers,
   {
     slug: "spelling-bee-solver",
     name: "Spelling Bee Solver",

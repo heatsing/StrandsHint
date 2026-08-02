@@ -72,6 +72,30 @@ const spellingBeeFaq = [
   },
 ];
 
+const wordleLengthFaq = [
+  {
+    question: "Is the 3 Letter Wordle Solver free to use?",
+    answer: "Yes. It is free, browser-based, and does not require an account.",
+  },
+  {
+    question: "How accurate are the results?",
+    answer:
+      "Results are filtered by the letters you enter and the local word list. If a word is missing, try relaxing one filter or using a broader word list later.",
+  },
+  {
+    question: "Can I use this tool on mobile devices?",
+    answer: "Yes. The letter boxes, buttons, and result list are designed for phone and desktop screens.",
+  },
+  {
+    question: "Do you store my inputs or search history?",
+    answer: "No. The solver runs locally in your browser and does not need an account.",
+  },
+  {
+    question: "Can this solver help improve my Wordle skills?",
+    answer: "Yes. It helps you compare possible words and learn how green, yellow, and gray clues narrow the answer set.",
+  },
+];
+
 function InfoRow({
   Icon,
   title,
@@ -249,9 +273,187 @@ function SpellingBeeSolverPage() {
   );
 }
 
+function WordleInfoCard({
+  Icon,
+  title,
+  children,
+  accent = "#008F83",
+}: {
+  Icon: typeof Search;
+  title: string;
+  children: React.ReactNode;
+  accent?: string;
+}) {
+  return (
+    <section className="rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 text-center shadow-md shadow-[#315C4C]/5">
+      <span className="mx-auto grid h-16 w-16 place-items-center rounded-2xl" style={{ backgroundColor: `${accent}18`, color: accent }}>
+        <Icon className="h-8 w-8" />
+      </span>
+      <h2 className="mt-5 text-xl font-black text-[#142436]">{title}</h2>
+      <div className="mt-3 text-sm leading-7 text-[#4A5968]">{children}</div>
+    </section>
+  );
+}
+
+function WordleLengthSolverPage({ solver }: { solver: NonNullable<ReturnType<typeof getSolver>> }) {
+  const wordLength = solver.wordLength || 5;
+  const path = `/solvers/${solver.slug}`;
+  const relatedTools = [
+    { href: "/solvers/wordle-solver?length=5", label: "5-Letter Word Finder", points: ["Find all valid 5-letter words", "Great for Wordle and more", "Sort, filter, and explore"], Icon: ListChecks, accent: "#3FA34D" },
+    { href: "/solvers/anagram-solver", label: "Anagram Solver", points: ["Find words from messy letters", "All lengths and dictionary-based", "Perfect for any word game"], Icon: Search, accent: "#008F83" },
+    { href: "/solvers/word-unscrambler", label: "Word Unscrambler", points: ["Unscramble letters instantly", "Filter by length and patterns", "Boost your vocabulary"], Icon: Shuffle, accent: "#D99A00" },
+    { href: "/all-solvers", label: "Pattern Solver", points: ["Use known letters and blanks", "Find words that match pattern", "Wildcard friendly"], Icon: ClipboardList, accent: "#E0544F" },
+  ];
+  const faq = wordleLengthFaq.map((item) =>
+    item.question.includes("3 Letter") && wordLength !== 3
+      ? { ...item, question: item.question.replace("3 Letter", `${wordLength} Letter`) }
+      : item,
+  );
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faq.map((item) => ({ "@type": "Question", name: item.question, acceptedAnswer: { "@type": "Answer", text: item.answer } })),
+  };
+
+  return (
+    <article className="-mt-10">
+      <JsonLd data={breadcrumbSchema([{ name: "Home", url: "/" }, { name: "All Solvers", url: "/all-solvers" }, { name: solver.name, url: path }])} />
+      <JsonLd data={faqSchema} />
+      <JsonLd data={{ "@context": "https://schema.org", "@type": "WebApplication", name: solver.name, url: absoluteUrl(path), applicationCategory: "GameApplication", isAccessibleForFree: true }} />
+
+      <section className="relative mx-[calc(50%-50vw)] overflow-hidden bg-[radial-gradient(circle_at_50%_0%,#F1FBFA_0%,#F8F5EF_55%,#F8F5EF_100%)] px-4 py-14">
+        <div className="pointer-events-none absolute -left-10 top-20 hidden h-40 w-40 opacity-35 md:block [background-image:radial-gradient(#00A39A_1.4px,transparent_1.4px)] [background-size:14px_14px]" />
+        <div className="pointer-events-none absolute -right-20 top-24 hidden h-64 w-64 rounded-full bg-[#DDF4F1] md:block" />
+        <div className="pointer-events-none absolute right-8 top-14 hidden h-32 w-32 opacity-25 md:block [background-image:radial-gradient(#00A39A_1.4px,transparent_1.4px)] [background-size:14px_14px]" />
+        <div className="mx-auto max-w-6xl">
+          <header className="text-center">
+            <p className="mx-auto inline-flex items-center gap-2 rounded-full border border-[#008F83]/40 bg-[#F1FAF8] px-4 py-2 text-sm font-black text-[#008F83]">
+              Word Solver Tool
+            </p>
+            <h1 className="mt-5 text-5xl font-black leading-tight text-[#142436] sm:text-6xl">
+              {wordLength} Letter <span className="text-[#008F83]">Wordle</span> Solver
+            </h1>
+            <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-[#4A5968]">
+              Enter your known letters and constraints to find the perfect {wordLength}-letter word.
+            </p>
+          </header>
+
+          <div className="mt-10 grid gap-6 lg:grid-cols-[1fr_23rem]">
+            <Suspense fallback={<div className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-sm">Loading {wordLength} Letter Wordle Solver...</div>}>
+              <WordleSolverClient initialLength={wordLength} fixedLength />
+            </Suspense>
+
+            <aside className="grid content-start gap-6">
+              <section className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-lg shadow-[#315C4C]/10">
+                <div className="flex items-center gap-3">
+                  <span className="grid h-10 w-10 place-items-center rounded-lg bg-[#FFF4D8] text-[#D99A00]">
+                    <Star className="h-5 w-5" />
+                  </span>
+                  <h2 className="text-xl font-black text-[#142436]">Pro Tips</h2>
+                </div>
+                <ul className="mt-5 grid gap-3 text-sm leading-6 text-[#344153]">
+                  <li>Use known letters to lock in positions.</li>
+                  <li>Add common letters to narrow results.</li>
+                  <li>Avoid overloading yellow letters.</li>
+                  <li>Review results and refine your inputs.</li>
+                </ul>
+              </section>
+
+              <section className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-lg shadow-[#315C4C]/10">
+                <div className="flex items-center gap-3">
+                  <span className="grid h-10 w-10 place-items-center rounded-lg bg-[#EAF3FF] text-[#2F80D8]">
+                    <ClipboardList className="h-5 w-5" />
+                  </span>
+                  <h2 className="text-xl font-black text-[#142436]">How to Use</h2>
+                </div>
+                <div className="mt-5 grid gap-3 text-sm leading-6 text-[#344153]">
+                  <p><strong className="text-[#008F83]">Green:</strong> Letter is correct and in the right position.</p>
+                  <p><strong className="text-[#D99A00]">Yellow:</strong> Letter is in the word but wrong position.</p>
+                  <p><strong className="text-[#68645E]">Gray:</strong> Letter is not in the word.</p>
+                </div>
+              </section>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto mt-8 grid max-w-6xl gap-5 sm:grid-cols-2 lg:grid-cols-5">
+        <WordleInfoCard Icon={FileText} title={`What is ${wordLength} Letter Wordle Solver?`}>
+          <p>A smart tool that helps you find possible {wordLength}-letter words based on your clues.</p>
+        </WordleInfoCard>
+        <WordleInfoCard Icon={RefreshCw} title={`How Does ${wordLength} Letter Wordle Solver Work?`} accent="#8A57D6">
+          <p>Enter green, yellow, and gray letters. The algorithm filters the word list and shows matching results.</p>
+        </WordleInfoCard>
+        <WordleInfoCard Icon={ClipboardList} title={`How to Use ${wordLength} Letter Wordle Solver?`} accent="#D99A00">
+          <ol className="text-left">
+            <li>1. Enter green letters in order.</li>
+            <li>2. Add yellow letters by position.</li>
+            <li>3. Exclude gray letters.</li>
+            <li>4. Click Find Solutions.</li>
+          </ol>
+        </WordleInfoCard>
+        <WordleInfoCard Icon={Star} title="Why Use Our Solver?">
+          <p>Fast, accurate, and easy to use. Built for speed and precision while solving word games.</p>
+        </WordleInfoCard>
+        <WordleInfoCard Icon={Users} title="Who Can Use This Tool?" accent="#E0544F">
+          <p>Perfect for Wordle players of all levels, from pattern learners to streak chasers.</p>
+        </WordleInfoCard>
+      </section>
+
+      <section className="mx-auto mt-10 max-w-6xl">
+        <h2 className="text-center text-3xl font-black text-[#142436]">
+          Explore More <span className="text-[#008F83]">Word Solvers</span>
+        </h2>
+        <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {relatedTools.map(({ href, label, points, Icon, accent }) => (
+            <Link key={label} href={href} className="group rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-md shadow-[#315C4C]/5 hover:-translate-y-1 hover:shadow-lg">
+              <div className="flex items-center gap-4">
+                <span className="grid h-14 w-14 place-items-center rounded-xl" style={{ backgroundColor: `${accent}18`, color: accent }}>
+                  <Icon className="h-7 w-7" />
+                </span>
+                <h3 className="text-lg font-black text-[#142436]">{label}</h3>
+              </div>
+              <ul className="mt-5 grid gap-2 text-sm text-[#68645E]">
+                {points.map((point) => (
+                  <li key={point} className="flex gap-2">
+                    <span style={{ color: accent }}>&bull;</span>
+                    <span>{point}</span>
+                  </li>
+                ))}
+              </ul>
+              <span className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-lg border px-4 py-2.5 text-sm font-black" style={{ borderColor: accent, color: accent }}>
+                Use Solver <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+              </span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="mx-auto mt-10 max-w-6xl">
+        <h2 className="text-center text-3xl font-black text-[#142436]">
+          FAQs About <span className="text-[#008F83]">{wordLength} Letter Wordle Solver</span>
+        </h2>
+        <div className="mt-5 divide-y divide-[#E5DED3] overflow-hidden rounded-xl border border-[#E5DED3] bg-[#FFFDF9] shadow-sm">
+          {faq.map((item) => (
+            <details key={item.question} className="group p-4">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-black text-[#142436]">
+                {item.question}
+                <ArrowRight className="h-4 w-4 text-[#008F83] transition group-open:rotate-90" />
+              </summary>
+              <p className="mt-3 text-sm leading-6 text-[#68645E]">{item.answer}</p>
+            </details>
+          ))}
+        </div>
+        <p className="mt-6 text-center text-sm leading-6 text-[#68645E]">{disclaimer}</p>
+      </section>
+    </article>
+  );
+}
+
 export default function SolverPage({ params }: Props) {
   const solver = getSolver(params.slug);
   if (!solver || !solver.implemented || solver.inputType === "directory") notFound();
+  if (solver.inputType === "wordle" && solver.wordLength) return <WordleLengthSolverPage solver={solver} />;
   if (solver.slug === "spelling-bee-solver") return <SpellingBeeSolverPage />;
   const path = `/solvers/${solver.slug}`;
   const related = solver.relatedSolvers.map(getSolver).filter(Boolean);
