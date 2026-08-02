@@ -4,7 +4,7 @@ export type SolverConfig = {
   shortDescription: string;
   category: "Wordle Solvers" | "Puzzle Solvers" | "Word Finders";
   icon: "grid" | "bee" | "shuffle" | "search" | "book" | "sparkles";
-  inputType: "wordle" | "spelling-bee" | "anagram" | "directory";
+  inputType: "wordle" | "spelling-bee" | "anagram" | "letter-box" | "directory";
   relatedSolvers: string[];
   seo: {
     title: string;
@@ -106,6 +106,21 @@ export const solverRegistry: SolverConfig[] = [
     seo: {
       title: "Strands Solver - Find Words in a Strands Grid",
       description: "Use the existing Strands grid solver to find connected words in a pasted 6x8 board.",
+    },
+    implemented: true,
+  },
+  {
+    slug: "letter-box-solver",
+    name: "Letter Box Solver",
+    shortDescription: "Enter 12 box letters and find efficient word chains for Letter Boxed-style puzzles.",
+    category: "Puzzle Solvers",
+    icon: "grid",
+    inputType: "letter-box",
+    relatedSolvers: ["anagram-solver", "word-unscrambler", "crossword-solver"],
+    seo: {
+      title: "Letter Box Solver - Find Letter Boxed Word Chains",
+      description:
+        "Use a Letter Box solver to enter 12 side letters and find word chains that follow Letter Boxed-style rules.",
     },
     implemented: true,
   },

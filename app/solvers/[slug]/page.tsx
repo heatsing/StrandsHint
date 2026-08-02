@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { JsonLd } from "@/components/JsonLd";
 import { AnagramSolverClient } from "@/components/solvers/AnagramSolverClient";
+import { LetterBoxSolverClient } from "@/components/solvers/LetterBoxSolverClient";
 import { SpellingBeeSolverClient } from "@/components/solvers/SpellingBeeSolverClient";
 import { WordleSolverClient } from "@/components/solvers/WordleSolverClient";
 import { getSolver, solverRegistry } from "@/data/solver-registry";
@@ -24,7 +25,7 @@ import { absoluteUrl, breadcrumbSchema, disclaimer } from "@/lib/seo";
 type Props = { params: { slug: string } };
 
 export function generateStaticParams() {
-  return solverRegistry.filter((solver) => solver.implemented && ["wordle", "spelling-bee", "anagram"].some((kind) => solver.inputType === kind)).map((solver) => ({ slug: solver.slug }));
+  return solverRegistry.filter((solver) => solver.implemented && ["wordle", "spelling-bee", "anagram", "letter-box"].some((kind) => solver.inputType === kind)).map((solver) => ({ slug: solver.slug }));
 }
 
 export function generateMetadata({ params }: Props): Metadata {
@@ -44,6 +45,7 @@ function SolverWorkspace({ inputType }: { inputType: string }) {
   if (inputType === "wordle") return <WordleSolverClient />;
   if (inputType === "spelling-bee") return <SpellingBeeSolverClient />;
   if (inputType === "anagram") return <AnagramSolverClient />;
+  if (inputType === "letter-box") return <LetterBoxSolverClient />;
   return null;
 }
 
@@ -93,6 +95,29 @@ const wordleLengthFaq = [
   {
     question: "Can this solver help improve my Wordle skills?",
     answer: "Yes. It helps you compare possible words and learn how green, yellow, and gray clues narrow the answer set.",
+  },
+];
+
+const letterBoxFaq = [
+  {
+    question: "Is this solver free to use?",
+    answer: "Yes. The Letter Box Solver is free and runs from a local word list in your browser.",
+  },
+  {
+    question: "How do I enter the letters?",
+    answer: "Type the three letters from each side of the box into the matching side inputs.",
+  },
+  {
+    question: "Does it work on mobile?",
+    answer: "Yes. The box input and solution cards are responsive for phones and desktop screens.",
+  },
+  {
+    question: "Can it help solve today's puzzle?",
+    answer: "It can suggest rule-valid word chains from the letters you enter, but it is not an official answer source.",
+  },
+  {
+    question: "How many words should I aim for?",
+    answer: "Fewer words are usually better. Try a two-word chain first, then expand to three if needed.",
   },
 ];
 
@@ -295,11 +320,22 @@ function WordleInfoCard({
   );
 }
 
+function wordleTheme() {
+  return {
+    accent: "#3E6EF4",
+    accentSoft: "#EAF1FF",
+    sideDots: "#3E8BFF",
+    tag: "Word Solver Tool",
+    gradient: "linear-gradient(90deg,#1F9BEF,#4C5CF5)",
+  };
+}
+
 function WordleLengthSolverPage({ solver }: { solver: NonNullable<ReturnType<typeof getSolver>> }) {
   const wordLength = solver.wordLength || 5;
+  const theme = wordleTheme();
   const path = `/solvers/${solver.slug}`;
   const relatedTools = [
-    { href: "/solvers/wordle-solver?length=5", label: "5-Letter Word Finder", points: ["Find all valid 5-letter words", "Great for Wordle and more", "Sort, filter, and explore"], Icon: ListChecks, accent: "#3FA34D" },
+    { href: "/solvers/5-letter-wordle-solver", label: "5-Letter Word Finder", points: ["Find all valid 5-letter words", "Great for Wordle and more", "Sort, filter, and explore"], Icon: ListChecks, accent: "#3FA34D" },
     { href: "/solvers/anagram-solver", label: "Anagram Solver", points: ["Find words from messy letters", "All lengths and dictionary-based", "Perfect for any word game"], Icon: Search, accent: "#008F83" },
     { href: "/solvers/word-unscrambler", label: "Word Unscrambler", points: ["Unscramble letters instantly", "Filter by length and patterns", "Boost your vocabulary"], Icon: Shuffle, accent: "#D99A00" },
     { href: "/all-solvers", label: "Pattern Solver", points: ["Use known letters and blanks", "Find words that match pattern", "Wildcard friendly"], Icon: ClipboardList, accent: "#E0544F" },
@@ -322,16 +358,16 @@ function WordleLengthSolverPage({ solver }: { solver: NonNullable<ReturnType<typ
       <JsonLd data={{ "@context": "https://schema.org", "@type": "WebApplication", name: solver.name, url: absoluteUrl(path), applicationCategory: "GameApplication", isAccessibleForFree: true }} />
 
       <section className="relative mx-[calc(50%-50vw)] overflow-hidden bg-[radial-gradient(circle_at_50%_0%,#F1FBFA_0%,#F8F5EF_55%,#F8F5EF_100%)] px-4 py-14">
-        <div className="pointer-events-none absolute -left-10 top-20 hidden h-40 w-40 opacity-35 md:block [background-image:radial-gradient(#00A39A_1.4px,transparent_1.4px)] [background-size:14px_14px]" />
+        <div className="pointer-events-none absolute -left-10 top-20 hidden h-40 w-40 opacity-35 md:block [background-size:14px_14px]" style={{ backgroundImage: `radial-gradient(${theme.sideDots} 1.4px, transparent 1.4px)` }} />
         <div className="pointer-events-none absolute -right-20 top-24 hidden h-64 w-64 rounded-full bg-[#DDF4F1] md:block" />
-        <div className="pointer-events-none absolute right-8 top-14 hidden h-32 w-32 opacity-25 md:block [background-image:radial-gradient(#00A39A_1.4px,transparent_1.4px)] [background-size:14px_14px]" />
+        <div className="pointer-events-none absolute right-8 top-14 hidden h-32 w-32 opacity-25 md:block [background-size:14px_14px]" style={{ backgroundImage: `radial-gradient(${theme.sideDots} 1.4px, transparent 1.4px)` }} />
         <div className="mx-auto max-w-6xl">
           <header className="text-center">
-            <p className="mx-auto inline-flex items-center gap-2 rounded-full border border-[#008F83]/40 bg-[#F1FAF8] px-4 py-2 text-sm font-black text-[#008F83]">
-              Word Solver Tool
+            <p className="mx-auto inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-black" style={{ borderColor: `${theme.accent}66`, backgroundColor: theme.accentSoft, color: theme.accent }}>
+              {theme.tag}
             </p>
             <h1 className="mt-5 text-5xl font-black leading-tight text-[#142436] sm:text-6xl">
-              {wordLength} Letter <span className="text-[#008F83]">Wordle</span> Solver
+              {wordLength} Letter <span style={{ color: theme.accent }}>Wordle</span> Solver
             </h1>
             <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-[#4A5968]">
               Enter your known letters and constraints to find the perfect {wordLength}-letter word.
@@ -340,22 +376,22 @@ function WordleLengthSolverPage({ solver }: { solver: NonNullable<ReturnType<typ
 
           <div className="mt-10 grid gap-6 lg:grid-cols-[1fr_23rem]">
             <Suspense fallback={<div className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-sm">Loading {wordLength} Letter Wordle Solver...</div>}>
-              <WordleSolverClient initialLength={wordLength} fixedLength />
+              <WordleSolverClient initialLength={wordLength} fixedLength accent={theme.accent} />
             </Suspense>
 
             <aside className="grid content-start gap-6">
               <section className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-lg shadow-[#315C4C]/10">
                 <div className="flex items-center gap-3">
-                  <span className="grid h-10 w-10 place-items-center rounded-lg bg-[#FFF4D8] text-[#D99A00]">
+                  <span className="grid h-10 w-10 place-items-center rounded-lg" style={{ backgroundColor: theme.accentSoft, color: theme.accent }}>
                     <Star className="h-5 w-5" />
                   </span>
                   <h2 className="text-xl font-black text-[#142436]">Pro Tips</h2>
                 </div>
                 <ul className="mt-5 grid gap-3 text-sm leading-6 text-[#344153]">
-                  <li>Use known letters to lock in positions.</li>
+                  <li>Lock in confirmed letters first (green).</li>
                   <li>Add common letters to narrow results.</li>
-                  <li>Avoid overloading yellow letters.</li>
-                  <li>Review results and refine your inputs.</li>
+                  <li>Don&apos;t overload yellow letters early.</li>
+                  <li>Refine step by step for better results.</li>
                 </ul>
               </section>
 
@@ -402,7 +438,7 @@ function WordleLengthSolverPage({ solver }: { solver: NonNullable<ReturnType<typ
 
       <section className="mx-auto mt-10 max-w-6xl">
         <h2 className="text-center text-3xl font-black text-[#142436]">
-          Explore More <span className="text-[#008F83]">Word Solvers</span>
+          Explore More <span style={{ color: theme.accent }}>Word Solvers</span>
         </h2>
         <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {relatedTools.map(({ href, label, points, Icon, accent }) => (
@@ -431,10 +467,161 @@ function WordleLengthSolverPage({ solver }: { solver: NonNullable<ReturnType<typ
 
       <section className="mx-auto mt-10 max-w-6xl">
         <h2 className="text-center text-3xl font-black text-[#142436]">
-          FAQs About <span className="text-[#008F83]">{wordLength} Letter Wordle Solver</span>
+          FAQs About <span style={{ color: theme.accent }}>{wordLength} Letter Wordle Solver</span>
         </h2>
         <div className="mt-5 divide-y divide-[#E5DED3] overflow-hidden rounded-xl border border-[#E5DED3] bg-[#FFFDF9] shadow-sm">
           {faq.map((item) => (
+            <details key={item.question} className="group p-4">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-black text-[#142436]">
+                {item.question}
+                <ArrowRight className="h-4 w-4 text-[#008F83] transition group-open:rotate-90" />
+              </summary>
+              <p className="mt-3 text-sm leading-6 text-[#68645E]">{item.answer}</p>
+            </details>
+          ))}
+        </div>
+        <p className="mt-6 text-center text-sm leading-6 text-[#68645E]">{disclaimer}</p>
+      </section>
+    </article>
+  );
+}
+
+function LetterBoxSolverPage() {
+  const path = "/solvers/letter-box-solver";
+  const relatedTools = [
+    { href: "/solvers/anagram-solver", label: "Anagram Solver", points: ["Find all possible anagrams", "From letters you provide", "Expand your vocabulary"], Icon: ListChecks, accent: "#008F83" },
+    { href: "/solvers/word-unscrambler", label: "Word Unscrambler", points: ["Unscramble jumbled letters", "Find all valid words", "Perfect for any word game"], Icon: Shuffle, accent: "#8A57D6" },
+    { href: "/all-solvers", label: "Crossword Helper", points: ["Get crossword answers", "Clue-based suggestions", "Solve puzzles with ease"], Icon: ClipboardList, accent: "#2F80D8" },
+    { href: "/all-solvers", label: "Pattern Solver", points: ["Find words by pattern", "Use wildcards like _ or ?", "Custom length options"], Icon: Star, accent: "#E86F3D" },
+  ];
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: letterBoxFaq.map((item) => ({ "@type": "Question", name: item.question, acceptedAnswer: { "@type": "Answer", text: item.answer } })),
+  };
+
+  return (
+    <article className="-mt-10">
+      <JsonLd data={breadcrumbSchema([{ name: "Home", url: "/" }, { name: "All Solvers", url: "/all-solvers" }, { name: "Letter Box Solver", url: path }])} />
+      <JsonLd data={faqSchema} />
+      <JsonLd data={{ "@context": "https://schema.org", "@type": "WebApplication", name: "Letter Box Solver", url: absoluteUrl(path), applicationCategory: "GameApplication", isAccessibleForFree: true }} />
+
+      <section className="relative mx-[calc(50%-50vw)] overflow-hidden bg-[radial-gradient(circle_at_50%_0%,#F4FFFD_0%,#F8F5EF_58%,#F8F5EF_100%)] px-4 py-14">
+        <div className="pointer-events-none absolute -left-20 top-24 hidden h-64 w-64 rounded-full bg-[#DDF4F1] md:block" />
+        <div className="pointer-events-none absolute right-10 top-20 hidden h-5 w-5 rotate-45 bg-[#E8A300]/60 md:block" />
+        <div className="pointer-events-none absolute left-32 top-28 hidden h-4 w-4 rotate-45 bg-[#8A57D6]/40 md:block" />
+        <div className="mx-auto max-w-6xl">
+          <header className="text-center">
+            <p className="mx-auto inline-flex items-center gap-2 rounded-full bg-[#E7F7F4] px-4 py-2 text-sm font-black text-[#008F83]">
+              Letter Box Tool
+            </p>
+            <h1 className="mt-5 text-5xl font-black leading-tight text-[#142436] sm:text-6xl">
+              Letter Box <span className="text-[#8A57D6]">Solver</span>
+            </h1>
+            <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-[#4A5968]">
+              Find optimal word combinations to solve Letter Boxed-style puzzles in minimum moves.
+            </p>
+          </header>
+
+          <div className="mt-10 grid gap-6 lg:grid-cols-[1fr_23rem]">
+            <Suspense fallback={<div className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-sm">Loading Letter Box Solver...</div>}>
+              <LetterBoxSolverClient />
+            </Suspense>
+
+            <aside className="grid content-start gap-6">
+              <section className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-lg shadow-[#315C4C]/10">
+                <div className="flex items-center gap-3">
+                  <span className="grid h-10 w-10 place-items-center rounded-lg bg-[#EAF3FF] text-[#2F80D8]">
+                    <ClipboardList className="h-5 w-5" />
+                  </span>
+                  <h2 className="text-xl font-black text-[#142436]">Letter Boxed Rules</h2>
+                </div>
+                <ul className="mt-5 grid gap-3 text-sm leading-6 text-[#344153]">
+                  <li>Use all 12 letters at least once.</li>
+                  <li>Words must be at least 3 letters long.</li>
+                  <li>Cannot use consecutive letters from the same side.</li>
+                  <li>Next word starts with the last letter of the previous word.</li>
+                  <li>Complete in as few words as possible.</li>
+                </ul>
+              </section>
+              <section className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-lg shadow-[#315C4C]/10">
+                <div className="flex items-center gap-3">
+                  <span className="grid h-10 w-10 place-items-center rounded-lg bg-[#FFF4D8] text-[#D99A00]">
+                    <Star className="h-5 w-5" />
+                  </span>
+                  <h2 className="text-xl font-black text-[#142436]">Strategy Tips</h2>
+                </div>
+                <ul className="mt-5 grid gap-3 text-sm leading-6 text-[#344153]">
+                  <li>Look for long words using many letters.</li>
+                  <li>Find words that end with uncommon letters.</li>
+                  <li>Build efficient word chains.</li>
+                  <li>Maximize unique letters in each word.</li>
+                  <li>Use vowels strategically.</li>
+                </ul>
+              </section>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto mt-8 grid max-w-6xl gap-5 sm:grid-cols-2 lg:grid-cols-5">
+        <WordleInfoCard Icon={FileText} title="What is Letter Boxed?">
+          <p>Letter Boxed is a word puzzle where you connect letters around a square to form words.</p>
+        </WordleInfoCard>
+        <WordleInfoCard Icon={RefreshCw} title="How Does Letter Box Solver Work?">
+          <p>The solver analyzes letters, validates side rules, and finds word chains from the local word list.</p>
+        </WordleInfoCard>
+        <WordleInfoCard Icon={ClipboardList} title="How to Use Letter Box Solver?">
+          <ol className="text-left">
+            <li>1. Enter the 12 letters around the box.</li>
+            <li>2. Choose your target move count.</li>
+            <li>3. Click Find Solutions.</li>
+            <li>4. Review the best chains.</li>
+          </ol>
+        </WordleInfoCard>
+        <WordleInfoCard Icon={Star} title="Why Use Our Solver?">
+          <p>Save time, sharpen word skills, and discover new chain options quickly.</p>
+        </WordleInfoCard>
+        <WordleInfoCard Icon={Users} title="Who Can Use This Tool?">
+          <p>Great for puzzle fans, students, teachers, and anyone improving vocabulary skills.</p>
+        </WordleInfoCard>
+      </section>
+
+      <section className="mx-auto mt-10 max-w-6xl">
+        <h2 className="text-center text-3xl font-black text-[#142436]">
+          Explore <span className="text-[#008F83]">More Word Solvers</span>
+        </h2>
+        <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {relatedTools.map(({ href, label, points, Icon, accent }) => (
+            <Link key={label} href={href} className="group rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-md shadow-[#315C4C]/5 hover:-translate-y-1 hover:shadow-lg">
+              <div className="flex items-center gap-4">
+                <span className="grid h-14 w-14 place-items-center rounded-xl" style={{ backgroundColor: `${accent}18`, color: accent }}>
+                  <Icon className="h-7 w-7" />
+                </span>
+                <h3 className="text-lg font-black text-[#142436]">{label}</h3>
+              </div>
+              <ul className="mt-5 grid gap-2 text-sm text-[#68645E]">
+                {points.map((point) => (
+                  <li key={point} className="flex gap-2">
+                    <span style={{ color: accent }}>&bull;</span>
+                    <span>{point}</span>
+                  </li>
+                ))}
+              </ul>
+              <span className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-lg border px-4 py-2.5 text-sm font-black" style={{ borderColor: accent, color: accent }}>
+                Try Solver <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+              </span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="mx-auto mt-10 max-w-6xl">
+        <h2 className="text-center text-3xl font-black text-[#142436]">
+          Frequently Asked <span className="text-[#008F83]">Questions</span>
+        </h2>
+        <div className="mt-5 divide-y divide-[#E5DED3] overflow-hidden rounded-xl border border-[#E5DED3] bg-[#FFFDF9] shadow-sm">
+          {letterBoxFaq.map((item) => (
             <details key={item.question} className="group p-4">
               <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-black text-[#142436]">
                 {item.question}
@@ -454,6 +641,7 @@ export default function SolverPage({ params }: Props) {
   const solver = getSolver(params.slug);
   if (!solver || !solver.implemented || solver.inputType === "directory") notFound();
   if (solver.inputType === "wordle" && solver.wordLength) return <WordleLengthSolverPage solver={solver} />;
+  if (solver.slug === "letter-box-solver") return <LetterBoxSolverPage />;
   if (solver.slug === "spelling-bee-solver") return <SpellingBeeSolverPage />;
   const path = `/solvers/${solver.slug}`;
   const related = solver.relatedSolvers.map(getSolver).filter(Boolean);

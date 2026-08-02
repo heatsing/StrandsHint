@@ -116,6 +116,12 @@ async function exerciseTools(page) {
   const beeResultCount = await page.locator("text=ELECT").count();
   if (!beeResultCount) record("Spelling Bee Solver example did not produce ELECT");
 
+  await page.goto(`${baseUrl}/solvers/letter-box-solver/`, { waitUntil: "networkidle" });
+  await page.getByRole("button", { name: "Autofill Today" }).click();
+  await page.getByRole("button", { name: "Find Solutions" }).click();
+  const letterBoxCount = await page.locator("text=Solutions").count();
+  if (!letterBoxCount) record("Letter Box Solver did not render solutions area");
+
   await page.goto(`${baseUrl}/solvers/anagram-solver/`, { waitUntil: "networkidle" });
   await page.getByRole("button", { name: "Load example" }).click();
   await page.getByRole("button", { name: "Unscramble letters" }).click();
@@ -134,7 +140,10 @@ try {
     "/all-solvers/",
     "/daily-hints/",
     "/solvers/wordle-solver/",
+    "/solvers/4-letter-wordle-solver/",
+    "/solvers/12-letter-wordle-solver/",
     "/solvers/spelling-bee-solver/",
+    "/solvers/letter-box-solver/",
     "/solvers/anagram-solver/",
     "/hints/strands/2026-08-02/",
     "/today/",

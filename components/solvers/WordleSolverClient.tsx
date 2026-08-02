@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { RefreshCw, Search } from "lucide-react";
+import { CheckCircle2, RefreshCw, Search, XCircle } from "lucide-react";
 import { wordBank } from "@/data/word-bank";
 import { explainWordleLogic, solveWordle } from "@/lib/word-game-solvers";
 import { CopyButton } from "./CopyButton";
@@ -10,6 +10,7 @@ import { CopyButton } from "./CopyButton";
 type Props = {
   initialLength?: number;
   fixedLength?: boolean;
+  accent?: string;
 };
 
 function normalizeLetter(value: string) {
@@ -17,10 +18,14 @@ function normalizeLetter(value: string) {
 }
 
 function letterCells(value: string, length: number) {
-  return value.padEnd(length, "_").slice(0, length).split("").map((letter) => (letter === "_" ? "" : letter));
+  return value
+    .padEnd(length, "_")
+    .slice(0, length)
+    .split("")
+    .map((letter) => (letter === "_" ? "" : letter));
 }
 
-export function WordleSolverClient({ initialLength = 5, fixedLength = false }: Props) {
+export function WordleSolverClient({ initialLength = 5, fixedLength = false, accent = "#008F83" }: Props) {
   const searchParams = useSearchParams();
   const queryLength = searchParams.get("length");
   const [length, setLength] = useState(String(initialLength));
@@ -82,10 +87,10 @@ export function WordleSolverClient({ initialLength = 5, fixedLength = false }: P
 
       <section>
         <h2 className="flex items-center gap-2 text-lg font-black text-[#142436]">
-          <span className="grid h-6 w-6 place-items-center rounded-full border-2 border-[#12A37F] text-[#12A37F]">✓</span>
+          <CheckCircle2 className="h-6 w-6 text-[#12A37F]" />
           Known Letters (Green)
         </h2>
-        <div className="mt-5 flex justify-center gap-4">
+        <div className="mt-5 flex flex-wrap justify-center gap-4">
           {greenCells.map((letter, index) => (
             <input
               key={`green-${index}`}
@@ -94,7 +99,7 @@ export function WordleSolverClient({ initialLength = 5, fixedLength = false }: P
               aria-label={`Green letter ${index + 1}`}
               onChange={(event) => updateCell("green", index, event.target.value)}
               placeholder={`${index + 1}`}
-              className="h-14 w-14 rounded-lg border border-[#12A37F] bg-[#E8FFF7] text-center text-lg font-black text-[#142436] outline-none placeholder:text-[#24333A] focus:ring-4 focus:ring-[#12A37F]/20"
+              className="h-14 w-14 rounded-lg border border-[#12A37F] bg-[#E8FFF7] text-center text-lg font-black text-[#142436] outline-none placeholder:text-[#8A96A3] focus:ring-4 focus:ring-[#12A37F]/20"
             />
           ))}
         </div>
@@ -107,7 +112,7 @@ export function WordleSolverClient({ initialLength = 5, fixedLength = false }: P
           <span className="h-5 w-5 rounded-full bg-[#E8A300]" />
           Wrong Position Letters (Yellow)
         </h2>
-        <div className="mt-5 flex justify-center gap-4">
+        <div className="mt-5 flex flex-wrap justify-center gap-4">
           {yellowCells.map((letter, index) => (
             <input
               key={`yellow-${index}`}
@@ -116,7 +121,7 @@ export function WordleSolverClient({ initialLength = 5, fixedLength = false }: P
               aria-label={`Yellow letter ${index + 1}`}
               onChange={(event) => updateCell("yellow", index, event.target.value)}
               placeholder={`${index + 1}`}
-              className="h-14 w-14 rounded-lg border border-[#E8A300] bg-[#FFF8E7] text-center text-lg font-black text-[#142436] outline-none placeholder:text-[#24333A] focus:ring-4 focus:ring-[#E8A300]/20"
+              className="h-14 w-14 rounded-lg border border-[#E8A300] bg-[#FFF8E7] text-center text-lg font-black text-[#142436] outline-none placeholder:text-[#8A96A3] focus:ring-4 focus:ring-[#E8A300]/20"
             />
           ))}
         </div>
@@ -126,7 +131,7 @@ export function WordleSolverClient({ initialLength = 5, fixedLength = false }: P
 
       <label className="grid gap-3 text-lg font-black text-[#142436]">
         <span className="flex items-center gap-2">
-          <span className="grid h-5 w-5 place-items-center rounded-full border border-[#8A96A3] text-xs text-[#8A96A3]">×</span>
+          <XCircle className="h-5 w-5 text-[#8A96A3]" />
           Excluded Letters (Gray)
         </span>
         <input
@@ -147,7 +152,8 @@ export function WordleSolverClient({ initialLength = 5, fixedLength = false }: P
           type="button"
           onClick={() => setSearched(true)}
           disabled={!validLength}
-          className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#008F83] px-6 py-4 text-sm font-black text-white shadow-sm hover:bg-[#00766D] disabled:cursor-not-allowed disabled:opacity-50"
+          className="inline-flex items-center justify-center gap-2 rounded-lg px-6 py-4 text-sm font-black text-white shadow-sm disabled:cursor-not-allowed disabled:opacity-50"
+          style={{ backgroundColor: accent }}
         >
           <Search className="h-5 w-5" />
           Find Solutions
@@ -155,7 +161,8 @@ export function WordleSolverClient({ initialLength = 5, fixedLength = false }: P
         <button
           type="button"
           onClick={reset}
-          className="inline-flex items-center justify-center gap-2 rounded-lg border border-[#008F83] bg-white px-8 py-4 text-sm font-black text-[#008F83] hover:bg-[#F1FAF8]"
+          className="inline-flex items-center justify-center gap-2 rounded-lg border bg-white px-8 py-4 text-sm font-black hover:bg-[#F1FAF8]"
+          style={{ borderColor: accent, color: accent }}
         >
           <RefreshCw className="h-5 w-5" />
           Reset
