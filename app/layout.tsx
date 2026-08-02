@@ -1,19 +1,17 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { Fraunces, IBM_Plex_Mono, Public_Sans } from "next/font/google";
+import { Roboto } from "next/font/google";
 import { ChevronDown, Heart, Search } from "lucide-react";
 import "./globals.css";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { disclaimer, siteName, siteUrl } from "@/lib/seo";
 
-const fraunces = Fraunces({ subsets: ["latin"], variable: "--font-serif", display: "swap" });
-const publicSans = Public_Sans({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
-const plexMono = IBM_Plex_Mono({
+const roboto = Roboto({
   subsets: ["latin"],
-  variable: "--font-mono",
+  variable: "--font-roboto",
   display: "swap",
-  weight: ["400", "500", "600", "700"],
+  weight: ["300", "400", "500", "700", "900"],
 });
 
 export const metadata: Metadata = {
@@ -70,7 +68,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body
-        className={`${fraunces.variable} ${publicSans.variable} ${plexMono.variable} bg-[#F8F5EF] font-sans text-[#20201E] antialiased`}
+        className={`${roboto.variable} bg-[#F8F5EF] font-sans text-[#20201E] antialiased`}
       >
         <GoogleAnalytics />
         <header className="sticky top-0 z-30 border-b border-[#E5DED3] bg-[#FFFDF9]/95 shadow-sm shadow-[#315C4C]/5 backdrop-blur">
