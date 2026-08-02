@@ -107,8 +107,11 @@ async function exerciseTools(page) {
   if (!wordleCount) record("Wordle Solver example did not produce APPLE");
 
   await page.goto(`${baseUrl}/solvers/spelling-bee-solver/`, { waitUntil: "networkidle" });
-  await page.getByRole("button", { name: "Load example" }).click();
-  await page.getByRole("button", { name: "Find words" }).click();
+  await page.getByLabel("Center letter").fill("E");
+  for (const [index, letter] of ["A", "B", "L", "T", "C", "N"].entries()) {
+    await page.getByLabel(`Outer letter ${index + 1}`).fill(letter);
+  }
+  await page.getByRole("button", { name: "Find All Words" }).click();
   const beeResultCount = await page.locator("text=ELECT").count();
   if (!beeResultCount) record("Spelling Bee Solver example did not produce ELECT");
 
