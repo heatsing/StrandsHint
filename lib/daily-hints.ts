@@ -21,7 +21,11 @@ export const dailyHintGames = [
   { game: "connections", name: "Connections", path: "/hints/connections" },
   { game: "strands", name: "Strands", path: "/hints/strands" },
   { game: "spelling-bee", name: "Spelling Bee", path: "/hints/spelling-bee" },
+  { game: "letter-boxed", name: "Letter Boxed", path: "/hints/letter-boxed" },
   { game: "crossword", name: "Crossword", path: "/hints/crossword" },
+  { game: "mini-crossword", name: "Mini Crossword", path: "/hints/mini-crossword" },
+  { game: "connections-sports-edition", name: "Connections: Sports Edition", path: "/hints/connections-sports-edition" },
+  { game: "pips", name: "Pips", path: "/hints/pips" },
 ];
 
 export function isDateString(value: string) {

@@ -42,9 +42,15 @@ export const metadata: Metadata = {
 };
 
 const hintMenu = [
-  { href: "/today/wordle-hints", label: "Today's Wordle Hints" },
-  { href: "/today/connections-hints", label: "Today's Connections Hints" },
-  { href: "/today/strands-hints", label: "Today's Strands Hints" },
+  { href: "/hints/connections", label: "Connections Hints" },
+  { href: "/hints/wordle", label: "Wordle Hints" },
+  { href: "/hints/spelling-bee", label: "Spelling Bee Hints" },
+  { href: "/hints/letter-boxed", label: "Letter Boxed Hints" },
+  { href: "/hints/strands", label: "Strands Hints" },
+  { href: "/hints/crossword", label: "Crossword Hints" },
+  { href: "/hints/mini-crossword", label: "Mini Crossword Hints" },
+  { href: "/hints/connections-sports-edition", label: "Connections: Sports Edition Hints" },
+  { href: "/hints/pips", label: "Pips Hints" },
 ];
 
 const wordleLengthMenu = Array.from({ length: 10 }, (_, index) => {
@@ -54,6 +60,18 @@ const wordleLengthMenu = Array.from({ length: 10 }, (_, index) => {
     label: `${length} Letter Wordle Solver`,
   };
 });
+
+const puzzleSolverMenu = [
+  { href: "/solvers/spelling-bee-solver", label: "Spelling Bee Solver" },
+  { href: "/all-solvers", label: "Letter Boxed Solver" },
+  { href: "/all-solvers", label: "Scrabble Word Finder" },
+  { href: "/solvers/word-unscrambler", label: "Word Unscrambler" },
+  { href: "/solvers/anagram-solver", label: "Anagram Solver" },
+  { href: "/all-solvers", label: "Quordle Solver" },
+  { href: "/all-solvers", label: "Crossword Solver" },
+  { href: "/all-solvers", label: "Words With Friends Solver" },
+  { href: "/all-solvers", label: "Jumble Solver" },
+];
 
 function BrandLogo() {
   return (
@@ -86,10 +104,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <nav className="flex flex-wrap gap-2 text-sm lg:items-center">
               <details className="group relative">
                 <summary className="inline-flex cursor-pointer list-none items-center gap-1 rounded-full px-3 py-2 font-black text-[#24333A] hover:bg-[#EDE6DC] hover:text-[#008F83]">
-                  Strands Hints
+                  Daily Game Hints
                   <ChevronDown className="h-3.5 w-3.5 transition group-open:rotate-180" />
                 </summary>
-                <div className="absolute left-0 top-full z-40 mt-2 w-64 rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-2 shadow-xl shadow-[#315C4C]/10">
+                <div className="absolute left-0 top-full z-40 mt-2 max-h-[70vh] w-80 overflow-y-auto rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-2 shadow-xl shadow-[#315C4C]/10">
                   {hintMenu.map((item) => (
                     <Link
                       key={item.href}
@@ -118,6 +136,24 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   {wordleLengthMenu.map((item) => (
                     <Link
                       key={item.href}
+                      href={item.href}
+                      className="block rounded-lg px-3 py-2.5 font-bold text-[#24333A] hover:bg-[#EDE6DC] hover:text-[#008F83]"
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
+              </details>
+
+              <details className="group relative">
+                <summary className="inline-flex cursor-pointer list-none items-center gap-1 rounded-full px-3 py-2 font-black text-[#24333A] hover:bg-[#EDE6DC] hover:text-[#008F83]">
+                  Puzzle Solver
+                  <ChevronDown className="h-3.5 w-3.5 transition group-open:rotate-180" />
+                </summary>
+                <div className="absolute left-0 top-full z-40 mt-2 max-h-[70vh] w-80 overflow-y-auto rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-2 shadow-xl shadow-[#315C4C]/10">
+                  {puzzleSolverMenu.map((item) => (
+                    <Link
+                      key={`${item.href}-${item.label}`}
                       href={item.href}
                       className="block rounded-lg px-3 py-2.5 font-bold text-[#24333A] hover:bg-[#EDE6DC] hover:text-[#008F83]"
                     >
