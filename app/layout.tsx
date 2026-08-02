@@ -41,12 +41,19 @@ export const metadata: Metadata = {
   manifest: "/site.webmanifest",
 };
 
-const nav = [
-  { href: "/daily-hints", label: "Strands Hints", hasMenu: true },
-  { href: "/todays-strands-answer", label: "Today's Answers" },
-  { href: "/all-solvers", label: "Word Solvers", hasMenu: true },
-  { href: "/archive", label: "Archives", hasMenu: true },
+const hintMenu = [
+  { href: "/today/wordle-hints", label: "Today's Wordle Hints" },
+  { href: "/today/connections-hints", label: "Today's Connections Hints" },
+  { href: "/today/strands-hints", label: "Today's Strands Hints" },
 ];
+
+const wordleLengthMenu = Array.from({ length: 10 }, (_, index) => {
+  const length = index + 3;
+  return {
+    href: `/solvers/wordle-solver?length=${length}`,
+    label: `${length} Letter Wordle Solver`,
+  };
+});
 
 function BrandLogo() {
   return (
@@ -77,16 +84,56 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <BrandLogo />
             </Link>
             <nav className="flex flex-wrap gap-2 text-sm lg:items-center">
-              {nav.map(({ href, label, hasMenu }) => (
-                <Link
-                  key={href}
-                  href={href}
-                  className="inline-flex items-center gap-1 rounded-full px-3 py-2 font-black text-[#24333A] hover:bg-[#EDE6DC] hover:text-[#008F83]"
-                >
-                  {label}
-                  {hasMenu ? <ChevronDown className="h-3.5 w-3.5" /> : null}
-                </Link>
-              ))}
+              <details className="group relative">
+                <summary className="inline-flex cursor-pointer list-none items-center gap-1 rounded-full px-3 py-2 font-black text-[#24333A] hover:bg-[#EDE6DC] hover:text-[#008F83]">
+                  Strands Hints
+                  <ChevronDown className="h-3.5 w-3.5 transition group-open:rotate-180" />
+                </summary>
+                <div className="absolute left-0 top-full z-40 mt-2 w-64 rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-2 shadow-xl shadow-[#315C4C]/10">
+                  {hintMenu.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className="block rounded-lg px-3 py-2.5 font-bold text-[#24333A] hover:bg-[#EDE6DC] hover:text-[#008F83]"
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
+              </details>
+
+              <Link
+                href="/todays-strands-answer"
+                className="inline-flex items-center gap-1 rounded-full px-3 py-2 font-black text-[#24333A] hover:bg-[#EDE6DC] hover:text-[#008F83]"
+              >
+                Today&apos;s Answers
+              </Link>
+
+              <details className="group relative">
+                <summary className="inline-flex cursor-pointer list-none items-center gap-1 rounded-full px-3 py-2 font-black text-[#24333A] hover:bg-[#EDE6DC] hover:text-[#008F83]">
+                  Word Solvers
+                  <ChevronDown className="h-3.5 w-3.5 transition group-open:rotate-180" />
+                </summary>
+                <div className="absolute left-0 top-full z-40 mt-2 max-h-[70vh] w-72 overflow-y-auto rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-2 shadow-xl shadow-[#315C4C]/10">
+                  {wordleLengthMenu.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className="block rounded-lg px-3 py-2.5 font-bold text-[#24333A] hover:bg-[#EDE6DC] hover:text-[#008F83]"
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
+              </details>
+
+              <Link
+                href="/archive"
+                className="inline-flex items-center gap-1 rounded-full px-3 py-2 font-black text-[#24333A] hover:bg-[#EDE6DC] hover:text-[#008F83]"
+              >
+                Archives
+              </Link>
+
               <Link
                 href="/all-solvers"
                 className="ml-0 grid h-11 w-11 place-items-center rounded-lg bg-[#008F83] text-white shadow-sm shadow-[#008F83]/20 hover:bg-[#00766D] lg:ml-3"

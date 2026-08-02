@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 import { JsonLd } from "@/components/JsonLd";
@@ -63,7 +64,9 @@ export default function SolverPage({ params }: Props) {
       </header>
 
       <section aria-label={`${solver.name} workspace`}>
-        <SolverWorkspace inputType={solver.inputType} />
+        <Suspense fallback={<div className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-5 shadow-sm">Loading solver. Find possible words in a moment...</div>}>
+          <SolverWorkspace inputType={solver.inputType} />
+        </Suspense>
       </section>
 
       <section className="mt-10 grid gap-6 lg:grid-cols-2">

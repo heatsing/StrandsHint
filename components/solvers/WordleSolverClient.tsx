@@ -1,11 +1,14 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { wordBank } from "@/data/word-bank";
 import { explainWordleLogic, solveWordle } from "@/lib/word-game-solvers";
 import { CopyButton } from "./CopyButton";
 
 export function WordleSolverClient() {
+  const searchParams = useSearchParams();
+  const queryLength = searchParams.get("length");
   const [length, setLength] = useState("5");
   const [pattern, setPattern] = useState("");
   const [includes, setIncludes] = useState("");
@@ -18,6 +21,13 @@ export function WordleSolverClient() {
     [searched, length, pattern, includes, misplaced, excluded],
   );
   const validLength = Number(length) >= 3 && Number(length) <= 12;
+
+  useEffect(() => {
+    if (queryLength && Number(queryLength) >= 3 && Number(queryLength) <= 12) {
+      setLength(queryLength);
+      setSearched(false);
+    }
+  }, [queryLength]);
 
   function loadExample() {
     setLength("5");
