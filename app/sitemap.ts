@@ -17,6 +17,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/strands-spangram-helper",
     "/strands-word-finder",
     "/archive",
+    "/privacy-policy",
+    "/terms-of-use",
   ];
 
   return [

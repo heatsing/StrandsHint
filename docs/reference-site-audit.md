@@ -1,148 +1,175 @@
-# Reference Site Audit: nytsolvers.com
+# Phase 1 Audit: Reference Site And Current Codebase
 
-Audit date: 2026-08-02  
-Project: Strands Hint / independent word puzzle helper  
-Reference use: product architecture, SEO patterns, page-type taxonomy, and tool ecosystem only. Do not copy UI, copy, code, images, logo, or proprietary daily puzzle content.
+Audit date: 2026-08-02
+Project: Strands Hint
+Reference: https://nytsolvers.com/
+Boundary: learn information architecture, SEO patterns, tool taxonomy, page hierarchy, and interaction expectations only. Do not copy UI, text, source code, brand assets, images, logos, or daily answer content.
 
 ## Current Codebase Audit
 
-### Framework And Runtime
+### Framework And Version
 
-- Framework: Next.js 14.2.35.
-- Router: App Router under `app/`.
-- React: 18.3.1.
-- TypeScript: 5.6.3 with `strict: true`, `moduleResolution: bundler`, JSON imports enabled.
-- Styling: Tailwind CSS 3.4 with `@tailwindcss/typography`, local shadcn-style UI primitives.
-- Data: local JSON and TypeScript modules. No database dependency.
-- Deployment: static build output deployed through Cloudflare Pages/Wrangler.
-
-### Existing Pages And Features
-
-| Area | Existing routes | Notes |
-| --- | --- | --- |
-| Home | `/` | Strong Strands-specific marketing/tool hub, currently dark palette. |
-| Daily SEO | `/today`, `/today/[slug]` | Wordle, Connections, Strands daily page templates from `lib/daily-seo.ts`. |
-| Strands content | `/todays-strands-answer`, `/strands-hints`, `/archive`, `/archive/[date]` | Manual JSON puzzle content. Spoiler reveals exist. |
-| Strands tools | `/strands-solver`, `/strands-spangram-helper`, `/strands-word-finder` | Browser-side 6x8 grid DFS solver exists. |
-| Admin helpers | `/admin`, `/admin/puzzles/new`, `/admin/daily/new` | JSON generation helpers, no database. |
-| SEO infra | `app/sitemap.ts`, `app/robots.ts`, `lib/seo.ts`, `components/JsonLd.tsx` | Sitemap excludes admin; robots disallows `/admin/`. |
-| Assets | favicon set, `strandshint_logo.png`, word list JSON | Logo recently added. |
-
-### Reusable Components
-
-| Component | Use |
+| Item | Current state |
 | --- | --- |
-| `JsonLd` | Structured data output. |
-| `Breadcrumbs` | Visual breadcrumbs. |
-| `FAQ` | FAQ rendering. |
-| `SpoilerReveal` | Progressive spoiler disclosure. |
-| `LetterGridInput` | 6x8 Strands grid input. |
-| `SolverTool` / `SolverResultList` | Current Strands grid solving UI. |
-| `AdminPuzzleForm` / `AdminDailyContentForm` | Static JSON content helpers. |
+| Framework | Next.js 14.2.35 |
+| Router | App Router under `app/` |
+| React | 18.3.1 |
+| TypeScript | 5.6.3, `strict: true`, `moduleResolution: bundler` |
+| Styling | Tailwind CSS 3.4, shadcn-style local UI primitives |
+| Icons | Lucide React |
+| Data | Local JSON and TypeScript modules, no database |
+| Build target | `output: "export"` static export in `next.config.mjs` |
+| Deployment | Cloudflare Pages via Wrangler |
 
-### Risks And Gaps
+### Current Scripts
 
-- Visual system conflicts with latest brand requirement: current global background is dark `#12172B`, but required site-wide background is `#F8F5EF`.
-- Navigation is flat and Strands-specific; requested architecture needs grouped Solvers, Daily Hints, and Resources.
-- No shared solver registry exists yet, so new solver pages would become duplicated unless a data-driven system is added.
-- No Wordle Solver, Spelling Bee Solver, or Anagram/Unscrambler algorithms exist yet.
-- `npm run typecheck` and `npm run test` scripts are absent, while the requested QA flow requires them.
-- Footer legal copy exists but should be expanded to cover independent third-party status and trademarks.
-- Current `public/word-list.json` is very small, useful for smoke/demo but not enough for production-quality word game results.
-- Several pages are client-heavy only where needed, but future solver tools must remain isolated client components to protect first-load performance.
-- Accessibility baseline is acceptable for native links/details/buttons, but dropdown navigation and mobile drawer do not yet exist.
+| Script | Status |
+| --- | --- |
+| `npm run lint` | Available |
+| `npm run typecheck` | Available |
+| `npm run test` | Available |
+| `npm run build` | Available |
+| `npm run smoke` | Available |
+| `npm run create:daily-hint` | Available |
 
-## Reference Site Map
+### Current Route Inventory
 
-Observed from the public sitemap:
-
-| Group | URL examples | Pattern |
+| Route group | Routes | Current purpose |
 | --- | --- | --- |
-| Homepage | `/` | Main hub. |
-| Daily hints | `/wordle-hints`, `/connections-hints`, `/spelling-bee-hints`, `/strands-hints`, `/crossword-hints` | One route per game intent. |
-| Solver tools | `/wordle-solver`, `/spelling-bee-solver`, `/letter-boxed-solver`, `/word-unscrambler`, `/anagram-solver`, `/crossword-solver` | One route per tool. |
-| Solver directory | `/all-solvers` | Index/hub. |
-| Long-tail solver pages | `/wordle-solver/3-letter-wordle-solver` through `/12-letter-wordle-solver` except 5-letter root | Programmatic length pages. |
-| Resources | `/grammar`, `/definitions`, `/blog`, several blog posts | Supporting informational cluster. |
-| Static legal pages | `/about-us`, `/contact-us`, `/terms-conditions`, `/privacy-policy`, `/disclaimer` | Trust and compliance. |
+| Core | `/` | Warm editorial homepage and platform entry |
+| Solver directory | `/all-solvers` | Registry-driven solver index |
+| Solver dynamic | `/solvers/[slug]` | SSG solver pages for implemented registry entries |
+| Daily directory | `/daily-hints` | Daily hints directory |
+| Daily hints | `/hints/[game]`, `/hints/[game]/[date]` | Local content driven daily hint pages |
+| Daily SEO legacy | `/today`, `/today/[slug]` | Existing daily SEO hub and game-specific daily pages |
+| Strands pages | `/todays-strands-answer`, `/strands-hints`, `/archive`, `/archive/[date]` | Existing manual Strands content |
+| Strands tools | `/strands-solver`, `/strands-spangram-helper`, `/strands-word-finder` | Existing Strands grid solver family |
+| Admin helpers | `/admin`, `/admin/puzzles/new`, `/admin/daily/new` | Local JSON helper pages, disallowed in robots and excluded from sitemap |
+| Technical SEO | `/robots.txt`, `/sitemap.xml` | Generated by App Router metadata routes |
+| Error | `/_not-found` static output / `app/not-found.tsx` | 404 page |
 
-## Page Type Matrix
+### Component And Data Inventory
 
-| Page type | Search intent | Core modules | Our implementation direction |
-| --- | --- | --- | --- |
-| Homepage | Discover available puzzle help fast | Hero, search, featured tools, daily hints, solver directory, FAQ | Keep original visual style and brand; do not copy text or colors. |
-| Solver page | Complete a specific tool task | Input form, validation, results, how-to, examples, FAQ, related tools | Data-driven `solvers/[slug]` with specific client workspace per implemented tool. |
-| Daily hint page | Get today’s clue/answer safely | Date header, progressive hints, answer reveal, explanation, related pages | Data-driven `hints/[game]` and `hints/[game]/[date]` with local JSON. |
-| Directory page | Browse tools or hints | Category cards, filters/search, internal links | `/all-solvers`, `/daily-hints`. |
-| Long-tail page | Specific word length/pattern need | Specialized tool prefilter, explanation, FAQ | Add only when there is real functionality, not keyword swaps. |
-| Resource/blog page | Learn strategy or definitions | Article, examples, related tools | Later phase; build original content templates. |
-| Legal page | Trust and compliance | Disclaimer, privacy, terms | Add original pages. |
-
-## Component Matrix
-
-| Component pattern | Reference role | Safe borrowing principle |
+| Area | Files | Notes |
 | --- | --- | --- |
-| Header dropdowns | Organizes Solvers, Hints, Resources | Build our own accessible grouped nav with different visual design. |
-| Search entry | Quick route to tools/answers | Implement original solver search/filter component. |
-| Tool cards | Internal links to high-value pages | Generate from local registry. |
-| Daily hint cards | Freshness and return visits | Generate from local daily hint registry/content. |
-| FAQ accordions | Rich snippets and trust | Use original questions and answers. |
-| Footer clusters | Crawl paths and trust links | Use our own legal and resource pages. |
+| SEO helpers | `lib/seo.ts`, `components/JsonLd.tsx` | Absolute URLs, breadcrumb schema, JSON-LD renderer |
+| Solver registry | `data/solver-registry.ts` | Unified `SolverConfig` source for solver pages and sitemap |
+| Solver algorithms | `lib/solver.ts`, `lib/word-game-solvers.js` | Strands grid DFS and local word-game filters |
+| Solver UI | `components/solvers/*`, `components/SolverTool.tsx` | Client components isolated to tool workspaces |
+| Daily hints model | `lib/daily-hints.ts`, `content/hints/*` | Local file model for date-based daily hints |
+| Daily SEO model | `lib/daily-seo.ts`, `data/daily-content.json` | Existing today pages |
+| Puzzle content | `data/puzzles.json`, `lib/puzzle-data.ts` | Manual Strands archive data |
+| Admin forms | `components/AdminPuzzleForm.tsx`, `components/AdminDailyContentForm.tsx` | JSON generation helpers |
+| Tests | `tests/word-game-solvers.test.mjs` | Algorithm tests for core word-game filters |
 
-## Function Matrix
+### SEO Implementation Audit
 
-| Function | Reference pattern | Current project | Gap |
-| --- | --- | --- | --- |
-| Strands grid solver | Solver category page | Implemented for 6x8 Strands | Needs warmer UI consistency. |
-| Wordle solver | Dedicated tool | Missing | High priority. |
-| Spelling Bee solver | Dedicated tool | Missing | High priority. |
-| Anagram/unscrambler | Dedicated tools | Missing | High priority. |
-| All solvers directory | Directory page | Missing | High priority. |
-| All hints directory | Daily hub exists but limited | Partial | Add `/daily-hints`. |
-| Daily archive by date | Date content pages | Partial for Strands archive and `/today/[slug]` | Add `content/hints/{game}/{date}.json` model. |
-
-## SEO Matrix
-
-| SEO element | Reference observation | Current project | Needed |
-| --- | --- | --- | --- |
-| Title/description | Unique for many key pages; blog page appears to share all-solvers metadata in one request check | Mostly unique for existing pages | Ensure every new route has unique metadata. |
-| Canonical | Present on sampled pages | Present on many current pages | Preserve self-referencing canonicals. |
-| Sitemap | Groups hints, solvers, resources, legal pages | Current sitemap includes existing public pages | Add only implemented canonical pages. |
-| Breadcrumb JSON-LD | Common SEO expectation | Present on current core pages | Add to new directory/tool pages. |
-| FAQ JSON-LD | Useful for tool/hint pages | Present on many existing pages | Add when FAQ exists. |
-| WebSite/WebApplication schema | Needed for platform/tool identity | Partial | Add reusable schema helpers. |
-
-## Borrowable Parts
-
-- Page-type taxonomy: solver pages, daily hint pages, resource pages, legal pages.
-- Internal linking strategy: homepage to directories; directories to tools; tools to related tools and hints.
-- Programmatic SEO approach: use a registry to scale page generation and sitemap inclusion.
-- Tool-page content expectations: input, validation, results, examples, rules, FAQ.
-
-## Parts Not To Copy
-
-- Logo, brand name, favicon, images, icons, color palette, exact layout, copy, headings, FAQ text, article text, HTML/CSS/JS implementation, daily puzzle answers, and any official-looking NYT presentation.
-- Any claim of being official, authorized, real-time, AI-powered, or professionally reviewed unless it is true.
-
-## Current Project Gap Against Target
-
-| Priority | Gap | Why it matters |
+| SEO requirement | Current support | Notes |
 | --- | --- | --- |
-| Critical | Full site palette violates new `#F8F5EF` requirement | Brand consistency and user request compliance. |
-| Critical | Missing Wordle, Spelling Bee, Anagram/Unscrambler tools | Required first-round functional scope. |
-| Critical | Missing `typecheck` and `test` scripts | Required QA commands cannot run. |
-| Major | Missing solver registry and `/solvers/[slug]` route | Scaling pages manually will create duplicate code. |
-| Major | Missing `/all-solvers` and `/daily-hints` directories | SEO hub structure incomplete. |
-| Major | Daily hints are split between `data/daily-content.json` and Strands archive | Need normalized `content/hints/{game}/{date}.json`. |
-| Major | Navigation lacks accessible grouped dropdowns/mobile drawer | Required IA not reflected in UI. |
-| Minor | Word list is too small for production usefulness | Algorithms can work but results will be thin until word data grows. |
+| Static generation | Supported | `next.config.mjs` uses static export; dynamic routes use `generateStaticParams` |
+| Independent metadata | Supported | Core routes and dynamic solver/hint routes define metadata |
+| Self canonical | Mostly supported | New route families set `alternates.canonical`; older pages should remain monitored |
+| Open Graph | Supported on key new pages | Dynamic solver pages include OG |
+| Twitter cards | Supported on layout and dynamic solver pages | Some older static pages may still be basic |
+| Breadcrumb JSON-LD | Supported | New solver and hint pages emit BreadcrumbList |
+| FAQ JSON-LD | Supported when FAQ exists | Solver and hint pages emit FAQPage |
+| WebApplication schema | Supported for solver pages | Dynamic solver pages emit WebApplication JSON-LD |
+| Sitemap | Supported | Includes static routes, implemented solver pages, daily pages, existing date archives |
+| Robots | Supported | Allows public site, disallows `/admin/` |
 
-## Recommended Implementation Priority
+### Current Risks
 
-1. Apply warm editorial design tokens globally and update layout/footer/legal copy.
-2. Add registry-driven solver and daily hint data structures.
-3. Add `/all-solvers`, `/daily-hints`, and `/solvers/[slug]`.
-4. Implement Wordle Solver, Spelling Bee Solver, and Anagram/Unscrambler with pure functions and tests.
-5. Add normalized daily hint content model, archive route, and `create:daily-hint` script.
-6. Expand sitemap/robots/schema helpers for new canonical pages only.
-7. Add typecheck/test scripts, run lint/typecheck/test/build/smoke, and fix issues.
+| Risk | Severity | Notes |
+| --- | --- | --- |
+| Reference audit can drift | Medium | Reference site can change; only sitemap/page-type patterns should be treated as durable. |
+| Small local word list | Medium | Algorithms work, but production usefulness needs a larger licensed word list. |
+| Two daily systems exist | Medium | `/today/[slug]` and `/hints/[game]` overlap; future work should consolidate carefully. |
+| Navigation is still mostly flat | Medium | Requested dropdown/mobile drawer can be Phase 3+, not Phase 1/2. |
+| Some older Strands pages are not registry-driven | Medium | Do not delete; gradually adapt shared components. |
+| Browser/Lighthouse testing not yet documented in this Phase 1/2 pass | Low | Build-level checks are available; visual audits belong later. |
+
+## Reference Site Architecture Audit
+
+### Reference Sitemap Pattern
+
+Observed public URL groups:
+
+| Group | Example URLs | Search intent |
+| --- | --- | --- |
+| Homepage | `/` | Broad puzzle solver discovery |
+| Daily hints | `/wordle-hints`, `/connections-hints`, `/strands-hints`, `/spelling-bee-hints`, `/crossword-hints` | Today-style clue and answer intent |
+| Solver tools | `/wordle-solver`, `/spelling-bee-solver`, `/word-unscrambler`, `/anagram-solver`, `/crossword-solver` | Tool completion intent |
+| Solver directory | `/all-solvers` | Browse all available tools |
+| Long-tail solver pages | `/wordle-solver/3-letter-wordle-solver`, etc. | Specific length/pattern intent |
+| Resources | `/definitions`, `/grammar`, `/blog`, blog posts | Supporting informational intent |
+| Legal/static | `/about-us`, `/contact-us`, `/terms-conditions`, `/privacy-policy`, `/disclaimer` | Trust and compliance |
+
+### Page Type Matrix
+
+| Page type | Core modules | Safe lesson |
+| --- | --- | --- |
+| Homepage | Hero, search/tool entry, featured solvers, daily hints, FAQ, footer links | Use homepage as a hub for high-intent paths |
+| Solver page | Tool input, validation, results, usage guide, examples, FAQ, related tools | Tool pages need real utility before SEO text |
+| Daily hint page | Date/context, progressive hints, answer reveal, explanation, related pages | Daily pages should protect spoilers and freshness |
+| Directory page | Grouped cards and category links | Generate from a registry, not hard-coded duplicates |
+| Long-tail page | Specific functional variation | Only create when the user value differs |
+| Resource page | Educational article, related tools, internal links | Build topical clusters with original content |
+| Legal page | Disclaimer, terms, privacy | Make non-affiliation explicit |
+
+### Component Matrix
+
+| Pattern | Reference role | Our implementation principle |
+| --- | --- | --- |
+| Grouped navigation | Routes users by intent | Build original Solvers / Daily Hints / Resources groupings |
+| Solver cards | Route users to tools | Generate from `solverRegistry` |
+| Daily hint cards | Capture return visits | Generate from `dailyHintGames` and content files |
+| FAQ accordions | SEO and reassurance | Original questions and answers only |
+| Breadcrumbs | Crawl clarity | Reuse `breadcrumbSchema` |
+| Footer clusters | Internal links and trust | Keep legal disclaimer visible |
+
+### Function Matrix
+
+| Function category | Reference pattern | Current project support |
+| --- | --- | --- |
+| Wordle Solver | Dedicated tool page | Supported through `/solvers/wordle-solver` |
+| Spelling Bee Solver | Dedicated tool page | Supported through `/solvers/spelling-bee-solver` |
+| Anagram / Unscrambler | Dedicated tool pages | Supported through `/solvers/anagram-solver` and `/solvers/word-unscrambler` |
+| Strands Solver | Dedicated tool page | Existing `/strands-solver`; registry also references it as existing |
+| Daily hints | One page per puzzle family | Supported by `/daily-hints`, `/hints/[game]`, `/today/[slug]` |
+| Blog / definitions | Resource cluster | Planned; should not be created as empty pages |
+| Legal pages | Trust pages | Planned; footer disclaimer exists |
+
+### SEO Matrix
+
+| SEO element | Reference pattern | Our Phase 1/2 decision |
+| --- | --- | --- |
+| URL naming | Short, keyword-oriented slugs | Use original slugs under `/solvers/*`, `/hints/*`, `/daily-hints` |
+| Metadata | Unique title/description per page type | Use `generateMetadata` for dynamic routes |
+| Canonical | Self-referencing canonical | Required for every new indexable route |
+| Sitemap | Only public canonical pages | Exclude admin, query/filter pages, empty planned pages |
+| JSON-LD | Breadcrumb/FAQ/tool schema | Use BreadcrumbList, FAQPage, WebApplication where applicable |
+| Internal links | Hub to category to detail | Registry-generated related links |
+
+## Borrow, Do Not Copy
+
+Borrow:
+
+- Page taxonomy: solvers, hints, directories, resources, legal.
+- Internal linking hierarchy.
+- Registry-based programmatic page generation concept.
+- Solver-page content structure: input, result, instructions, FAQ, related tools.
+
+Do not copy:
+
+- Brand, logo, images, icons, colors, layout expression, headings, paragraphs, FAQ wording, article content, HTML/CSS/JS, or daily puzzle content.
+- Official-looking NYT presentation or any claim of affiliation.
+
+## Phase 1 Conclusion
+
+The current codebase can support the requested architecture at the foundation level:
+
+- SSG is supported by `output: "export"` and existing dynamic route `generateStaticParams`.
+- Independent metadata is supported by App Router `metadata` and `generateMetadata`.
+- Unified solver configuration exists in `data/solver-registry.ts`.
+- Sitemap generation already consumes solver and daily hint data.
+- The main Phase 2 need is to document and stabilize the architecture, not create more content pages.

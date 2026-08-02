@@ -23,7 +23,7 @@ export function WordleSolverClient() {
     setLength("5");
     setPattern("A__LE");
     setIncludes("P");
-    setMisplaced("P:2");
+    setMisplaced("");
     setExcluded("RT");
     setSearched(true);
   }

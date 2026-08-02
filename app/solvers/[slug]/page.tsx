@@ -58,7 +58,7 @@ export default function SolverPage({ params }: Props) {
       <JsonLd data={{ "@context": "https://schema.org", "@type": "WebApplication", name: solver.name, url: absoluteUrl(path), applicationCategory: "GameApplication", isAccessibleForFree: true }} />
       <header className="py-10">
         <p className="font-mono text-sm font-bold uppercase tracking-[0.2em] text-[#315C4C]">{solver.category}</p>
-        <h1 className="mt-4 max-w-3xl font-serif text-5xl font-black leading-tight text-[#20201E]">{solver.name}</h1>
+        <h1 className="mt-4 max-w-3xl break-words font-serif text-5xl font-black leading-tight text-[#20201E]">{solver.name}</h1>
         <p className="mt-5 max-w-2xl text-lg leading-8 text-[#68645E]">{solver.shortDescription}</p>
       </header>
 

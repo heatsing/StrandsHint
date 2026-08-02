@@ -22,6 +22,12 @@ const iconMap = { grid: Grid3X3, bee: Sparkles, shuffle: Shuffle, search: Search
 
 export default function AllSolversPage() {
   const categories = Array.from(new Set(solverRegistry.map((solver) => solver.category)));
+  const hrefForSolver = (solver: { slug: string; implemented: boolean; inputType: string }) => {
+    if (!solver.implemented) return "/all-solvers";
+    if (solver.inputType === "directory" && solver.slug === "strands-solver") return "/strands-solver";
+    if (solver.inputType === "directory") return "/all-solvers";
+    return `/solvers/${solver.slug}`;
+  };
 
   return (
     <article>
@@ -46,7 +52,7 @@ export default function AllSolversPage() {
                 return (
                   <Link
                     key={solver.slug}
-                    href={solver.implemented ? `/solvers/${solver.slug}` : "/all-solvers"}
+                    href={hrefForSolver(solver)}
                     className="group rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-5 shadow-sm hover:border-[#315C4C]/50"
                   >
                     <Icon className="h-7 w-7 text-[#315C4C]" />

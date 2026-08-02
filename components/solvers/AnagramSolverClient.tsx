@@ -64,7 +64,7 @@ export function AnagramSolverClient() {
         </div>
         <p className="mt-4 text-sm leading-6 text-[#68645E]">Use ? as a wildcard. Results are deduplicated and sorted by length first.</p>
       </div>
-      <aside className="rounded-2xl border border-[#E5DED3] bg-white p-5 shadow-sm">
+      <aside className="min-w-0 rounded-2xl border border-[#E5DED3] bg-white p-5 shadow-sm">
         <div className="flex items-center justify-between gap-3">
           <h2 className="text-xl font-black">Words</h2>
           <span className="rounded-full bg-[#EDE6DC] px-3 py-1 text-sm font-bold">{results.length}</span>

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Fraunces, IBM_Plex_Mono, Public_Sans } from "next/font/google";
-import { Search } from "lucide-react";
+import { ChevronDown, Heart, Search } from "lucide-react";
 import "./globals.css";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { disclaimer, siteName, siteUrl } from "@/lib/seo";
@@ -44,25 +44,22 @@ export const metadata: Metadata = {
 };
 
 const nav = [
-  ["/today", "Daily"],
-  ["/todays-strands-answer", "Today's Answer"],
-  ["/strands-hints", "Hints"],
-  ["/strands-solver", "Solver"],
-  ["/strands-spangram-helper", "Spangram Helper"],
-  ["/strands-word-finder", "Word Finder"],
-  ["/archive", "Archive"],
-  ["/#faq", "About"],
+  { href: "/daily-hints", label: "Strands Hints", hasMenu: true },
+  { href: "/todays-strands-answer", label: "Today's Answers" },
+  { href: "/all-solvers", label: "Word Solvers", hasMenu: true },
+  { href: "/archive", label: "Archives", hasMenu: true },
 ];
 
 function BrandLogo() {
   return (
-    <span className="inline-flex rounded-xl bg-[#FFFDF9] px-3 py-2 shadow-sm ring-1 ring-[#E5DED3]">
+    <span className="inline-flex">
       <Image
         src="/strandshint_logo.png"
         alt="Strands Hint"
         width={221}
         height={36}
         priority
+        unoptimized
         className="h-8 w-auto"
       />
     </span>
@@ -76,70 +73,90 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         className={`${fraunces.variable} ${publicSans.variable} ${plexMono.variable} bg-[#F8F5EF] font-sans text-[#20201E] antialiased`}
       >
         <GoogleAnalytics />
-        <header className="sticky top-0 z-30 border-b border-[#E5DED3] bg-[#F8F5EF]/95 backdrop-blur">
-          <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-5 lg:flex-row lg:items-center lg:justify-between">
+        <header className="sticky top-0 z-30 border-b border-[#E5DED3] bg-[#FFFDF9]/95 shadow-sm shadow-[#315C4C]/5 backdrop-blur">
+          <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-4 lg:flex-row lg:items-center lg:justify-between">
             <Link href="/" className="flex items-center gap-3" aria-label="Strands Hint home">
               <BrandLogo />
             </Link>
-            <nav className="flex flex-wrap gap-1 text-sm lg:items-center">
-              {nav.map(([href, label]) => (
+            <nav className="flex flex-wrap gap-2 text-sm lg:items-center">
+              {nav.map(({ href, label, hasMenu }) => (
                 <Link
                   key={href}
                   href={href}
-                  className="rounded-md px-3 py-2 font-semibold text-[#68645E] hover:bg-[#EDE6DC] hover:text-[#20201E]"
+                  className="inline-flex items-center gap-1 rounded-full px-3 py-2 font-black text-[#24333A] hover:bg-[#EDE6DC] hover:text-[#008F83]"
                 >
                   {label}
+                  {hasMenu ? <ChevronDown className="h-3.5 w-3.5" /> : null}
                 </Link>
               ))}
               <Link
                 href="/all-solvers"
-                className="ml-0 inline-flex items-center gap-2 rounded-lg bg-[#315C4C] px-4 py-2 font-bold text-white shadow-sm hover:bg-[#274B3E] lg:ml-3"
+                className="ml-0 grid h-11 w-11 place-items-center rounded-lg bg-[#008F83] text-white shadow-sm shadow-[#008F83]/20 hover:bg-[#00766D] lg:ml-3"
+                aria-label="Search word solvers"
               >
                 <Search className="h-4 w-4" />
-                Explore Tools
               </Link>
             </nav>
           </div>
         </header>
         <main className="mx-auto max-w-6xl px-4 py-10">{children}</main>
-        <footer className="mx-auto max-w-6xl border-t border-[#E5DED3] px-4 py-10 text-sm text-[#68645E]">
-          <div className="grid gap-8 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+        <footer className="mx-[calc(50%-50vw)] bg-[#062D38] text-sm text-[#B9D5D3]">
+          <div className="relative mx-auto max-w-6xl overflow-hidden px-4 py-14">
+            <div className="pointer-events-none absolute -right-12 top-12 h-40 w-40 rounded-full border border-[#008F83]/40" />
+            <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
             <div>
               <Link href="/" className="flex items-center gap-2" aria-label="Strands Hint home">
                 <BrandLogo />
               </Link>
-              <p className="mt-4 max-w-xs leading-6">Smart hints. Better solving. More fun.</p>
-            </div>
-            <div>
-              <h2 className="font-black text-[#20201E]">Tools</h2>
-              <nav className="mt-3 grid gap-2">
-                <Link href="/all-solvers" className="hover:text-[#315C4C]">All Solvers</Link>
-                <Link href="/solvers/wordle-solver" className="hover:text-[#315C4C]">Wordle Solver</Link>
-                <Link href="/solvers/spelling-bee-solver" className="hover:text-[#315C4C]">Spelling Bee Solver</Link>
-                <Link href="/solvers/anagram-solver" className="hover:text-[#315C4C]">Anagram Solver</Link>
-                <Link href="/strands-solver" className="hover:text-[#315C4C]">Strands Solver</Link>
-              </nav>
-            </div>
-            <div>
-              <h2 className="font-black text-[#20201E]">Resources</h2>
-              <nav className="mt-3 grid gap-2">
-                <Link href="/daily-hints" className="hover:text-[#315C4C]">Daily Hints</Link>
-                <Link href="/strands-hints" className="hover:text-[#315C4C]">How to Play</Link>
-                <Link href="/archive" className="hover:text-[#315C4C]">Archive</Link>
-                <Link href="/#faq" className="hover:text-[#315C4C]">FAQ</Link>
-              </nav>
-            </div>
-            <div>
-              <h2 className="font-black text-[#20201E]">Legal</h2>
-              <p className="mt-3 leading-6">
-                {disclaimer} All trademarks belong to their respective owners. Users should follow
-                the original game platforms&apos; terms.
+              <p className="mt-5 max-w-xs leading-6">
+                Your spoiler-safe home for daily puzzle hints, answer reveals, and practical word
+                solver tools.
               </p>
+              <div className="mt-6 inline-flex items-center gap-2 rounded-xl border border-[#1D6670] px-4 py-3 text-xs font-bold text-[#E7FFFA]">
+                Made for puzzle lovers around the world
+                <Heart className="h-4 w-4 fill-[#E0544F] text-[#E0544F]" />
+              </div>
+            </div>
+            <div>
+              <h2 className="font-black text-white">Hint Categories</h2>
+              <nav className="mt-3 grid gap-2">
+                <Link href="/today/strands-hints" className="hover:text-white">Today&apos;s Strands Hint</Link>
+                <Link href="/today/connections-hints" className="hover:text-white">Connections Hints</Link>
+                <Link href="/today/wordle-hints" className="hover:text-white">Wordle Hint</Link>
+                <Link href="/hints/spelling-bee" className="hover:text-white">Spelling Bee Hint</Link>
+                <Link href="/daily-hints" className="hover:text-white">All Puzzle Hints</Link>
+              </nav>
+            </div>
+            <div>
+              <h2 className="font-black text-white">Solver Tools</h2>
+              <nav className="mt-3 grid gap-2">
+                <Link href="/solvers/anagram-solver" className="hover:text-white">Anagram Solver</Link>
+                <Link href="/solvers/word-unscrambler" className="hover:text-white">Word Unscrambler</Link>
+                <Link href="/solvers/wordle-solver" className="hover:text-white">Wordle Solver</Link>
+                <Link href="/strands-solver" className="hover:text-white">Strands Solver</Link>
+                <Link href="/all-solvers" className="hover:text-white">All Word Solvers</Link>
+              </nav>
+            </div>
+            <div>
+              <h2 className="font-black text-white">Resources</h2>
+              <nav className="mt-3 grid gap-2">
+                <Link href="/#faq" className="hover:text-white">About Us</Link>
+                <Link href="/strands-hints" className="hover:text-white">How It Works</Link>
+                <Link href="/archive" className="hover:text-white">Archive</Link>
+                <Link href="/privacy-policy" className="hover:text-white">Privacy Policy</Link>
+                <Link href="/terms-of-use" className="hover:text-white">Terms of Use</Link>
+                <Link href="/sitemap.xml" className="hover:text-white">Sitemap</Link>
+              </nav>
             </div>
           </div>
-          <p className="mt-10 text-center text-xs text-[#68645E]">
-            (c) 2026 Strands Hint. All rights reserved.
-          </p>
+            <div className="mt-12 border-t border-[#1D6670]/70 pt-8 text-xs">
+              <p className="leading-6">{disclaimer}</p>
+              <div className="mt-6 flex flex-col gap-3 text-[#B9D5D3] sm:flex-row sm:items-center sm:justify-between">
+                <p>(c) 2026 Strands Hint. All rights reserved.</p>
+                <p>Built with care for puzzle solvers.</p>
+              </div>
+            </div>
+          </div>
         </footer>
       </body>
     </html>

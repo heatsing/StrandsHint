@@ -31,7 +31,7 @@ const requiredFiles = [
 ];
 
 const pageChecks = [
-  ["index.html", ["Daily hints and quiet solver tools", "Find a solver", "Featured solvers", "Frequently asked questions"]],
+  ["index.html", ["Strands Hint - Strands Hints, Daily Answers", "Featured Daily", "Helpful", "FAQs About"]],
   ["all-solvers/index.html", ["All word puzzle solvers", "Wordle Solver", "Spelling Bee Solver"]],
   ["daily-hints/index.html", ["Daily puzzle hints without instant spoilers", "Available today pages"]],
   ["today/index.html", ["Today's puzzle hints", "Daily hint hub", "Open daily hints", "FAQPage", "BreadcrumbList"]],
