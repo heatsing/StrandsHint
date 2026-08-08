@@ -69,7 +69,7 @@ const puzzleSolverMenu = [
   { href: "/solvers/anagram-solver", label: "Anagram Solver" },
   { href: "/solvers/quordle-solver", label: "Quordle Solver" },
   { href: "/solvers/crossword-solver", label: "Crossword Solver" },
-  { href: "/all-solvers", label: "Words With Friends Solver" },
+  { href: "/solvers/words-with-friends-solver", label: "Words With Friends Solver" },
   { href: "/all-solvers", label: "Jumble Solver" },
 ];
 

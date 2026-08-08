@@ -6,7 +6,7 @@ import { wordBank } from "@/data/word-bank";
 import { solveAnagrams } from "@/lib/word-game-solvers";
 import { CopyButton } from "./CopyButton";
 
-type Variant = "anagram" | "unscrambler" | "scrabble";
+type Variant = "anagram" | "unscrambler" | "scrabble" | "wordsWithFriends";
 
 const copy = {
   anagram: {
@@ -36,12 +36,22 @@ const copy = {
     min: "2",
     max: "15",
   },
+  wordsWithFriends: {
+    label: "Your Letters",
+    placeholder: "Enter your letters (e.g., ABCDEFG)",
+    button: "Find Words",
+    advanced: "Advanced Options",
+    helper: "Use ? or spacebar for blank tiles",
+    min: "2",
+    max: "15",
+  },
 } satisfies Record<Variant, Record<string, string>>;
 
 const accents = {
   anagram: "#E34B83",
   unscrambler: "#2F80D8",
   scrabble: "#008F83",
+  wordsWithFriends: "#2F80D8",
 } satisfies Record<Variant, string>;
 
 function scoreScrabble(word: string) {
@@ -53,6 +63,20 @@ function scoreScrabble(word: string) {
     K: 5,
     J: 8, X: 8,
     Q: 10, Z: 10,
+  };
+  return word.split("").reduce((total, letter) => total + (scores[letter] || 0), 0);
+}
+
+function scoreWordsWithFriends(word: string) {
+  const scores: Record<string, number> = {
+    A: 1, E: 1, I: 1, O: 1, R: 1, S: 1, T: 1,
+    D: 2, L: 2, N: 2, U: 2,
+    G: 3, H: 3, Y: 3,
+    B: 4, C: 4, F: 4, M: 4, P: 4, W: 4,
+    V: 5,
+    K: 6,
+    X: 8,
+    J: 10, Q: 10, Z: 10,
   };
   return word.split("").reduce((total, letter) => total + (scores[letter] || 0), 0);
 }
@@ -80,6 +104,9 @@ export function WordFinderToolClient({ variant }: { variant: Variant }) {
     });
     if (variant === "scrabble") {
       return [...found].sort((a, b) => scoreScrabble(b) - scoreScrabble(a) || b.length - a.length || a.localeCompare(b));
+    }
+    if (variant === "wordsWithFriends") {
+      return [...found].sort((a, b) => scoreWordsWithFriends(b) - scoreWordsWithFriends(a) || b.length - a.length || a.localeCompare(b));
     }
     return found;
   }, [letters, minLength, maxLength, required, startsWith, endsWith, searched, variant]);
@@ -150,7 +177,7 @@ export function WordFinderToolClient({ variant }: { variant: Variant }) {
           type="button"
           onClick={() => setSearched(true)}
           className="inline-flex h-14 items-center justify-center gap-3 rounded-xl px-6 text-base font-black text-white shadow-sm"
-          style={{ background: variant === "anagram" ? "linear-gradient(90deg,#EA70B0,#F16678)" : variant === "unscrambler" ? "linear-gradient(90deg,#0EA6AA,#2F80D8)" : "#008F83" }}
+          style={{ background: variant === "anagram" ? "linear-gradient(90deg,#EA70B0,#F16678)" : variant === "unscrambler" || variant === "wordsWithFriends" ? "linear-gradient(90deg,#2F80D8,#0EA6AA)" : "#008F83" }}
         >
           <Search className="h-5 w-5" />
           {copy[variant].button}
@@ -176,7 +203,7 @@ export function WordFinderToolClient({ variant }: { variant: Variant }) {
           {searched && !results.length ? <p className="text-sm leading-6 text-[#68645E]">No matches yet. Try more letters, a wildcard, or wider filters.</p> : null}
           {results.slice(0, 160).map((word) => (
             <span key={word} className="rounded-full border border-[#E5DED3] bg-[#FFFDF9] px-3 py-1.5 font-mono text-sm font-black text-[#142436]">
-              {word}{variant === "scrabble" ? ` · ${scoreScrabble(word)}` : ""}
+              {word}{variant === "scrabble" ? ` - ${scoreScrabble(word)}` : ""}{variant === "wordsWithFriends" ? ` - ${scoreWordsWithFriends(word)}` : ""}
             </span>
           ))}
         </div>

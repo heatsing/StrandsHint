@@ -153,6 +153,12 @@ async function exerciseTools(page) {
   await page.getByRole("button", { name: "Solve Clue" }).click();
   const crosswordCount = await page.locator("text=Ranked Solutions").count();
   if (!crosswordCount) record("Crossword Solver did not render ranked solutions area");
+
+  await page.goto(`${baseUrl}/solvers/words-with-friends-solver/`, { waitUntil: "networkidle" });
+  await page.getByPlaceholder(/Enter your letters/i).fill("QUIET?");
+  await page.getByRole("button", { name: "Find Words" }).click();
+  const wwfCount = await page.locator("text=QUIET").count();
+  if (!wwfCount) record("Words With Friends Solver did not produce QUIET");
 }
 
 await new Promise((resolve) => server.listen(port, "127.0.0.1", resolve));
@@ -175,6 +181,7 @@ try {
     "/solvers/scrabble-word-finder/",
     "/solvers/quordle-solver/",
     "/solvers/crossword-solver/",
+    "/solvers/words-with-friends-solver/",
     "/hints/connections/",
     "/hints/strands/2026-08-02/",
     "/today/",

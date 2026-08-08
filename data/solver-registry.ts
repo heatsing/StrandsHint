@@ -168,6 +168,20 @@ export const solverRegistry: SolverConfig[] = [
     implemented: true,
   },
   {
+    slug: "words-with-friends-solver",
+    name: "Words With Friends Solver",
+    shortDescription: "Find high-scoring Words With Friends-style words from your letters and blank tiles.",
+    category: "Word Finders",
+    icon: "sparkles",
+    inputType: "anagram",
+    relatedSolvers: ["anagram-solver", "word-unscrambler", "scrabble-word-finder"],
+    seo: {
+      title: "Words With Friends Solver - Find High-Scoring Words",
+      description: "Use a Words With Friends solver to find word candidates from your letters, blank tiles, and smart filters.",
+    },
+    implemented: true,
+  },
+  {
     slug: "jumble-solver",
     name: "Jumble Solver",
     shortDescription: "A planned quick unscrambler for jumble-style word puzzles.",

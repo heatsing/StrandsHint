@@ -642,7 +642,7 @@ function LetterBoxSolverPage() {
   );
 }
 
-type WordFinderVariant = "anagram" | "unscrambler" | "scrabble";
+type WordFinderVariant = "anagram" | "unscrambler" | "scrabble" | "wordsWithFriends";
 
 const wordFinderPageConfig = {
   "anagram-solver": {
@@ -772,6 +772,49 @@ const wordFinderPageConfig = {
       ["Does the solver include two-letter words?", "Yes, the default minimum length is 2 for Scrabble-style searches."],
       ["Is this tool free to use?", "Yes. It is free and runs in your browser."],
       ["Where do the word scores come from?", "Scores use standard English-language tile values for candidate ranking."],
+    ],
+  },
+  "words-with-friends-solver": {
+    variant: "wordsWithFriends",
+    badge: "Word Solver Tool",
+    titlePrefix: "Words With Friends",
+    titleHighlight: "Solver",
+    accent: "#2F80D8",
+    gradient: "linear-gradient(90deg,#2F80D8,#0EA6AA)",
+    intro: "Find the highest scoring Words With Friends words from your letters with smart filtering options.",
+    belowPanels: [
+      {
+        Icon: Star,
+        title: "Letter Values",
+        body: "Words With Friends-style scores: A,E,I,O,R,S,T = 1; D,L,N,U = 2; G,H,Y = 3; B,C,F,M,P,W = 4; V = 5; K = 6; X = 8; J,Q,Z = 10.",
+        accent: "#008F83",
+      },
+      {
+        Icon: Star,
+        title: "Pro Tips",
+        body: "Use high-value letters like J, Q, X, and Z to maximize your score. Look for prefixes and suffixes, consider two-letter words, and save blanks for high-value plays.",
+        accent: "#D99A00",
+      },
+    ],
+    infoCards: [
+      { Icon: FileText, title: "What is Words With Friends?", body: "Learn the basics, rules, and scoring system of WWF.", accent: "#008F83" },
+      { Icon: ListChecks, title: "How to Use the Solver?", body: "Step-by-step guide to find the best words easily.", accent: "#8A57D6" },
+      { Icon: Star, title: "Key Features", body: "Powerful features that make our solver stand out.", accent: "#2F80D8" },
+      { Icon: Trophy, title: "Why Use Our Solver?", body: "Discover the benefits of using our smart solver tool.", accent: "#3FA34D" },
+      { Icon: Users, title: "Who Can Use This Tool?", body: "Perfect for players of all skill levels and ages.", accent: "#F06423" },
+    ],
+    related: [
+      { href: "/solvers/anagram-solver", label: "Anagram Solver", text: "Find words from mixed letters and maximize your score.", Icon: RefreshCw, accent: "#008F83", cta: "Use Anagram Solver" },
+      { href: "/solvers/word-unscrambler", label: "Word Unscrambler", text: "Unscramble letters instantly and find all possible words.", Icon: Shuffle, accent: "#D99A00", cta: "Use Unscrambler" },
+      { href: "/solvers/scrabble-word-finder", label: "Scrabble Word Finder", text: "Find valid Scrabble words and top-scoring plays.", Icon: ListChecks, accent: "#3FA34D", cta: "Find Words" },
+      { href: "/all-solvers", label: "Pattern Solver", text: "Find words that match your pattern or known letters.", Icon: ClipboardList, accent: "#E0544F", cta: "Use Pattern Solver" },
+    ],
+    faq: [
+      ["Is this Words With Friends Solver free to use?", "Yes. It runs in your browser and does not require an account."],
+      ["How accurate are the words and scores?", "Words come from the local dictionary and scores use a Words With Friends-style letter value table."],
+      ["Can I use this solver on mobile devices?", "Yes. The input, filters, and results are responsive for phone and desktop screens."],
+      ["Does the solver support blank tiles?", "Yes. Use ? or a space as a blank tile."],
+      ["How often is the word list updated?", "The current release uses a compact local word list that can be expanded with a larger licensed dictionary later."],
     ],
   },
 } as const;
@@ -1286,7 +1329,7 @@ export default function SolverPage({ params }: Props) {
   if (solver.inputType === "wordle" && solver.wordLength) return <WordleLengthSolverPage solver={solver} />;
   if (solver.slug === "letter-box-solver") return <LetterBoxSolverPage />;
   if (solver.slug === "spelling-bee-solver") return <SpellingBeeSolverPage />;
-  if (solver.slug === "anagram-solver" || solver.slug === "word-unscrambler" || solver.slug === "scrabble-word-finder") return <WordFinderMarketingPage solver={solver} />;
+  if (solver.slug === "anagram-solver" || solver.slug === "word-unscrambler" || solver.slug === "scrabble-word-finder" || solver.slug === "words-with-friends-solver") return <WordFinderMarketingPage solver={solver} />;
   const path = `/solvers/${solver.slug}`;
   const related = solver.relatedSolvers.map(getSolver).filter(Boolean);
   const faq = [
