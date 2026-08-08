@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { RefreshCw, Search } from "lucide-react";
-import { wordBank } from "@/data/word-bank";
+import { quordleWordBank } from "@/data/tool-word-banks";
 import { solveWordle } from "@/lib/word-game-solvers";
 import { CopyButton } from "./CopyButton";
 
@@ -26,7 +26,7 @@ export function QuordleSolverClient() {
       .map((letter, index) => (letter ? `${letter}:${index + 1}` : ""))
       .filter(Boolean)
       .join(" ");
-    return solveWordle(wordBank, {
+    return solveWordle(quordleWordBank, {
       length: 5,
       pattern: cellsToPattern(green),
       includes: yellow.filter(Boolean).join(""),

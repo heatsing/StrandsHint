@@ -187,43 +187,43 @@ function SpellingBeeSolverPage() {
             </p>
           </header>
 
-          <div className="mt-10 grid gap-6 lg:grid-cols-[1fr_23rem]">
+          <div className="mx-auto mt-10 max-w-4xl">
             <Suspense fallback={<div className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-sm">Loading Spelling Bee Solver...</div>}>
               <SpellingBeeSolverClient />
             </Suspense>
+          </div>
 
-            <aside className="grid content-start gap-6">
-              <section className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-lg shadow-[#315C4C]/10">
-                <div className="flex items-center gap-3">
-                  <span className="grid h-10 w-10 place-items-center rounded-lg bg-[#2F80D8] text-white">
-                    <ClipboardList className="h-5 w-5" />
-                  </span>
-                  <h2 className="text-xl font-black text-[#142436]">Spelling Bee Rules</h2>
-                </div>
-                <ul className="mt-5 grid gap-3 text-sm leading-6 text-[#344153]">
-                  <li>Words must be at least 4 letters long.</li>
-                  <li>Words must include the center letter.</li>
-                  <li>Words can only use the given letters.</li>
-                  <li>Letters can be used multiple times.</li>
-                  <li>Pangrams use all 7 letters.</li>
-                </ul>
-              </section>
+          <div className="mx-auto mt-6 grid max-w-4xl gap-6 md:grid-cols-2">
+            <section className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-lg shadow-[#315C4C]/10">
+              <div className="flex items-center gap-3">
+                <span className="grid h-10 w-10 place-items-center rounded-lg bg-[#2F80D8] text-white">
+                  <ClipboardList className="h-5 w-5" />
+                </span>
+                <h2 className="text-xl font-black text-[#142436]">Spelling Bee Rules</h2>
+              </div>
+              <ul className="mt-5 grid gap-3 text-sm leading-6 text-[#344153]">
+                <li>Words must be at least 4 letters long.</li>
+                <li>Words must include the center letter.</li>
+                <li>Words can only use the given letters.</li>
+                <li>Letters can be used multiple times.</li>
+                <li>Pangrams use all 7 letters.</li>
+              </ul>
+            </section>
 
-              <section className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-lg shadow-[#315C4C]/10">
-                <div className="flex items-center gap-3">
-                  <span className="grid h-10 w-10 place-items-center rounded-lg bg-[#E8A300] text-white">
-                    <Star className="h-5 w-5" />
-                  </span>
-                  <h2 className="text-xl font-black text-[#142436]">Scoring System</h2>
-                </div>
-                <ul className="mt-5 grid gap-3 text-sm leading-6 text-[#344153]">
-                  <li>4-letter words: 1 point</li>
-                  <li>5+ letter words: 1 point per letter</li>
-                  <li>Pangrams: 7 bonus points</li>
-                  <li>Queen Bee status for top scores</li>
-                </ul>
-              </section>
-            </aside>
+            <section className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-lg shadow-[#315C4C]/10">
+              <div className="flex items-center gap-3">
+                <span className="grid h-10 w-10 place-items-center rounded-lg bg-[#E8A300] text-white">
+                  <Star className="h-5 w-5" />
+                </span>
+                <h2 className="text-xl font-black text-[#142436]">Scoring System</h2>
+              </div>
+              <ul className="mt-5 grid gap-3 text-sm leading-6 text-[#344153]">
+                <li>4-letter words: 1 point</li>
+                <li>5+ letter words: 1 point per letter</li>
+                <li>Pangrams: 7 bonus points</li>
+                <li>Queen Bee status for top scores</li>
+              </ul>
+            </section>
           </div>
         </div>
       </section>
@@ -530,43 +530,43 @@ function LetterBoxSolverPage() {
             </p>
           </header>
 
-          <div className="mt-10 grid gap-6 lg:grid-cols-[1fr_23rem]">
+          <div className="mx-auto mt-10 max-w-4xl">
             <Suspense fallback={<div className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-sm">Loading Letter Box Solver...</div>}>
               <LetterBoxSolverClient />
             </Suspense>
+          </div>
 
-            <aside className="grid content-start gap-6">
-              <section className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-lg shadow-[#315C4C]/10">
-                <div className="flex items-center gap-3">
-                  <span className="grid h-10 w-10 place-items-center rounded-lg bg-[#EAF3FF] text-[#2F80D8]">
-                    <ClipboardList className="h-5 w-5" />
-                  </span>
-                  <h2 className="text-xl font-black text-[#142436]">Letter Boxed Rules</h2>
-                </div>
-                <ul className="mt-5 grid gap-3 text-sm leading-6 text-[#344153]">
-                  <li>Use all 12 letters at least once.</li>
-                  <li>Words must be at least 3 letters long.</li>
-                  <li>Cannot use consecutive letters from the same side.</li>
-                  <li>Next word starts with the last letter of the previous word.</li>
-                  <li>Complete in as few words as possible.</li>
-                </ul>
-              </section>
-              <section className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-lg shadow-[#315C4C]/10">
-                <div className="flex items-center gap-3">
-                  <span className="grid h-10 w-10 place-items-center rounded-lg bg-[#FFF4D8] text-[#D99A00]">
-                    <Star className="h-5 w-5" />
-                  </span>
-                  <h2 className="text-xl font-black text-[#142436]">Strategy Tips</h2>
-                </div>
-                <ul className="mt-5 grid gap-3 text-sm leading-6 text-[#344153]">
-                  <li>Look for long words using many letters.</li>
-                  <li>Find words that end with uncommon letters.</li>
-                  <li>Build efficient word chains.</li>
-                  <li>Maximize unique letters in each word.</li>
-                  <li>Use vowels strategically.</li>
-                </ul>
-              </section>
-            </aside>
+          <div className="mx-auto mt-6 grid max-w-4xl gap-6 md:grid-cols-2">
+            <section className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-lg shadow-[#315C4C]/10">
+              <div className="flex items-center gap-3">
+                <span className="grid h-10 w-10 place-items-center rounded-lg bg-[#EAF3FF] text-[#2F80D8]">
+                  <ClipboardList className="h-5 w-5" />
+                </span>
+                <h2 className="text-xl font-black text-[#142436]">Letter Boxed Rules</h2>
+              </div>
+              <ul className="mt-5 grid gap-3 text-sm leading-6 text-[#344153]">
+                <li>Use all 12 letters at least once.</li>
+                <li>Words must be at least 3 letters long.</li>
+                <li>Cannot use consecutive letters from the same side.</li>
+                <li>Next word starts with the last letter of the previous word.</li>
+                <li>Complete in as few words as possible.</li>
+              </ul>
+            </section>
+            <section className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-lg shadow-[#315C4C]/10">
+              <div className="flex items-center gap-3">
+                <span className="grid h-10 w-10 place-items-center rounded-lg bg-[#FFF4D8] text-[#D99A00]">
+                  <Star className="h-5 w-5" />
+                </span>
+                <h2 className="text-xl font-black text-[#142436]">Strategy Tips</h2>
+              </div>
+              <ul className="mt-5 grid gap-3 text-sm leading-6 text-[#344153]">
+                <li>Look for long words using many letters.</li>
+                <li>Find words that end with uncommon letters.</li>
+                <li>Build efficient word chains.</li>
+                <li>Maximize unique letters in each word.</li>
+                <li>Use vowels strategically.</li>
+              </ul>
+            </section>
           </div>
         </div>
       </section>

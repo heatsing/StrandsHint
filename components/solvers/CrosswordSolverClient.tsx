@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { RefreshCw, Search, SlidersHorizontal } from "lucide-react";
-import { wordBank } from "@/data/word-bank";
+import { crosswordWordBank } from "@/data/tool-word-banks";
 import { CopyButton } from "./CopyButton";
 
 function normalizePattern(value: string) {
@@ -47,7 +47,7 @@ export function CrosswordSolverClient() {
     const start = normalizeLetters(startsWith);
     const end = normalizeLetters(endsWith);
     const required = normalizeLetters(contains);
-    return Array.from(new Set(wordBank.map((word) => normalizeLetters(word)).filter(Boolean)))
+    return Array.from(new Set(crosswordWordBank.map((word) => normalizeLetters(word)).filter(Boolean)))
       .filter((word) => word.length >= 3)
       .filter((word) => matchesPattern(word, cleanPattern))
       .filter((word) => !start || word.startsWith(start))

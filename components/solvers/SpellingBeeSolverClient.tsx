@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { Pencil, RefreshCw, Search } from "lucide-react";
-import { wordBank } from "@/data/word-bank";
+import { spellingBeeWordBank } from "@/data/tool-word-banks";
 import { solveSpellingBee } from "@/lib/word-game-solvers";
 import { CopyButton } from "./CopyButton";
 
@@ -10,7 +10,7 @@ export function SpellingBeeSolverClient() {
   const [center, setCenter] = useState("");
   const [outer, setOuter] = useState("");
   const [searched, setSearched] = useState(false);
-  const results = useMemo(() => (searched ? solveSpellingBee(wordBank, { center, outer }) : []), [center, outer, searched]);
+  const results = useMemo(() => (searched ? solveSpellingBee(spellingBeeWordBank, { center, outer }) : []), [center, outer, searched]);
   const ready = center.replace(/[^A-Za-z]/g, "").length === 1 && outer.replace(/[^A-Za-z]/g, "").length === 6;
   const outerLetters = outer.padEnd(6, " ").slice(0, 6).split("");
 

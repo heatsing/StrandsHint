@@ -102,6 +102,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <BrandLogo />
             </Link>
             <nav className="flex flex-wrap gap-2 text-sm lg:items-center">
+              <Link
+                href="/todays-strands-answer"
+                className="inline-flex items-center gap-1 rounded-full px-3 py-2 font-black text-[#24333A] hover:bg-[#EDE6DC] hover:text-[#008F83]"
+              >
+                Today&apos;s Answers
+              </Link>
+
               <div className="group relative">
                 <button type="button" className="inline-flex cursor-default items-center gap-1 rounded-full px-3 py-2 font-black text-[#24333A] hover:bg-[#EDE6DC] hover:text-[#008F83] focus-visible:bg-[#EDE6DC] focus-visible:text-[#008F83] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#008F83]/20">
                   Daily Game Hints
@@ -119,13 +126,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   ))}
                 </div>
               </div>
-
-              <Link
-                href="/todays-strands-answer"
-                className="inline-flex items-center gap-1 rounded-full px-3 py-2 font-black text-[#24333A] hover:bg-[#EDE6DC] hover:text-[#008F83]"
-              >
-                Today&apos;s Answers
-              </Link>
 
               <div className="group relative">
                 <button type="button" className="inline-flex cursor-default items-center gap-1 rounded-full px-3 py-2 font-black text-[#24333A] hover:bg-[#EDE6DC] hover:text-[#008F83] focus-visible:bg-[#EDE6DC] focus-visible:text-[#008F83] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#008F83]/20">

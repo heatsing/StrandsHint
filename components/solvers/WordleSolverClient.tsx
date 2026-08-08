@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { CheckCircle2, RefreshCw, Search, XCircle } from "lucide-react";
-import { wordBank } from "@/data/word-bank";
+import { getWordleWordBank } from "@/data/tool-word-banks";
 import { explainWordleLogic, solveWordle } from "@/lib/word-game-solvers";
 import { CopyButton } from "./CopyButton";
 
@@ -45,7 +45,7 @@ export function WordleSolverClient({ initialLength = 5, fixedLength = false, acc
   const includes = yellowCells.filter(Boolean).join("");
   const validLength = numericLength >= 3 && numericLength <= 12;
   const results = useMemo(
-    () => (searched ? solveWordle(wordBank, { length: numericLength, pattern, includes, misplaced, excluded }) : []),
+    () => (searched ? solveWordle(getWordleWordBank(numericLength), { length: numericLength, pattern, includes, misplaced, excluded }) : []),
     [searched, numericLength, pattern, includes, misplaced, excluded],
   );
 

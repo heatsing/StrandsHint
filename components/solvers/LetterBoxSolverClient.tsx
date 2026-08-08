@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { CalendarDays, RefreshCw, Search } from "lucide-react";
-import { wordBank } from "@/data/word-bank";
+import { letterBoxWordBank } from "@/data/tool-word-banks";
 import { solveLetterBoxed } from "@/lib/word-game-solvers";
 
 const exampleSides = ["CAR", "DLE", "PON", "TIS"];
@@ -22,7 +22,7 @@ export function LetterBoxSolverClient() {
   const sides = [0, 1, 2, 3].map((side) => sideFromCells(cells, side));
   const ready = sides.every((side) => side.length === 3) && new Set(cells.filter(Boolean)).size === 12;
   const results = useMemo(
-    () => (searched && ready ? solveLetterBoxed(wordBank, { sides, targetMoves }) : []),
+    () => (searched && ready ? solveLetterBoxed(letterBoxWordBank, { sides, targetMoves }) : []),
     [ready, searched, sides, targetMoves],
   );
 

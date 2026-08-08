@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { RefreshCw, Search, SlidersHorizontal } from "lucide-react";
-import { wordBank } from "@/data/word-bank";
+import { wordFinderWordBanks } from "@/data/tool-word-banks";
 import { solveAnagrams } from "@/lib/word-game-solvers";
 import { CopyButton } from "./CopyButton";
 
@@ -94,7 +94,7 @@ export function WordFinderToolClient({ variant }: { variant: Variant }) {
 
   const results = useMemo(() => {
     if (!searched) return [];
-    const found = solveAnagrams(wordBank, {
+    const found = solveAnagrams(wordFinderWordBanks[variant], {
       letters,
       minLength: Number(minLength) || 2,
       maxLength: Number(maxLength) || 15,

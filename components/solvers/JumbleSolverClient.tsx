@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { RefreshCw, Search } from "lucide-react";
-import { wordBank } from "@/data/word-bank";
+import { jumbleWordBank } from "@/data/tool-word-banks";
 import { solveAnagrams } from "@/lib/word-game-solvers";
 import { CopyButton } from "./CopyButton";
 
@@ -26,7 +26,7 @@ export function JumbleSolverClient() {
     return words.map((letters) => {
       const clean = normalizeLetters(letters);
       const results = clean
-        ? solveAnagrams(wordBank, { letters: clean, minLength: Math.max(2, clean.length - 1), maxLength: clean.length }).slice(0, 12)
+        ? solveAnagrams(jumbleWordBank, { letters: clean, minLength: Math.max(2, clean.length - 1), maxLength: clean.length }).slice(0, 12)
         : [];
       return { letters: clean, results };
     });
@@ -36,7 +36,7 @@ export function JumbleSolverClient() {
     if (!searched) return [];
     const combined = normalizeLetters(words.join(""));
     if (combined.length < 3) return [];
-    return solveAnagrams(wordBank, {
+    return solveAnagrams(jumbleWordBank, {
       letters: combined,
       minLength: 3,
       maxLength: Math.min(12, combined.length),

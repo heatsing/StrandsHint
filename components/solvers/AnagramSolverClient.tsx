@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { wordBank } from "@/data/word-bank";
+import { wordFinderWordBanks } from "@/data/tool-word-banks";
 import { solveAnagrams } from "@/lib/word-game-solvers";
 import { CopyButton } from "./CopyButton";
 
@@ -14,7 +14,7 @@ export function AnagramSolverClient() {
   const [endsWith, setEndsWith] = useState("");
   const [searched, setSearched] = useState(false);
   const results = useMemo(
-    () => searched ? solveAnagrams(wordBank, { letters, minLength: Number(minLength), maxLength: Number(maxLength), required, startsWith, endsWith }) : [],
+    () => searched ? solveAnagrams(wordFinderWordBanks.anagram, { letters, minLength: Number(minLength), maxLength: Number(maxLength), required, startsWith, endsWith }) : [],
     [letters, minLength, maxLength, required, startsWith, endsWith, searched],
   );
 
