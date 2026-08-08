@@ -4,7 +4,7 @@ export type SolverConfig = {
   shortDescription: string;
   category: "Wordle Solvers" | "Puzzle Solvers" | "Word Finders";
   icon: "grid" | "bee" | "shuffle" | "search" | "book" | "sparkles";
-  inputType: "wordle" | "spelling-bee" | "anagram" | "letter-box" | "directory";
+  inputType: "wordle" | "spelling-bee" | "anagram" | "letter-box" | "crossword" | "directory";
   relatedSolvers: string[];
   seo: {
     title: string;
@@ -156,16 +156,16 @@ export const solverRegistry: SolverConfig[] = [
   {
     slug: "crossword-solver",
     name: "Crossword Solver",
-    shortDescription: "A planned pattern solver for crossword-style clues.",
+    shortDescription: "Solve crossword clues with optional known-letter patterns and smart local filtering.",
     category: "Puzzle Solvers",
     icon: "grid",
-    inputType: "directory",
+    inputType: "crossword",
     relatedSolvers: ["wordle-solver", "anagram-solver", "word-unscrambler"],
     seo: {
-      title: "Crossword Solver - Pattern Word Helper",
-      description: "A planned crossword helper for clue patterns and known letters.",
+      title: "Crossword Solver - Find Answers by Clue and Pattern",
+      description: "Use a crossword solver to search word candidates by clue text, known letters, wildcard patterns, and simple filters.",
     },
-    implemented: false,
+    implemented: true,
   },
   {
     slug: "jumble-solver",

@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { JsonLd } from "@/components/JsonLd";
 import { AnagramSolverClient } from "@/components/solvers/AnagramSolverClient";
+import { CrosswordSolverClient } from "@/components/solvers/CrosswordSolverClient";
 import { LetterBoxSolverClient } from "@/components/solvers/LetterBoxSolverClient";
 import { QuordleSolverClient } from "@/components/solvers/QuordleSolverClient";
 import { SpellingBeeSolverClient } from "@/components/solvers/SpellingBeeSolverClient";
@@ -28,7 +29,7 @@ import { absoluteUrl, breadcrumbSchema, disclaimer } from "@/lib/seo";
 type Props = { params: { slug: string } };
 
 export function generateStaticParams() {
-  return solverRegistry.filter((solver) => solver.implemented && ["wordle", "spelling-bee", "anagram", "letter-box"].some((kind) => solver.inputType === kind)).map((solver) => ({ slug: solver.slug }));
+  return solverRegistry.filter((solver) => solver.implemented && ["wordle", "spelling-bee", "anagram", "letter-box", "crossword"].some((kind) => solver.inputType === kind)).map((solver) => ({ slug: solver.slug }));
 }
 
 export function generateMetadata({ params }: Props): Metadata {
@@ -49,6 +50,7 @@ function SolverWorkspace({ inputType }: { inputType: string }) {
   if (inputType === "spelling-bee") return <SpellingBeeSolverClient />;
   if (inputType === "anagram") return <AnagramSolverClient />;
   if (inputType === "letter-box") return <LetterBoxSolverClient />;
+  if (inputType === "crossword") return <CrosswordSolverClient />;
   return null;
 }
 
@@ -494,7 +496,7 @@ function LetterBoxSolverPage() {
   const relatedTools = [
     { href: "/solvers/anagram-solver", label: "Anagram Solver", points: ["Find all possible anagrams", "From letters you provide", "Expand your vocabulary"], Icon: ListChecks, accent: "#008F83" },
     { href: "/solvers/word-unscrambler", label: "Word Unscrambler", points: ["Unscramble jumbled letters", "Find all valid words", "Perfect for any word game"], Icon: Shuffle, accent: "#8A57D6" },
-    { href: "/all-solvers", label: "Crossword Helper", points: ["Get crossword answers", "Clue-based suggestions", "Solve puzzles with ease"], Icon: ClipboardList, accent: "#2F80D8" },
+    { href: "/solvers/crossword-solver", label: "Crossword Helper", points: ["Get crossword answers", "Clue-based suggestions", "Solve puzzles with ease"], Icon: ClipboardList, accent: "#2F80D8" },
     { href: "/all-solvers", label: "Pattern Solver", points: ["Find words by pattern", "Use wildcards like _ or ?", "Custom length options"], Icon: Star, accent: "#E86F3D" },
   ];
   const faqSchema = {
@@ -676,7 +678,7 @@ const wordFinderPageConfig = {
       { href: "/solvers/word-unscrambler", label: "Word Unscrambler", text: "Unscramble letters instantly and find all possible words.", Icon: Shuffle, accent: "#D99A00", cta: "Use Unscrambler" },
       { href: "/solvers/scrabble-word-finder", label: "Scrabble Word Finder", text: "Find valid Scrabble words and maximize your score.", Icon: ListChecks, accent: "#3FA34D", cta: "Find Scrabble Words" },
       { href: "/all-solvers", label: "Pattern Solver", text: "Find words that match specific patterns and blanks.", Icon: ClipboardList, accent: "#E0544F", cta: "Use Pattern Solver" },
-      { href: "/all-solvers", label: "Crossword Helper", text: "Solve crossword clues faster and discover new words.", Icon: Search, accent: "#2F80D8", cta: "Open Crossword Helper" },
+      { href: "/solvers/crossword-solver", label: "Crossword Helper", text: "Solve crossword clues faster and discover new words.", Icon: Search, accent: "#2F80D8", cta: "Open Crossword Helper" },
     ],
     faq: [
       ["How does the Anagram Solver work?", "It compares your letters against a local word list and returns words that can be formed from those letters."],
@@ -718,7 +720,7 @@ const wordFinderPageConfig = {
       { href: "/solvers/anagram-solver", label: "Anagram Solver", text: "Find words from messy letters with dictionary-based search.", Icon: RefreshCw, accent: "#008F83", cta: "Use Anagram Solver" },
       { href: "/solvers/scrabble-word-finder", label: "Scrabble Word Finder", text: "Find valid Scrabble words and improve your score.", Icon: ListChecks, accent: "#8A57D6", cta: "Find Words" },
       { href: "/all-solvers", label: "Pattern Solver", text: "Use patterns and wildcards to find words that match.", Icon: ClipboardList, accent: "#E0544F", cta: "Use Pattern Solver" },
-      { href: "/all-solvers", label: "Crossword Helper", text: "Search by clue or pattern with a practical word helper.", Icon: Search, accent: "#2F80D8", cta: "Open Crossword Helper" },
+      { href: "/solvers/crossword-solver", label: "Crossword Helper", text: "Search by clue or pattern with a practical word helper.", Icon: Search, accent: "#2F80D8", cta: "Open Crossword Helper" },
     ],
     faq: [
       ["Is the Word Unscrambler really free?", "Yes. You can use it without signing in."],
@@ -761,7 +763,7 @@ const wordFinderPageConfig = {
     related: [
       { href: "/solvers/anagram-solver", label: "Anagram Solver", text: "Find words from messy letters and any dictionary-based set.", Icon: Search, accent: "#008F83", cta: "Use Anagram Solver" },
       { href: "/solvers/word-unscrambler", label: "Word Unscrambler", text: "Unscramble letters instantly and filter by length.", Icon: Shuffle, accent: "#D99A00", cta: "Use Unscrambler" },
-      { href: "/all-solvers", label: "Crossword Helper", text: "Solve crossword clues faster with pattern search.", Icon: ClipboardList, accent: "#2F80D8", cta: "Open Crossword Helper" },
+      { href: "/solvers/crossword-solver", label: "Crossword Helper", text: "Solve crossword clues faster with pattern search.", Icon: ClipboardList, accent: "#2F80D8", cta: "Open Crossword Helper" },
       { href: "/all-solvers", label: "Pattern Solver", text: "Use known letters and blanks to find matching words.", Icon: Star, accent: "#E0544F", cta: "Use Pattern Solver" },
     ],
     faq: [
@@ -950,7 +952,7 @@ function QuordleSolverPage() {
     { href: "/solvers/anagram-solver", label: "Anagram Solver", points: ["Find words from letters", "Perfect for anagram games", "Fast and easy results"], Icon: Shuffle, accent: "#8A57D6", cta: "Try Anagram Solver" },
     { href: "/solvers/word-unscrambler", label: "Word Unscrambler", points: ["Unscramble any letters", "Discover all possible words", "Great for word games"], Icon: RefreshCw, accent: "#2F80D8", cta: "Try Unscrambler" },
     { href: "/all-solvers", label: "Pattern Solver", points: ["Find words by pattern", "Use ? for unknown letters", "Supports custom lengths"], Icon: ListChecks, accent: "#12A37F", cta: "Try Pattern Solver" },
-    { href: "/all-solvers", label: "Crossword Helper", points: ["Solve crossword clues", "Get suggestions fast", "Boost your puzzle skills"], Icon: ClipboardList, accent: "#F06423", cta: "Try Crossword Helper" },
+    { href: "/solvers/crossword-solver", label: "Crossword Helper", points: ["Solve crossword clues", "Get suggestions fast", "Boost your puzzle skills"], Icon: ClipboardList, accent: "#F06423", cta: "Try Crossword Helper" },
   ];
   const faqSchema = {
     "@context": "https://schema.org",
@@ -1091,10 +1093,196 @@ function QuordleSolverPage() {
   );
 }
 
+const crosswordFaq = [
+  {
+    question: "How does the Crossword Solver work?",
+    answer: "It filters a local word list by known-letter pattern, clue text, starts-with, ends-with, and contains filters.",
+  },
+  {
+    question: "Can I use letter patterns with unknown letters?",
+    answer: "Yes. Use ? for unknown letters, such as P?ZZ?E.",
+  },
+  {
+    question: "How accurate are the answers provided?",
+    answer: "Results are candidate words from the local dictionary. Use the clue and crossing letters to choose the best fit.",
+  },
+  {
+    question: "Is the Crossword Solver free to use?",
+    answer: "Yes. It runs in your browser and does not require an account.",
+  },
+  {
+    question: "Can I filter answers by length or start letter?",
+    answer: "Yes. A pattern controls exact length, and advanced filters can narrow by start, end, or contained letters.",
+  },
+];
+
+function CrosswordInfoCard({
+  Icon,
+  title,
+  children,
+  accent,
+}: {
+  Icon: typeof Search;
+  title: string;
+  children: React.ReactNode;
+  accent: string;
+}) {
+  return (
+    <section className="rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 text-center shadow-md shadow-[#315C4C]/5">
+      <span className="mx-auto grid h-16 w-16 place-items-center rounded-xl" style={{ color: accent }}>
+        <Icon className="h-12 w-12" />
+      </span>
+      <h2 className="mt-5 text-lg font-black text-[#142436]">{title}</h2>
+      <div className="mt-3 text-sm leading-7 text-[#4A5968]">{children}</div>
+    </section>
+  );
+}
+
+function CrosswordSolverPage() {
+  const path = "/solvers/crossword-solver";
+  const relatedTools = [
+    { href: "/solvers/anagram-solver", label: "Anagram Solver", text: "Find words from letters and solve anagrams.", Icon: RefreshCw, accent: "#008F83", cta: "Open" },
+    { href: "/solvers/word-unscrambler", label: "Word Unscrambler", text: "Unscramble letters to discover words.", Icon: Shuffle, accent: "#D99A00", cta: "Open" },
+    { href: "/all-solvers", label: "Pattern Solver", text: "Find words that match your letter pattern.", Icon: ListChecks, accent: "#E0544F", cta: "Open" },
+    { href: "/solvers/scrabble-word-finder", label: "Scrabble Word Finder", text: "Find high-scoring words for your next move.", Icon: ClipboardList, accent: "#2F80D8", cta: "Open" },
+  ];
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: crosswordFaq.map((item) => ({ "@type": "Question", name: item.question, acceptedAnswer: { "@type": "Answer", text: item.answer } })),
+  };
+
+  return (
+    <article className="-mt-10">
+      <JsonLd data={breadcrumbSchema([{ name: "Home", url: "/" }, { name: "All Solvers", url: "/all-solvers" }, { name: "Crossword Solver", url: path }])} />
+      <JsonLd data={faqSchema} />
+      <JsonLd data={{ "@context": "https://schema.org", "@type": "WebApplication", name: "Crossword Solver", url: absoluteUrl(path), applicationCategory: "GameApplication", isAccessibleForFree: true }} />
+
+      <section className="relative mx-[calc(50%-50vw)] overflow-hidden bg-[radial-gradient(circle_at_50%_0%,#F1FBFA_0%,#F8F5EF_58%,#F8F5EF_100%)] px-4 py-14">
+        <div className="pointer-events-none absolute -left-8 top-20 hidden h-40 w-40 opacity-35 md:block [background-image:radial-gradient(#00A39A_1.4px,transparent_1.4px)] [background-size:14px_14px]" />
+        <div className="pointer-events-none absolute -right-20 top-24 hidden h-64 w-64 rounded-full bg-[#DDF4F1] md:block" />
+        <div className="pointer-events-none absolute right-8 top-14 hidden h-32 w-32 opacity-25 md:block [background-image:radial-gradient(#00A39A_1.4px,transparent_1.4px)] [background-size:14px_14px]" />
+        <div className="mx-auto max-w-6xl">
+          <header className="text-center">
+            <p className="mx-auto inline-flex items-center gap-2 rounded-full border border-[#008F83]/40 bg-[#F1FBFA] px-5 py-2 text-sm font-black text-[#008F83]">
+              Word Solver Tool
+            </p>
+            <h1 className="mt-5 text-5xl font-black leading-tight text-[#142436] sm:text-6xl">
+              Crossword <span className="text-[#008F83]">Solver</span>
+            </h1>
+            <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-[#4A5968]">
+              Solve crossword clues instantly with our comprehensive word database and intelligent matching system.
+            </p>
+          </header>
+
+          <section className="mx-auto mt-10 max-w-5xl" aria-label="Crossword Solver workspace">
+            <Suspense fallback={<div className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-sm">Loading Crossword Solver...</div>}>
+              <CrosswordSolverClient />
+            </Suspense>
+          </section>
+
+          <section className="mx-auto mt-6 grid max-w-5xl gap-5 md:grid-cols-2">
+            <div className="rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-md shadow-[#315C4C]/5">
+              <div className="flex items-start gap-5">
+                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-[#D4CABD] text-[#142436]">
+                  <Search className="h-5 w-5" />
+                </span>
+                <div>
+                  <h2 className="text-xl font-black text-[#142436]">How It Works</h2>
+                  <ol className="mt-4 grid gap-2 text-sm leading-6 text-[#4A5968]">
+                    <li><strong className="mr-2 rounded-full bg-[#008F83] px-2 py-0.5 text-white">1</strong>Enter the crossword clue</li>
+                    <li><strong className="mr-2 rounded-full bg-[#008F83] px-2 py-0.5 text-white">2</strong>Add letter pattern if known</li>
+                    <li><strong className="mr-2 rounded-full bg-[#008F83] px-2 py-0.5 text-white">3</strong>Set additional filters</li>
+                    <li><strong className="mr-2 rounded-full bg-[#008F83] px-2 py-0.5 text-white">4</strong>Get ranked solutions</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+            <div className="rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-md shadow-[#315C4C]/5">
+              <div className="flex items-start gap-5">
+                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg text-[#142436]">
+                  <ListChecks className="h-6 w-6" />
+                </span>
+                <div>
+                  <h2 className="text-xl font-black text-[#142436]">Pattern Examples</h2>
+                  <div className="mt-4 grid gap-3 text-sm leading-6 text-[#4A5968]">
+                    <p><code className="rounded-lg bg-[#DFF6F0] px-3 py-1 font-mono font-black text-[#008F83]">P?ZZ?E</code> - 6 letters, starts with P</p>
+                    <p><code className="rounded-lg bg-[#DFF6F0] px-3 py-1 font-mono font-black text-[#008F83]">?A?P</code> - 4 letters, A in middle</p>
+                    <p><code className="rounded-lg bg-[#DFF6F0] px-3 py-1 font-mono font-black text-[#008F83]">C?T</code> - 3 letters, starts C, ends T</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section className="mx-auto mt-8 grid max-w-6xl gap-5 sm:grid-cols-2 lg:grid-cols-5">
+        <CrosswordInfoCard Icon={ClipboardList} title="What is Crossword Solver?" accent="#008F83">
+          <p>Find answers to any crossword clue using our local word list and smart matching technology.</p>
+        </CrosswordInfoCard>
+        <CrosswordInfoCard Icon={Trophy} title="How to Use It?" accent="#8A57D6">
+          <p>Enter your clue, add known letters, and let the solver find matching answers instantly.</p>
+        </CrosswordInfoCard>
+        <CrosswordInfoCard Icon={ListChecks} title="Advanced Matching" accent="#D99A00">
+          <p>Our filtering considers pattern, length, starts-with, ends-with, and required letters.</p>
+        </CrosswordInfoCard>
+        <CrosswordInfoCard Icon={Star} title="Why Use Our Solver?" accent="#3FA34D">
+          <p>Fast, reliable, and regularly improved with practical word-game data.</p>
+        </CrosswordInfoCard>
+        <CrosswordInfoCard Icon={Users} title="Who Can Use This Tool?" accent="#2F80D8">
+          <p>Perfect for crossword enthusiasts, students, and anyone who loves word puzzles.</p>
+        </CrosswordInfoCard>
+      </section>
+
+      <section className="mx-auto mt-10 max-w-6xl">
+        <h2 className="text-center text-3xl font-black text-[#142436]">
+          Explore More <span className="text-[#008F83]">Word Solvers</span>
+        </h2>
+        <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {relatedTools.map(({ href, label, text, Icon, accent, cta }) => (
+            <Link key={label} href={href} className="group rounded-xl border p-6 shadow-md shadow-[#315C4C]/5 hover:-translate-y-1 hover:shadow-lg" style={{ borderColor: `${accent}66`, backgroundColor: `${accent}0D` }}>
+              <div className="flex items-center gap-4">
+                <span className="grid h-14 w-14 place-items-center rounded-xl" style={{ backgroundColor: `${accent}18`, color: accent }}>
+                  <Icon className="h-7 w-7" />
+                </span>
+                <h3 className="text-lg font-black text-[#142436]">{label}</h3>
+              </div>
+              <p className="mt-4 min-h-12 text-sm leading-6 text-[#344153]">{text}</p>
+              <span className="mt-4 inline-flex h-10 w-10 items-center justify-center rounded-lg border bg-white" style={{ borderColor: accent, color: accent }} aria-label={cta}>
+                <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+              </span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="mx-auto mt-10 max-w-5xl">
+        <h2 className="text-center text-3xl font-black text-[#142436]">
+          FAQs About <span className="text-[#008F83]">Crossword Solver</span>
+        </h2>
+        <div className="mt-5 divide-y divide-[#E5DED3] overflow-hidden rounded-xl border border-[#E5DED3] bg-[#FFFDF9] shadow-sm">
+          {crosswordFaq.map((item) => (
+            <details key={item.question} className="group p-4">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-black text-[#142436]">
+                {item.question}
+                <ArrowRight className="h-4 w-4 text-[#008F83] transition group-open:rotate-90" />
+              </summary>
+              <p className="mt-3 text-sm leading-6 text-[#68645E]">{item.answer}</p>
+            </details>
+          ))}
+        </div>
+        <p className="mt-6 text-center text-sm leading-6 text-[#68645E]">{disclaimer}</p>
+      </section>
+    </article>
+  );
+}
+
 export default function SolverPage({ params }: Props) {
   const solver = getSolver(params.slug);
   if (!solver || !solver.implemented || solver.inputType === "directory") notFound();
   if (solver.slug === "quordle-solver") return <QuordleSolverPage />;
+  if (solver.slug === "crossword-solver") return <CrosswordSolverPage />;
   if (solver.inputType === "wordle" && solver.wordLength) return <WordleLengthSolverPage solver={solver} />;
   if (solver.slug === "letter-box-solver") return <LetterBoxSolverPage />;
   if (solver.slug === "spelling-bee-solver") return <SpellingBeeSolverPage />;
