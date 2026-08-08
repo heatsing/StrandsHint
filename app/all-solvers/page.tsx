@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Grid3X3, Search, Shuffle, Sparkles } from "lucide-react";
 import { JsonLd } from "@/components/JsonLd";
-import { solverRegistry } from "@/data/solver-registry";
+import { getSolverPath, solverRegistry } from "@/data/solver-registry";
 import { absoluteUrl, breadcrumbSchema } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -22,11 +22,8 @@ const iconMap = { grid: Grid3X3, bee: Sparkles, shuffle: Shuffle, search: Search
 
 export default function AllSolversPage() {
   const categories = Array.from(new Set(solverRegistry.map((solver) => solver.category)));
-  const hrefForSolver = (solver: { slug: string; implemented: boolean; inputType: string }) => {
-    if (!solver.implemented) return "/all-solvers";
-    if (solver.inputType === "directory" && solver.slug === "strands-solver") return "/strands-solver";
-    if (solver.inputType === "directory") return "/all-solvers";
-    return `/solvers/${solver.slug}`;
+  const hrefForSolver = (solver: Parameters<typeof getSolverPath>[0]) => {
+    return getSolverPath(solver);
   };
 
   return (

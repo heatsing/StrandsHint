@@ -1,3 +1,13 @@
 # Legacy paths to new routes (trailing slash matches Next `trailingSlash: true`)
 /strands-hint/* /:splat/ 302
 /strands-hint / 302
+/solvers/3-letter-wordle-solver/ /3-letter-wordle-solver/ 301
+/solvers/4-letter-wordle-solver/ /4-letter-wordle-solver/ 301
+/solvers/5-letter-wordle-solver/ /5-letter-wordle-solver/ 301
+/solvers/6-letter-wordle-solver/ /6-letter-wordle-solver/ 301
+/solvers/7-letter-wordle-solver/ /7-letter-wordle-solver/ 301
+/solvers/8-letter-wordle-solver/ /8-letter-wordle-solver/ 301
+/solvers/9-letter-wordle-solver/ /9-letter-wordle-solver/ 301
+/solvers/10-letter-wordle-solver/ /10-letter-wordle-solver/ 301
+/solvers/11-letter-wordle-solver/ /11-letter-wordle-solver/ 301
+/solvers/12-letter-wordle-solver/ /12-letter-wordle-solver/ 301

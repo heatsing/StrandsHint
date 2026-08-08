@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { solverRegistry } from "@/data/solver-registry";
+import { getSolverPath, solverRegistry } from "@/data/solver-registry";
 import { dailySeoPages } from "@/lib/daily-seo";
 import { dailyHintGames, getDailyHintSlugs } from "@/lib/daily-hints";
 import { getPublishedPuzzles } from "@/lib/puzzle-data";
@@ -37,7 +37,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...solverRegistry
       .filter((solver) => solver.implemented && solver.inputType !== "directory")
       .map((solver) => ({
-        url: `${siteUrl}/solvers/${solver.slug}`,
+        url: `${siteUrl}${getSolverPath(solver)}`,
         lastModified: new Date(),
         changeFrequency: "weekly" as const,
         priority: 0.85,

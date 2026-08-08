@@ -56,7 +56,7 @@ const hintMenu = [
 const wordleLengthMenu = Array.from({ length: 10 }, (_, index) => {
   const length = index + 3;
   return {
-    href: `/solvers/${length}-letter-wordle-solver`,
+    href: `/${length}-letter-wordle-solver`,
     label: `${length} Letter Wordle Solver`,
   };
 });

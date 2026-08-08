@@ -218,3 +218,11 @@ export function getSolver(slug: string) {
 export function getImplementedSolvers() {
   return solverRegistry.filter((solver) => solver.implemented);
 }
+
+export function getSolverPath(solver: Pick<SolverConfig, "slug" | "inputType" | "implemented" | "wordLength">) {
+  if (!solver.implemented) return "/all-solvers";
+  if (solver.wordLength) return `/${solver.slug}`;
+  if (solver.inputType === "directory" && solver.slug === "strands-solver") return "/strands-solver";
+  if (solver.inputType === "directory") return "/all-solvers";
+  return `/solvers/${solver.slug}`;
+}

@@ -182,11 +182,11 @@ async function exerciseNavHover(page) {
   }
 
   await page.getByRole("button", { name: "Word Solvers" }).hover();
-  if (!(await page.locator('nav a[href*="/solvers/3-letter-wordle-solver"]').first().isVisible())) {
+  if (!(await page.locator('nav a[href="/3-letter-wordle-solver/"]').first().isVisible())) {
     record("Word Solvers menu did not open on hover");
   }
   await page.mouse.move(20, 500);
-  if (await page.locator('nav a[href*="/solvers/3-letter-wordle-solver"]').first().isVisible()) {
+  if (await page.locator('nav a[href="/3-letter-wordle-solver/"]').first().isVisible()) {
     record("Word Solvers menu did not close after hover out");
   }
 
@@ -211,8 +211,8 @@ try {
     "/all-solvers/",
     "/daily-hints/",
     "/solvers/wordle-solver/",
-    "/solvers/4-letter-wordle-solver/",
-    "/solvers/12-letter-wordle-solver/",
+    "/4-letter-wordle-solver/",
+    "/12-letter-wordle-solver/",
     "/solvers/spelling-bee-solver/",
     "/solvers/letter-box-solver/",
     "/solvers/anagram-solver/",

@@ -25,7 +25,7 @@ import { ScrabbleSolverClient } from "@/components/solvers/ScrabbleSolverClient"
 import { SpellingBeeSolverClient } from "@/components/solvers/SpellingBeeSolverClient";
 import { WordFinderToolClient } from "@/components/solvers/WordFinderToolClient";
 import { WordleSolverClient } from "@/components/solvers/WordleSolverClient";
-import { getSolver, solverRegistry } from "@/data/solver-registry";
+import { getSolver, getSolverPath, solverRegistry } from "@/data/solver-registry";
 import { absoluteUrl, breadcrumbSchema, disclaimer } from "@/lib/seo";
 
 type Props = { params: { slug: string } };
@@ -37,7 +37,7 @@ export function generateStaticParams() {
 export function generateMetadata({ params }: Props): Metadata {
   const solver = getSolver(params.slug);
   if (!solver || !solver.implemented) return {};
-  const path = `/solvers/${solver.slug}`;
+  const path = getSolverPath(solver);
   const title =
     solver.slug === "scrabble-word-finder" ||
     solver.slug === "scrabble-solver" ||
@@ -379,7 +379,7 @@ function WordleSolverPage({ solver }: { solver: NonNullable<ReturnType<typeof ge
   const relatedTools = [
     { href: "/solvers/anagram-solver", label: "Anagram Solver", points: ["Find words from jumbled letters", "Supports multiple lengths", "Great for word games"], Icon: Shuffle, accent: "#008F83", cta: "Try Anagram Solver" },
     { href: "/solvers/word-unscrambler", label: "Word Unscrambler", points: ["Unscramble letters instantly", "Find all possible words", "Sort by length or alphabet"], Icon: FileText, accent: "#D99A00", cta: "Try Unscrambler" },
-    { href: "/solvers/5-letter-wordle-solver", label: "5-Letter Word Finder", points: ["Find all 5-letter words", "Filter by included letters", "Perfect for Wordle hints"], Icon: ListChecks, accent: "#3FA34D", cta: "Try 5-Letter Finder" },
+    { href: "/5-letter-wordle-solver", label: "5-Letter Word Finder", points: ["Find all 5-letter words", "Filter by included letters", "Perfect for Wordle hints"], Icon: ListChecks, accent: "#3FA34D", cta: "Try 5-Letter Finder" },
     { href: "/all-solvers", label: "Pattern Solver", points: ["Use patterns like _A_E_", "Wildcard and position based", "Find words that match"], Icon: ClipboardList, accent: "#8A57D6", cta: "Try Pattern Solver" },
   ];
   const faqSchema = {
@@ -513,9 +513,9 @@ function WordleSolverPage({ solver }: { solver: NonNullable<ReturnType<typeof ge
 function WordleLengthSolverPage({ solver }: { solver: NonNullable<ReturnType<typeof getSolver>> }) {
   const wordLength = solver.wordLength || 5;
   const theme = wordleTheme();
-  const path = `/solvers/${solver.slug}`;
+  const path = getSolverPath(solver);
   const relatedTools = [
-    { href: "/solvers/5-letter-wordle-solver", label: "5-Letter Word Finder", points: ["Find all valid 5-letter words", "Great for Wordle and more", "Sort, filter, and explore"], Icon: ListChecks, accent: "#3FA34D" },
+    { href: "/5-letter-wordle-solver", label: "5-Letter Word Finder", points: ["Find all valid 5-letter words", "Great for Wordle and more", "Sort, filter, and explore"], Icon: ListChecks, accent: "#3FA34D" },
     { href: "/solvers/anagram-solver", label: "Anagram Solver", points: ["Find words from messy letters", "All lengths and dictionary-based", "Perfect for any word game"], Icon: Search, accent: "#008F83" },
     { href: "/solvers/word-unscrambler", label: "Word Unscrambler", points: ["Unscramble letters instantly", "Filter by length and patterns", "Boost your vocabulary"], Icon: Shuffle, accent: "#D99A00" },
     { href: "/all-solvers", label: "Pattern Solver", points: ["Use known letters and blanks", "Find words that match pattern", "Wildcard friendly"], Icon: ClipboardList, accent: "#E0544F" },
