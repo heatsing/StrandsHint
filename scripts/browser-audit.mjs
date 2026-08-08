@@ -145,6 +145,7 @@ try {
     "/solvers/spelling-bee-solver/",
     "/solvers/letter-box-solver/",
     "/solvers/anagram-solver/",
+    "/hints/connections/",
     "/hints/strands/2026-08-02/",
     "/today/",
   ];
