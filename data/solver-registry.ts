@@ -127,16 +127,16 @@ export const solverRegistry: SolverConfig[] = [
   {
     slug: "scrabble-word-finder",
     name: "Scrabble Word Finder",
-    shortDescription: "A planned word finder page for tile-based word games.",
+    shortDescription: "Find playable Scrabble-style words from rack letters with wildcard and length filters.",
     category: "Word Finders",
     icon: "book",
-    inputType: "directory",
+    inputType: "anagram",
     relatedSolvers: ["word-unscrambler", "anagram-solver", "words-with-friends-solver"],
     seo: {
-      title: "Scrabble Word Finder - Word Helper",
-      description: "A planned word finder page for tile-based puzzle and board word games.",
+      title: "Scrabble Word Finder - Find High-Scoring Words",
+      description: "Use a Scrabble word finder to make words from rack letters, blank tiles, and optional filters.",
     },
-    implemented: false,
+    implemented: true,
   },
   {
     slug: "crossword-solver",

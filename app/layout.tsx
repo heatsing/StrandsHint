@@ -64,7 +64,7 @@ const wordleLengthMenu = Array.from({ length: 10 }, (_, index) => {
 const puzzleSolverMenu = [
   { href: "/solvers/spelling-bee-solver", label: "Spelling Bee Solver" },
   { href: "/solvers/letter-box-solver", label: "Letter Boxed Solver" },
-  { href: "/all-solvers", label: "Scrabble Word Finder" },
+  { href: "/solvers/scrabble-word-finder", label: "Scrabble Word Finder" },
   { href: "/solvers/word-unscrambler", label: "Word Unscrambler" },
   { href: "/solvers/anagram-solver", label: "Anagram Solver" },
   { href: "/all-solvers", label: "Quordle Solver" },

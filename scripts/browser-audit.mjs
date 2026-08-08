@@ -123,10 +123,22 @@ async function exerciseTools(page) {
   if (!letterBoxCount) record("Letter Box Solver did not render solutions area");
 
   await page.goto(`${baseUrl}/solvers/anagram-solver/`, { waitUntil: "networkidle" });
-  await page.getByRole("button", { name: "Load example" }).click();
-  await page.getByRole("button", { name: "Unscramble letters" }).click();
+  await page.getByPlaceholder(/Enter word to find anagrams/i).fill("REACT");
+  await page.getByRole("button", { name: "Find Anagrams" }).click();
   const anagramCount = await page.locator("text=TRACE").count();
   if (!anagramCount) record("Anagram Solver example did not produce TRACE");
+
+  await page.goto(`${baseUrl}/solvers/word-unscrambler/`, { waitUntil: "networkidle" });
+  await page.getByPlaceholder(/Enter scrambled letters/i).fill("REACT");
+  await page.getByRole("button", { name: "Unscramble Words" }).click();
+  const unscramblerCount = await page.locator("text=TRACE").count();
+  if (!unscramblerCount) record("Word Unscrambler did not produce TRACE");
+
+  await page.goto(`${baseUrl}/solvers/scrabble-word-finder/`, { waitUntil: "networkidle" });
+  await page.getByPlaceholder(/Enter your letters/i).fill("QUIET?");
+  await page.getByRole("button", { name: "Find Words" }).click();
+  const scrabbleCount = await page.locator("text=QUIET").count();
+  if (!scrabbleCount) record("Scrabble Word Finder did not produce QUIET");
 }
 
 await new Promise((resolve) => server.listen(port, "127.0.0.1", resolve));
@@ -145,6 +157,8 @@ try {
     "/solvers/spelling-bee-solver/",
     "/solvers/letter-box-solver/",
     "/solvers/anagram-solver/",
+    "/solvers/word-unscrambler/",
+    "/solvers/scrabble-word-finder/",
     "/hints/connections/",
     "/hints/strands/2026-08-02/",
     "/today/",

@@ -10,6 +10,7 @@ import {
   RefreshCw,
   Search,
   Shuffle,
+  SlidersHorizontal,
   Star,
   Trophy,
   Users,
@@ -18,6 +19,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { AnagramSolverClient } from "@/components/solvers/AnagramSolverClient";
 import { LetterBoxSolverClient } from "@/components/solvers/LetterBoxSolverClient";
 import { SpellingBeeSolverClient } from "@/components/solvers/SpellingBeeSolverClient";
+import { WordFinderToolClient } from "@/components/solvers/WordFinderToolClient";
 import { WordleSolverClient } from "@/components/solvers/WordleSolverClient";
 import { getSolver, solverRegistry } from "@/data/solver-registry";
 import { absoluteUrl, breadcrumbSchema, disclaimer } from "@/lib/seo";
@@ -637,12 +639,274 @@ function LetterBoxSolverPage() {
   );
 }
 
+type WordFinderVariant = "anagram" | "unscrambler" | "scrabble";
+
+const wordFinderPageConfig = {
+  "anagram-solver": {
+    variant: "anagram",
+    badge: "Word Solver Tool",
+    titlePrefix: "Anagram",
+    titleHighlight: "Solver",
+    accent: "#E34B83",
+    gradient: "linear-gradient(90deg,#EA70B0,#F16678)",
+    intro: "Find all possible anagrams for any word or phrase with advanced filtering options.",
+    belowPanels: [
+      {
+        Icon: Search,
+        title: "What are Anagrams?",
+        body: "Anagrams are words formed by rearranging the letters of another word. Example: LISTEN becomes SILENT because both words use the same letters.",
+        accent: "#E34B83",
+      },
+      {
+        Icon: Star,
+        title: "Pro Tips",
+        body: "Look for common letter patterns, try different word lengths, use filters to narrow results, and consider proper nouns too.",
+        accent: "#E34B83",
+      },
+    ],
+    infoCards: [
+      { Icon: FileText, title: "What is Anagram?", body: "An anagram is a word or phrase formed by rearranging the letters of another.", accent: "#008F83" },
+      { Icon: ListChecks, title: "How to Use Solver?", body: "Enter text, set filters, and discover all possible anagrams instantly.", accent: "#008F83" },
+      { Icon: SlidersHorizontal, title: "Advanced Filtering", body: "Filter by length, prefixes, suffixes, and patterns to find exactly what you need.", accent: "#008F83" },
+      { Icon: Trophy, title: "Why Use Our Solver?", body: "Fast, accurate, and easy to use with practical search controls.", accent: "#008F83" },
+      { Icon: Users, title: "Who Can Use This Tool?", body: "Students, writers, gamers, and word enthusiasts of all levels.", accent: "#008F83" },
+    ],
+    related: [
+      { href: "/solvers/word-unscrambler", label: "Word Unscrambler", text: "Unscramble letters instantly and find all possible words.", Icon: Shuffle, accent: "#D99A00", cta: "Use Unscrambler" },
+      { href: "/solvers/scrabble-word-finder", label: "Scrabble Word Finder", text: "Find valid Scrabble words and maximize your score.", Icon: ListChecks, accent: "#3FA34D", cta: "Find Scrabble Words" },
+      { href: "/all-solvers", label: "Pattern Solver", text: "Find words that match specific patterns and blanks.", Icon: ClipboardList, accent: "#E0544F", cta: "Use Pattern Solver" },
+      { href: "/all-solvers", label: "Crossword Helper", text: "Solve crossword clues faster and discover new words.", Icon: Search, accent: "#2F80D8", cta: "Open Crossword Helper" },
+    ],
+    faq: [
+      ["How does the Anagram Solver work?", "It compares your letters against a local word list and returns words that can be formed from those letters."],
+      ["Can I use blanks or wildcard characters?", "Yes. Use ? or a space as a blank tile."],
+      ["What is the maximum word length supported?", "The default page supports up to 15 letters, and advanced filters can narrow the result set."],
+      ["Are the results verified for real words?", "Results come from the included local dictionary and should be treated as word candidates."],
+      ["Is the Anagram Solver free to use?", "Yes. It runs in your browser and does not require an account."],
+    ],
+  },
+  "word-unscrambler": {
+    variant: "unscrambler",
+    badge: "Word Solver Tool",
+    titlePrefix: "Word",
+    titleHighlight: "Unscrambler",
+    accent: "#008F83",
+    gradient: "linear-gradient(90deg,#0EA6AA,#2F80D8)",
+    intro: "Unscramble letters to find all possible words with advanced filtering options.",
+    belowPanels: [
+      {
+        Icon: ClipboardList,
+        title: "How It Works",
+        body: "Enter scrambled letters, set optional filters, click Unscramble Words, then browse all possible words.",
+        accent: "#008F83",
+      },
+      {
+        Icon: Star,
+        title: "Pro Tips",
+        body: "Try different letter combinations, use filters to narrow results, look for common prefixes and suffixes, and consider shorter words too.",
+        accent: "#008F83",
+      },
+    ],
+    infoCards: [
+      { Icon: FileText, title: "How to Use Word Unscrambler?", body: "Enter up to 15 scrambled letters, use blanks if needed, then browse results.", accent: "#008F83" },
+      { Icon: SlidersHorizontal, title: "Advanced Filtering", body: "Refine results with usage limits, points or length, and dictionary matching.", accent: "#008F83" },
+      { Icon: Star, title: "Why Use Our Solver?", body: "Free, instant, accurate, and built for puzzle and word-game players.", accent: "#008F83" },
+      { Icon: Users, title: "Who Can Use Word Unscrambler?", body: "Word game players, students, learners, puzzle fans, and trivia players.", accent: "#2F80D8" },
+    ],
+    related: [
+      { href: "/solvers/anagram-solver", label: "Anagram Solver", text: "Find words from messy letters with dictionary-based search.", Icon: RefreshCw, accent: "#008F83", cta: "Use Anagram Solver" },
+      { href: "/solvers/scrabble-word-finder", label: "Scrabble Word Finder", text: "Find valid Scrabble words and improve your score.", Icon: ListChecks, accent: "#8A57D6", cta: "Find Words" },
+      { href: "/all-solvers", label: "Pattern Solver", text: "Use patterns and wildcards to find words that match.", Icon: ClipboardList, accent: "#E0544F", cta: "Use Pattern Solver" },
+      { href: "/all-solvers", label: "Crossword Helper", text: "Search by clue or pattern with a practical word helper.", Icon: Search, accent: "#2F80D8", cta: "Open Crossword Helper" },
+    ],
+    faq: [
+      ["Is the Word Unscrambler really free?", "Yes. You can use it without signing in."],
+      ["How many letters can I use?", "The default setup is tuned for up to 15 letters so results stay fast."],
+      ["How do I use blank tiles?", "Use ? or a space as a blank tile."],
+      ["Are the results based on real words?", "Results come from the local dictionary included with this site."],
+      ["Do you have a mobile app?", "No separate app is required. The web page is mobile friendly."],
+      ["Can I request a hint for a past puzzle?", "You can browse site hint pages, but all daily content is manually maintained."],
+    ],
+  },
+  "scrabble-word-finder": {
+    variant: "scrabble",
+    badge: "Word Solver Tool",
+    titlePrefix: "Scrabble",
+    titleHighlight: "Word Finder",
+    accent: "#008F83",
+    gradient: "linear-gradient(90deg,#008F83,#00766D)",
+    intro: "Find the highest scoring Scrabble words from your letters with advanced filtering options.",
+    belowPanels: [
+      {
+        Icon: Star,
+        title: "Letter Values",
+        body: "A,E,I,O,U,L,N,S,T,R = 1; D,G = 2; B,C,M,P = 3; F,H,V,W,Y = 4; K = 5; J,X = 8; Q,Z = 10.",
+        accent: "#D99A00",
+      },
+      {
+        Icon: Star,
+        title: "Pro Tips",
+        body: "Look for high value letters, use prefixes and suffixes, consider two-letter words, and save S for plurals.",
+        accent: "#D99A00",
+      },
+    ],
+    infoCards: [
+      { Icon: FileText, title: "What is Scrabble?", body: "Scrabble is a word game where players create words on a board using seven letters.", accent: "#008F83" },
+      { Icon: ClipboardList, title: "How to Use Scrabble Word Finder?", body: "Enter your letters, adjust filters, choose word length, then find top-scoring words.", accent: "#008F83" },
+      { Icon: Star, title: "Key Features", body: "Top-scoring results, word length filters, blank tile support, and fast results.", accent: "#008F83" },
+      { Icon: Trophy, title: "Why Use Our Solver?", body: "Save time, improve your score, and find words you may have missed.", accent: "#008F83" },
+      { Icon: Users, title: "Who Can Use This Tool?", body: "Students, teachers, word game fans, and competitive players.", accent: "#008F83" },
+    ],
+    related: [
+      { href: "/solvers/anagram-solver", label: "Anagram Solver", text: "Find words from messy letters and any dictionary-based set.", Icon: Search, accent: "#008F83", cta: "Use Anagram Solver" },
+      { href: "/solvers/word-unscrambler", label: "Word Unscrambler", text: "Unscramble letters instantly and filter by length.", Icon: Shuffle, accent: "#D99A00", cta: "Use Unscrambler" },
+      { href: "/all-solvers", label: "Crossword Helper", text: "Solve crossword clues faster with pattern search.", Icon: ClipboardList, accent: "#2F80D8", cta: "Open Crossword Helper" },
+      { href: "/all-solvers", label: "Pattern Solver", text: "Use known letters and blanks to find matching words.", Icon: Star, accent: "#E0544F", cta: "Use Pattern Solver" },
+    ],
+    faq: [
+      ["Do you support blank tiles in the solver?", "Yes. Use ? or a space as a blank tile."],
+      ["Can I filter results by word length?", "Yes. Open Advanced Options and set a minimum and maximum length."],
+      ["Does the solver include two-letter words?", "Yes, the default minimum length is 2 for Scrabble-style searches."],
+      ["Is this tool free to use?", "Yes. It is free and runs in your browser."],
+      ["Where do the word scores come from?", "Scores use standard English-language tile values for candidate ranking."],
+    ],
+  },
+} as const;
+
+function WordFinderInfoCard({
+  Icon,
+  title,
+  body,
+  accent,
+}: {
+  Icon: typeof Search;
+  title: string;
+  body: string;
+  accent: string;
+}) {
+  return (
+    <section className="rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 text-center shadow-md shadow-[#315C4C]/5">
+      <span className="mx-auto grid h-14 w-14 place-items-center rounded-2xl" style={{ backgroundColor: `${accent}18`, color: accent }}>
+        <Icon className="h-7 w-7" />
+      </span>
+      <h2 className="mt-5 text-lg font-black text-[#142436]">{title}</h2>
+      <p className="mt-3 text-sm leading-7 text-[#4A5968]">{body}</p>
+    </section>
+  );
+}
+
+function WordFinderMarketingPage({ solver }: { solver: NonNullable<ReturnType<typeof getSolver>> }) {
+  const config = wordFinderPageConfig[solver.slug as keyof typeof wordFinderPageConfig];
+  if (!config) return null;
+  const path = `/solvers/${solver.slug}`;
+  const faq = config.faq.map(([question, answer]) => ({ question, answer }));
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faq.map((item) => ({ "@type": "Question", name: item.question, acceptedAnswer: { "@type": "Answer", text: item.answer } })),
+  };
+
+  return (
+    <article className="-mt-10">
+      <JsonLd data={breadcrumbSchema([{ name: "Home", url: "/" }, { name: "All Solvers", url: "/all-solvers" }, { name: solver.name, url: path }])} />
+      <JsonLd data={faqSchema} />
+      <JsonLd data={{ "@context": "https://schema.org", "@type": "WebApplication", name: solver.name, url: absoluteUrl(path), applicationCategory: "GameApplication", isAccessibleForFree: true }} />
+
+      <section className="relative mx-[calc(50%-50vw)] overflow-hidden bg-[radial-gradient(circle_at_50%_0%,#F1FBFA_0%,#F8F5EF_56%,#F8F5EF_100%)] px-4 py-14">
+        <div className="pointer-events-none absolute -left-8 top-20 hidden h-40 w-40 opacity-35 md:block [background-image:radial-gradient(#00A39A_1.4px,transparent_1.4px)] [background-size:14px_14px]" />
+        <div className="pointer-events-none absolute -right-20 top-20 hidden h-64 w-64 rounded-full bg-[#DDF4F1] md:block" />
+        <div className="pointer-events-none absolute right-8 top-16 hidden h-32 w-32 opacity-25 md:block [background-image:radial-gradient(#00A39A_1.4px,transparent_1.4px)] [background-size:14px_14px]" />
+        <div className="mx-auto max-w-6xl">
+          <header className="text-center">
+            <p className="mx-auto inline-flex items-center gap-2 rounded-full bg-[#DFF6F0] px-4 py-2 text-sm font-black text-[#008F83]">
+              {config.badge}
+            </p>
+            <h1 className="mt-5 text-5xl font-black leading-tight text-[#142436] sm:text-6xl">
+              {config.titlePrefix} <span style={{ color: config.accent }}>{config.titleHighlight}</span>
+            </h1>
+            <p className="mx-auto mt-5 max-w-3xl text-lg leading-8 text-[#4A5968]">{config.intro}</p>
+          </header>
+
+          <section className="mx-auto mt-10 max-w-5xl" aria-label={`${solver.name} workspace`}>
+            <Suspense fallback={<div className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-sm">Loading {solver.name}...</div>}>
+              <WordFinderToolClient variant={config.variant as WordFinderVariant} />
+            </Suspense>
+          </section>
+
+          <section className="mx-auto mt-6 grid max-w-5xl gap-5 md:grid-cols-2">
+            {config.belowPanels.map((panel) => (
+              <div key={panel.title} className="rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-md shadow-[#315C4C]/5">
+                <div className="flex items-start gap-5">
+                  <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full" style={{ backgroundColor: `${panel.accent}18`, color: panel.accent }}>
+                    <panel.Icon className="h-6 w-6" />
+                  </span>
+                  <div>
+                    <h2 className="text-xl font-black text-[#142436]">{panel.title}</h2>
+                    <p className="mt-3 text-sm leading-7 text-[#4A5968]">{panel.body}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </section>
+        </div>
+      </section>
+
+      <section className={`mx-auto mt-8 grid max-w-6xl gap-5 ${config.infoCards.length === 4 ? "sm:grid-cols-2 lg:grid-cols-4" : "sm:grid-cols-2 lg:grid-cols-5"}`}>
+        {config.infoCards.map((card) => (
+          <WordFinderInfoCard key={card.title} Icon={card.Icon} title={card.title} body={card.body} accent={card.accent} />
+        ))}
+      </section>
+
+      <section className="mx-auto mt-10 max-w-6xl">
+        <h2 className="text-center text-3xl font-black text-[#142436]">
+          Explore More <span className="text-[#008F83]">Word Solvers</span>
+        </h2>
+        <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {config.related.map(({ href, label, text, Icon, accent, cta }) => (
+            <Link key={label} href={href} className="group rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-md shadow-[#315C4C]/5 hover:-translate-y-1 hover:shadow-lg">
+              <div className="flex items-center gap-4">
+                <span className="grid h-14 w-14 place-items-center rounded-xl" style={{ backgroundColor: `${accent}18`, color: accent }}>
+                  <Icon className="h-7 w-7" />
+                </span>
+                <h3 className="text-lg font-black text-[#142436]">{label}</h3>
+              </div>
+              <p className="mt-5 min-h-14 text-sm leading-6 text-[#68645E]">{text}</p>
+              <span className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-lg border px-4 py-2.5 text-sm font-black" style={{ borderColor: accent, color: accent }}>
+                {cta} <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+              </span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="mx-auto mt-10 max-w-5xl">
+        <h2 className="text-center text-3xl font-black text-[#142436]">
+          FAQs About <span className="text-[#008F83]">{solver.name}</span>
+        </h2>
+        <div className={`mt-5 grid gap-0 overflow-hidden rounded-xl border border-[#E5DED3] bg-[#FFFDF9] shadow-sm ${solver.slug === "word-unscrambler" ? "md:grid-cols-2" : ""}`}>
+          {faq.map((item) => (
+            <details key={item.question} className="group border-b border-[#E5DED3] p-4 last:border-b-0">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-black text-[#142436]">
+                {item.question}
+                <ArrowRight className="h-4 w-4 text-[#008F83] transition group-open:rotate-90" />
+              </summary>
+              <p className="mt-3 text-sm leading-6 text-[#68645E]">{item.answer}</p>
+            </details>
+          ))}
+        </div>
+        <p className="mt-6 text-center text-sm leading-6 text-[#68645E]">{disclaimer}</p>
+      </section>
+    </article>
+  );
+}
+
 export default function SolverPage({ params }: Props) {
   const solver = getSolver(params.slug);
   if (!solver || !solver.implemented || solver.inputType === "directory") notFound();
   if (solver.inputType === "wordle" && solver.wordLength) return <WordleLengthSolverPage solver={solver} />;
   if (solver.slug === "letter-box-solver") return <LetterBoxSolverPage />;
   if (solver.slug === "spelling-bee-solver") return <SpellingBeeSolverPage />;
+  if (solver.slug === "anagram-solver" || solver.slug === "word-unscrambler" || solver.slug === "scrabble-word-finder") return <WordFinderMarketingPage solver={solver} />;
   const path = `/solvers/${solver.slug}`;
   const related = solver.relatedSolvers.map(getSolver).filter(Boolean);
   const faq = [
