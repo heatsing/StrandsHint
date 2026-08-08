@@ -192,22 +192,23 @@ export function WordFinderToolClient({ variant }: { variant: Variant }) {
         </button>
       </div>
 
-      <section className="mt-7 rounded-xl border border-[#E5DED3] bg-white p-5">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <h2 className="text-xl font-black text-[#142436]">Results</h2>
-          <span className="rounded-full bg-[#E7F7F4] px-3 py-1 text-sm font-black text-[#008F83]">{results.length} words</span>
-        </div>
-        {searched && results.length ? <div className="mt-4"><CopyButton text={results.join("\n")} /></div> : null}
-        <div className="mt-4 flex max-h-72 flex-wrap gap-2 overflow-auto">
-          {!searched ? <p className="text-sm leading-6 text-[#68645E]">Enter letters and run the finder to see word candidates.</p> : null}
-          {searched && !results.length ? <p className="text-sm leading-6 text-[#68645E]">No matches yet. Try more letters, a wildcard, or wider filters.</p> : null}
-          {results.slice(0, 160).map((word) => (
-            <span key={word} className="rounded-full border border-[#E5DED3] bg-[#FFFDF9] px-3 py-1.5 font-mono text-sm font-black text-[#142436]">
-              {word}{variant === "scrabble" ? ` - ${scoreScrabble(word)}` : ""}{variant === "wordsWithFriends" ? ` - ${scoreWordsWithFriends(word)}` : ""}
-            </span>
-          ))}
-        </div>
-      </section>
+      {searched ? (
+        <section className="mt-7 rounded-xl border border-[#E5DED3] bg-white p-5">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <h2 className="text-xl font-black text-[#142436]">Results</h2>
+            <span className="rounded-full bg-[#E7F7F4] px-3 py-1 text-sm font-black text-[#008F83]">{results.length} words</span>
+          </div>
+          {results.length ? <div className="mt-4"><CopyButton text={results.join("\n")} /></div> : null}
+          <div className="mt-4 flex max-h-72 flex-wrap gap-2 overflow-auto">
+            {!results.length ? <p className="text-sm leading-6 text-[#68645E]">No matches yet. Try more letters, a wildcard, or wider filters.</p> : null}
+            {results.slice(0, 160).map((word) => (
+              <span key={word} className="rounded-full border border-[#E5DED3] bg-[#FFFDF9] px-3 py-1.5 font-mono text-sm font-black text-[#142436]">
+                {word}{variant === "scrabble" ? ` - ${scoreScrabble(word)}` : ""}{variant === "wordsWithFriends" ? ` - ${scoreWordsWithFriends(word)}` : ""}
+              </span>
+            ))}
+          </div>
+        </section>
+      ) : null}
     </div>
   );
 }

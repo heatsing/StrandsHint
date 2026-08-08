@@ -786,22 +786,38 @@ const wordFinderPageConfig = {
       {
         Icon: Star,
         title: "Letter Values",
-        body: "Words With Friends-style scores: A,E,I,O,R,S,T = 1; D,L,N,U = 2; G,H,Y = 3; B,C,F,M,P,W = 4; V = 5; K = 6; X = 8; J,Q,Z = 10.",
+        body: "Words With Friends uses standard Scrabble scoring.",
+        values: [
+          ["A, E, I, O, U, L, N, S, T, R", "1"],
+          ["D, G", "2"],
+          ["B, C, M, P", "3"],
+          ["F, H, V, W, Y", "4"],
+          ["K", "5"],
+          ["J, X", "8"],
+          ["Q, Z", "10"],
+        ],
         accent: "#008F83",
       },
       {
         Icon: Star,
         title: "Pro Tips",
-        body: "Use high-value letters like J, Q, X, and Z to maximize your score. Look for prefixes and suffixes, consider two-letter words, and save blanks for high-value plays.",
+        body: "Play smarter with a few simple rack habits.",
+        tips: [
+          "Use high-value letters like J, Q, X, Z to maximize your score.",
+          "Look for prefixes and suffixes to build longer words.",
+          "Consider two-letter words - they can be surprising.",
+          "Save blank tiles for high-value plays.",
+          "Play words on premium squares for bonus points.",
+        ],
         accent: "#D99A00",
       },
     ],
     infoCards: [
-      { Icon: FileText, title: "What is Words With Friends?", body: "Learn the basics, rules, and scoring system of WWF.", accent: "#008F83" },
-      { Icon: ListChecks, title: "How to Use the Solver?", body: "Step-by-step guide to find the best words easily.", accent: "#8A57D6" },
-      { Icon: Star, title: "Key Features", body: "Powerful features that make our solver stand out.", accent: "#2F80D8" },
-      { Icon: Trophy, title: "Why Use Our Solver?", body: "Discover the benefits of using our smart solver tool.", accent: "#3FA34D" },
-      { Icon: Users, title: "Who Can Use This Tool?", body: "Perfect for players of all skill levels and ages.", accent: "#F06423" },
+      { Icon: FileText, title: "What is Words With Friends?", body: "Learn the basics, rules, and scoring system of WWF.", accent: "#008F83", cta: "Learn more" },
+      { Icon: ListChecks, title: "How to Use the Solver?", body: "Step-by-step guide to find the best words easily.", accent: "#8A57D6", cta: "View guide" },
+      { Icon: Star, title: "Key Features", body: "Powerful features that make our solver stand out.", accent: "#2F80D8", cta: "Explore features" },
+      { Icon: Trophy, title: "Why Use Our Solver?", body: "Discover the benefits of using our smart solver tool.", accent: "#3FA34D", cta: "See benefits" },
+      { Icon: Users, title: "Who Can Use This Tool?", body: "Perfect for players of all skill levels and ages.", accent: "#F06423", cta: "Learn more" },
     ],
     related: [
       { href: "/solvers/anagram-solver", label: "Anagram Solver", text: "Find words from mixed letters and maximize your score.", Icon: RefreshCw, accent: "#008F83", cta: "Use Anagram Solver" },
@@ -824,11 +840,13 @@ function WordFinderInfoCard({
   title,
   body,
   accent,
+  cta,
 }: {
   Icon: typeof Search;
   title: string;
   body: string;
   accent: string;
+  cta?: string;
 }) {
   return (
     <section className="rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 text-center shadow-md shadow-[#315C4C]/5">
@@ -837,6 +855,11 @@ function WordFinderInfoCard({
       </span>
       <h2 className="mt-5 text-lg font-black text-[#142436]">{title}</h2>
       <p className="mt-3 text-sm leading-7 text-[#4A5968]">{body}</p>
+      {cta ? (
+        <span className="mt-5 inline-flex items-center justify-center gap-2 text-sm font-black" style={{ color: accent }}>
+          {cta} <ArrowRight className="h-4 w-4" />
+        </span>
+      ) : null}
     </section>
   );
 }
@@ -889,6 +912,26 @@ function WordFinderMarketingPage({ solver }: { solver: NonNullable<ReturnType<ty
                   <div>
                     <h2 className="text-xl font-black text-[#142436]">{panel.title}</h2>
                     <p className="mt-3 text-sm leading-7 text-[#4A5968]">{panel.body}</p>
+                    {"values" in panel ? (
+                      <div className="mt-4 grid gap-2 sm:grid-cols-2">
+                        {panel.values.map(([letters, score]) => (
+                          <div key={letters} className="flex items-center justify-between rounded-lg border border-[#E5DED3] bg-white px-3 py-2 font-mono text-xs font-black text-[#344153]">
+                            <span>{letters}</span>
+                            <span>{score}</span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : null}
+                    {"tips" in panel ? (
+                      <ul className="mt-4 grid gap-2 text-sm leading-6 text-[#4A5968]">
+                        {panel.tips.map((tip) => (
+                          <li key={tip} className="flex gap-2">
+                            <span className="text-[#008F83]">&bull;</span>
+                            <span>{tip}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : null}
                   </div>
                 </div>
               </div>
@@ -899,7 +942,7 @@ function WordFinderMarketingPage({ solver }: { solver: NonNullable<ReturnType<ty
 
       <section className={`mx-auto mt-8 grid max-w-6xl gap-5 ${config.infoCards.length === 4 ? "sm:grid-cols-2 lg:grid-cols-4" : "sm:grid-cols-2 lg:grid-cols-5"}`}>
         {config.infoCards.map((card) => (
-          <WordFinderInfoCard key={card.title} Icon={card.Icon} title={card.title} body={card.body} accent={card.accent} />
+          <WordFinderInfoCard key={card.title} Icon={card.Icon} title={card.title} body={card.body} accent={card.accent} cta={"cta" in card ? card.cta : undefined} />
         ))}
       </section>
 
