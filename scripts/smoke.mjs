@@ -51,7 +51,7 @@ const pageChecks = [
   ["today/connections-hints/index.html", ["Today's Connections hints for August 1, 2026", "Progressive hints", "Related puzzle pages", "FAQPage", "BreadcrumbList"]],
   ["today/strands-hints/index.html", ["Today's Strands hints for August 1, 2026", "Progressive hints", "Related puzzle pages", "FAQPage", "BreadcrumbList"]],
   ["hints/connections/index.html", ["Connections Hints", "Daily Games Hints", "Key Takeaways", "Frequently Asked Questions About", "FAQPage", "BreadcrumbList"]],
-  ["solvers/wordle-solver/index.html", ["Wordle Solver", "Find possible words", "FAQPage", "BreadcrumbList", "WebApplication"]],
+  ["solvers/wordle-solver/index.html", ["Wordle Solver", "Pro Tips", "How to Use", "FAQPage", "BreadcrumbList", "WebApplication"]],
   ["solvers/spelling-bee-solver/index.html", ["Spelling Bee Solver", "Center letter", "Pangram", "FAQPage", "BreadcrumbList"]],
   ["solvers/anagram-solver/index.html", ["Anagram Solver", "Find Anagrams", "What are Anagrams?", "FAQPage", "BreadcrumbList"]],
   ["solvers/word-unscrambler/index.html", ["Word Unscrambler", "Unscramble Words", "How It Works", "FAQPage", "BreadcrumbList"]],

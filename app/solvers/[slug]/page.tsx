@@ -21,6 +21,7 @@ import { CrosswordSolverClient } from "@/components/solvers/CrosswordSolverClien
 import { JumbleSolverClient } from "@/components/solvers/JumbleSolverClient";
 import { LetterBoxSolverClient } from "@/components/solvers/LetterBoxSolverClient";
 import { QuordleSolverClient } from "@/components/solvers/QuordleSolverClient";
+import { ScrabbleSolverClient } from "@/components/solvers/ScrabbleSolverClient";
 import { SpellingBeeSolverClient } from "@/components/solvers/SpellingBeeSolverClient";
 import { WordFinderToolClient } from "@/components/solvers/WordFinderToolClient";
 import { WordleSolverClient } from "@/components/solvers/WordleSolverClient";
@@ -109,6 +110,29 @@ const wordleLengthFaq = [
   {
     question: "Can this solver help improve my Wordle skills?",
     answer: "Yes. It helps you compare possible words and learn how green, yellow, and gray clues narrow the answer set.",
+  },
+];
+
+const wordleSolverFaq = [
+  {
+    question: "Is Wordle Solver free to use?",
+    answer: "Yes. It is free, browser-based, and does not require an account.",
+  },
+  {
+    question: "How accurate are the results?",
+    answer: "Results are filtered by the clues you enter and the local word list. Remove one clue if the answer seems missing.",
+  },
+  {
+    question: "Can I use this solver for other word games?",
+    answer: "Yes. It works for Wordle-style games that use green, yellow, and gray letter feedback.",
+  },
+  {
+    question: "Does it work on mobile devices?",
+    answer: "Yes. The input boxes, filters, and result list are responsive for phones and desktop screens.",
+  },
+  {
+    question: "Why are some words not shown in results?",
+    answer: "The included word list is compact for speed. Some uncommon words may be missing until a larger licensed list is added.",
   },
 ];
 
@@ -342,6 +366,148 @@ function wordleTheme() {
     tag: "Word Solver Tool",
     gradient: "linear-gradient(90deg,#1F9BEF,#4C5CF5)",
   };
+}
+
+function WordleSolverPage({ solver }: { solver: NonNullable<ReturnType<typeof getSolver>> }) {
+  const theme = {
+    accent: "#008F83",
+    accentSoft: "#E7F7F4",
+    sideDots: "#2F80D8",
+    gradient: "linear-gradient(90deg,#008F83,#12A37F)",
+  };
+  const path = `/solvers/${solver.slug}`;
+  const relatedTools = [
+    { href: "/solvers/anagram-solver", label: "Anagram Solver", points: ["Find words from jumbled letters", "Supports multiple lengths", "Great for word games"], Icon: Shuffle, accent: "#008F83", cta: "Try Anagram Solver" },
+    { href: "/solvers/word-unscrambler", label: "Word Unscrambler", points: ["Unscramble letters instantly", "Find all possible words", "Sort by length or alphabet"], Icon: FileText, accent: "#D99A00", cta: "Try Unscrambler" },
+    { href: "/solvers/5-letter-wordle-solver", label: "5-Letter Word Finder", points: ["Find all 5-letter words", "Filter by included letters", "Perfect for Wordle hints"], Icon: ListChecks, accent: "#3FA34D", cta: "Try 5-Letter Finder" },
+    { href: "/all-solvers", label: "Pattern Solver", points: ["Use patterns like _A_E_", "Wildcard and position based", "Find words that match"], Icon: ClipboardList, accent: "#8A57D6", cta: "Try Pattern Solver" },
+  ];
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: wordleSolverFaq.map((item) => ({ "@type": "Question", name: item.question, acceptedAnswer: { "@type": "Answer", text: item.answer } })),
+  };
+
+  return (
+    <article className="-mt-10">
+      <JsonLd data={breadcrumbSchema([{ name: "Home", url: "/" }, { name: "All Solvers", url: "/all-solvers" }, { name: solver.name, url: path }])} />
+      <JsonLd data={faqSchema} />
+      <JsonLd data={{ "@context": "https://schema.org", "@type": "WebApplication", name: solver.name, url: absoluteUrl(path), applicationCategory: "GameApplication", isAccessibleForFree: true }} />
+
+      <section className="relative mx-[calc(50%-50vw)] overflow-hidden bg-[radial-gradient(circle_at_50%_0%,#F1FBFA_0%,#F8F5EF_55%,#F8F5EF_100%)] px-4 py-14">
+        <div className="pointer-events-none absolute -left-10 top-20 hidden h-40 w-40 opacity-35 md:block [background-size:14px_14px]" style={{ backgroundImage: `radial-gradient(${theme.sideDots} 1.4px, transparent 1.4px)` }} />
+        <div className="pointer-events-none absolute -right-20 top-24 hidden h-64 w-64 rounded-full bg-[#DDF4F1] md:block" />
+        <div className="pointer-events-none absolute right-8 top-14 hidden h-32 w-32 opacity-25 md:block [background-size:14px_14px]" style={{ backgroundImage: `radial-gradient(${theme.sideDots} 1.4px, transparent 1.4px)` }} />
+
+        <div className="mx-auto max-w-6xl">
+          <header className="text-center">
+            <p className="mx-auto inline-flex items-center gap-2 rounded-full border border-[#008F83]/40 bg-[#E7F7F4] px-4 py-2 text-sm font-black text-[#008F83]">
+              Word Solver Tool
+            </p>
+            <h1 className="mt-5 text-5xl font-black leading-tight text-[#142436] sm:text-6xl">
+              <span className="text-[#008F83]">Wordle</span> Solver
+            </h1>
+            <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-[#4A5968]">
+              Enter your known letters and constraints to find the perfect 5-letter word.
+            </p>
+          </header>
+
+          <div className="mx-auto mt-10 max-w-4xl">
+            <Suspense fallback={<div className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-sm">Loading Wordle Solver...</div>}>
+              <WordleSolverClient initialLength={5} fixedLength accent={theme.accent} />
+            </Suspense>
+          </div>
+
+          <div className="mx-auto mt-6 grid max-w-4xl gap-6 md:grid-cols-2">
+            <section className="rounded-2xl border border-[#BFE5DA] bg-[#F3FBF8] p-6 shadow-md shadow-[#315C4C]/5">
+              <h2 className="text-xl font-black text-[#008F83]">Pro Tips</h2>
+              <ul className="mt-4 grid gap-2 text-sm leading-6 text-[#344153]">
+                <li>Lock in confirmed letters first.</li>
+                <li>Avoid overloading yellow letters.</li>
+                <li>Try common vowels and consonants.</li>
+                <li>Refine results step by step.</li>
+              </ul>
+            </section>
+            <section className="rounded-2xl border border-[#BFD8F7] bg-[#F4FAFF] p-6 shadow-md shadow-[#315C4C]/5">
+              <h2 className="text-xl font-black text-[#2F80D8]">How to Use</h2>
+              <div className="mt-4 grid gap-2 text-sm leading-6 text-[#344153]">
+                <p><strong className="text-[#008F83]">Green</strong> = correct and in the right position.</p>
+                <p><strong className="text-[#D99A00]">Yellow</strong> = in the word but wrong position.</p>
+                <p><strong className="text-[#68645E]">Gray</strong> = not in the word.</p>
+              </div>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto mt-8 grid max-w-6xl gap-5 sm:grid-cols-2 lg:grid-cols-5">
+        <WordleInfoCard Icon={FileText} title="What is Wordle Solver?">
+          <p>A smart tool that helps you find possible 5-letter words based on Wordle clues and letter feedback.</p>
+        </WordleInfoCard>
+        <WordleInfoCard Icon={RefreshCw} title="How Does Wordle Solver Work?">
+          <p>Enter known, misplaced, and excluded letters. The solver checks the local word list and returns matches.</p>
+        </WordleInfoCard>
+        <WordleInfoCard Icon={ClipboardList} title="How to Use Wordle Solver?" accent="#8A57D6">
+          <p>Input your clues, hit search, and get possible words. Keep refining until you find the answer.</p>
+        </WordleInfoCard>
+        <WordleInfoCard Icon={Star} title="Why Use Our Solver?" accent="#D99A00">
+          <p>Save time, sharpen your strategy, and improve your Wordle skills with accurate suggestions.</p>
+        </WordleInfoCard>
+        <WordleInfoCard Icon={Users} title="Who Can Use This Tool?" accent="#2F80D8">
+          <p>Anyone who loves Wordle, from beginners to experienced streak chasers.</p>
+        </WordleInfoCard>
+      </section>
+
+      <section className="mx-auto mt-10 max-w-6xl">
+        <h2 className="text-center text-3xl font-black text-[#142436]">
+          Explore More <span className="text-[#008F83]">Word Solvers</span>
+        </h2>
+        <p className="mt-2 text-center text-sm text-[#68645E]">Try other tools to solve, discover, and master word puzzles.</p>
+        <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {relatedTools.map(({ href, label, points, Icon, accent, cta }) => (
+            <Link key={label} href={href} className="group rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-md shadow-[#315C4C]/5 hover:-translate-y-1 hover:shadow-lg">
+              <div className="flex items-center gap-4">
+                <span className="grid h-14 w-14 place-items-center rounded-xl" style={{ backgroundColor: `${accent}18`, color: accent }}>
+                  <Icon className="h-7 w-7" />
+                </span>
+                <h3 className="text-lg font-black text-[#142436]">{label}</h3>
+              </div>
+              <ul className="mt-5 grid gap-2 text-sm text-[#68645E]">
+                {points.map((point) => (
+                  <li key={point} className="flex gap-2">
+                    <span style={{ color: accent }}>&bull;</span>
+                    <span>{point}</span>
+                  </li>
+                ))}
+              </ul>
+              <span className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-lg border px-4 py-2.5 text-sm font-black" style={{ borderColor: accent, color: accent }}>
+                {cta} <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+              </span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="mx-auto mt-10 max-w-5xl">
+        <h2 className="text-center text-3xl font-black text-[#142436]">
+          FAQs About <span className="text-[#008F83]">Wordle Solver</span>
+        </h2>
+        <p className="mt-2 text-center text-sm text-[#68645E]">Everything you need to know about using the tool.</p>
+        <div className="mt-5 divide-y divide-[#E5DED3] overflow-hidden rounded-xl border border-[#E5DED3] bg-[#FFFDF9] shadow-sm">
+          {wordleSolverFaq.map((item) => (
+            <details key={item.question} className="group p-4">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-black text-[#142436]">
+                {item.question}
+                <ArrowRight className="h-4 w-4 text-[#008F83] transition group-open:rotate-90" />
+              </summary>
+              <p className="mt-3 text-sm leading-6 text-[#68645E]">{item.answer}</p>
+            </details>
+          ))}
+        </div>
+        <p className="mt-6 text-center text-sm leading-6 text-[#68645E]">{disclaimer}</p>
+      </section>
+    </article>
+  );
 }
 
 function WordleLengthSolverPage({ solver }: { solver: NonNullable<ReturnType<typeof getSolver>> }) {
@@ -1041,6 +1207,153 @@ function WordFinderMarketingPage({ solver }: { solver: NonNullable<ReturnType<ty
   );
 }
 
+const scrabbleSolverFaq = [
+  { question: "Is this Scrabble Solver free to use?", answer: "Yes. It runs in your browser and does not require an account." },
+  { question: "Does the solver consider premium squares?", answer: "Use the board pattern field to model letters already on the board. Score bonuses can still vary by exact board position." },
+  { question: "Can I use blank tiles represented by ?", answer: "Yes. Type ? or use a space as a blank tile in your rack." },
+  { question: "How are the words ranked?", answer: "Results are ranked by Scrabble-style letter score, then by length and alphabetically." },
+  { question: "Is this tool available on mobile devices?", answer: "Yes. The rack fields, filters, and results are responsive on mobile and desktop screens." },
+];
+
+function ScrabbleSolverPage({ solver }: { solver: NonNullable<ReturnType<typeof getSolver>> }) {
+  const path = `/solvers/${solver.slug}`;
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: scrabbleSolverFaq.map((item) => ({ "@type": "Question", name: item.question, acceptedAnswer: { "@type": "Answer", text: item.answer } })),
+  };
+  const letterValues = [
+    ["A, E, I, O, U, L, N, S, T, R", "1"],
+    ["D, G", "2"],
+    ["B, C, M, P", "3"],
+    ["F, H, V, W, Y", "4"],
+    ["K", "5"],
+    ["J, X", "8"],
+    ["Q, Z", "10"],
+  ];
+  const relatedTools = [
+    { href: "/solvers/anagram-solver", label: "Anagram Solver", points: ["Find words from mixed letters", "Word forms and variations", "Maximize your score"], Icon: Shuffle, accent: "#3FA34D", cta: "Try Anagram Solver" },
+    { href: "/solvers/word-unscrambler", label: "Word Unscrambler", points: ["Unscramble letters instantly", "All possible word combinations", "Sort by length or score"], Icon: ListChecks, accent: "#2F80D8", cta: "Try Unscrambler" },
+    { href: "/solvers/crossword-solver", label: "Crossword Helper", points: ["Find words by pattern length", "Get fitting words for clues", "Supports blanks and patterns"], Icon: ClipboardList, accent: "#8A57D6", cta: "Try Crossword Helper" },
+    { href: "/all-solvers", label: "Pattern Solver", points: ["Match specific letter patterns", "Use ? for unknown letters", "Great for tricky puzzles"], Icon: Star, accent: "#D99A00", cta: "Try Pattern Solver" },
+  ];
+
+  return (
+    <article className="-mt-10">
+      <JsonLd data={breadcrumbSchema([{ name: "Home", url: "/" }, { name: "All Solvers", url: "/all-solvers" }, { name: solver.name, url: path }])} />
+      <JsonLd data={faqSchema} />
+      <JsonLd data={{ "@context": "https://schema.org", "@type": "WebApplication", name: solver.name, url: absoluteUrl(path), applicationCategory: "GameApplication", isAccessibleForFree: true }} />
+
+      <section className="relative mx-[calc(50%-50vw)] overflow-hidden bg-[radial-gradient(circle_at_50%_0%,#F1FBFA_0%,#F8F5EF_56%,#F8F5EF_100%)] px-4 py-14">
+        <div className="pointer-events-none absolute -left-8 top-24 hidden h-44 w-44 opacity-35 md:block [background-image:radial-gradient(#2F80D8_1.4px,transparent_1.4px)] [background-size:14px_14px]" />
+        <div className="pointer-events-none absolute -right-20 top-24 hidden h-64 w-64 rounded-full bg-[#DDF4F1] md:block" />
+        <div className="pointer-events-none absolute right-8 top-20 hidden h-32 w-32 opacity-25 md:block [background-image:radial-gradient(#2F80D8_1.4px,transparent_1.4px)] [background-size:14px_14px]" />
+
+        <div className="mx-auto max-w-6xl">
+          <header className="text-center">
+            <p className="mx-auto inline-flex items-center gap-2 rounded-lg border border-[#008F83] bg-[#F1FAF8] px-4 py-2 text-sm font-black text-[#008F83]">
+              Word Solver Tool
+            </p>
+            <h1 className="mt-5 text-5xl font-black leading-tight text-[#142436] sm:text-6xl">
+              Scrabble <span className="text-[#008F83]">Solver</span>
+            </h1>
+            <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-[#4A5968]">
+              Find high-scoring Scrabble words from your letters with smart filtering and board-aware search.
+            </p>
+          </header>
+
+          <section className="mx-auto mt-10 max-w-5xl" aria-label="Scrabble Solver workspace">
+            <Suspense fallback={<div className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-sm">Loading Scrabble Solver...</div>}>
+              <ScrabbleSolverClient />
+            </Suspense>
+          </section>
+
+          <section className="mx-auto mt-6 grid max-w-5xl gap-5 md:grid-cols-2">
+            <div className="rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-md shadow-[#315C4C]/5">
+              <h2 className="text-xl font-black text-[#142436]">Letter Values</h2>
+              <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-7">
+                {letterValues.map(([letters, score]) => (
+                  <div key={score} className="rounded-lg border border-[#E5DED3] bg-white p-3 text-center">
+                    <p className="min-h-10 text-xs font-black leading-4 text-[#142436]">{letters}</p>
+                    <p className="mt-2 text-2xl font-black text-[#008F83]">{score}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-md shadow-[#315C4C]/5">
+              <h2 className="text-xl font-black text-[#142436]">Pro Tips</h2>
+              <ul className="mt-5 grid gap-2 text-sm leading-6 text-[#344153]">
+                {["Use high-value letters like Q, Z, J, and X when possible.", "Look for prefixes and suffixes to build longer words.", "Save blank tiles for tricky spots or high-value plays.", "Check for bingo opportunities with 7+ letter words.", "Consider premium squares on the board for maximum score."].map((tip) => (
+                  <li key={tip} className="flex gap-2">
+                    <span className="text-[#008F83]">✓</span>
+                    <span>{tip}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section className="mx-auto mt-8 grid max-w-6xl gap-5 sm:grid-cols-2 lg:grid-cols-5">
+        <WordFinderInfoCard Icon={FileText} title="What is Scrabble Solver?" body="Find the best Scrabble words from your letters using smart dictionary and advanced filtering." accent="#008F83" />
+        <WordFinderInfoCard Icon={ClipboardList} title="How to Use It?" body="Enter your rack letters, add board letters if needed, then find ranked scoring results." accent="#2F80D8" />
+        <WordFinderInfoCard Icon={SlidersHorizontal} title="Advanced Filtering" body="Refine results by starting letters, word length, required letters, or excluded letters." accent="#8A57D6" />
+        <WordFinderInfoCard Icon={Trophy} title="Why Use Our Solver?" body="Get accurate, fast, high-scoring word results with a clean interface and helpful tips." accent="#D99A00" />
+        <WordFinderInfoCard Icon={Users} title="Who Can Use This Tool?" body="Perfect for Scrabble players of all levels, from casual players to competitive wordsmiths." accent="#E0544F" />
+      </section>
+
+      <section className="mx-auto mt-10 max-w-6xl">
+        <h2 className="text-center text-3xl font-black text-[#142436]">
+          Explore More <span className="text-[#008F83]">Word Solvers</span>
+        </h2>
+        <p className="mt-2 text-center text-sm text-[#68645E]">Try our collection of powerful tools for every word puzzle challenge.</p>
+        <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {relatedTools.map(({ href, label, points, Icon, accent, cta }) => (
+            <Link key={label} href={href} className="group rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-md shadow-[#315C4C]/5 hover:-translate-y-1 hover:shadow-lg">
+              <div className="flex items-center gap-4">
+                <span className="grid h-14 w-14 place-items-center rounded-xl" style={{ backgroundColor: `${accent}18`, color: accent }}>
+                  <Icon className="h-7 w-7" />
+                </span>
+                <h3 className="text-lg font-black text-[#142436]">{label}</h3>
+              </div>
+              <ul className="mt-5 grid gap-2 text-sm text-[#68645E]">
+                {points.map((point) => (
+                  <li key={point} className="flex gap-2">
+                    <span style={{ color: accent }}>✓</span>
+                    <span>{point}</span>
+                  </li>
+                ))}
+              </ul>
+              <span className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-lg border px-4 py-2.5 text-sm font-black" style={{ borderColor: accent, color: accent }}>
+                {cta} <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+              </span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="mx-auto mt-10 max-w-5xl">
+        <h2 className="text-center text-3xl font-black text-[#142436]">
+          FAQs About <span className="text-[#008F83]">Scrabble Solver</span>
+        </h2>
+        <div className="mt-5 divide-y divide-[#E5DED3] overflow-hidden rounded-xl border border-[#E5DED3] bg-[#FFFDF9] shadow-sm">
+          {scrabbleSolverFaq.map((item) => (
+            <details key={item.question} className="group p-4">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-black text-[#142436]">
+                {item.question}
+                <ArrowRight className="h-4 w-4 text-[#008F83] transition group-open:rotate-90" />
+              </summary>
+              <p className="mt-3 text-sm leading-6 text-[#68645E]">{item.answer}</p>
+            </details>
+          ))}
+        </div>
+        <p className="mt-6 text-center text-sm leading-6 text-[#68645E]">{disclaimer}</p>
+      </section>
+    </article>
+  );
+}
+
 const quordleFaq = [
   {
     question: "What is Quordle?",
@@ -1613,6 +1926,8 @@ function JumbleSolverPage() {
 export default function SolverPage({ params }: Props) {
   const solver = getSolver(params.slug);
   if (!solver || !solver.implemented || solver.inputType === "directory") notFound();
+  if (solver.slug === "wordle-solver") return <WordleSolverPage solver={solver} />;
+  if (solver.slug === "scrabble-solver") return <ScrabbleSolverPage solver={solver} />;
   if (solver.slug === "quordle-solver") return <QuordleSolverPage />;
   if (solver.slug === "crossword-solver") return <CrosswordSolverPage />;
   if (solver.slug === "jumble-solver") return <JumbleSolverPage />;
