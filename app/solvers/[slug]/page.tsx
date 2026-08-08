@@ -18,6 +18,7 @@ import {
 import { JsonLd } from "@/components/JsonLd";
 import { AnagramSolverClient } from "@/components/solvers/AnagramSolverClient";
 import { CrosswordSolverClient } from "@/components/solvers/CrosswordSolverClient";
+import { JumbleSolverClient } from "@/components/solvers/JumbleSolverClient";
 import { LetterBoxSolverClient } from "@/components/solvers/LetterBoxSolverClient";
 import { QuordleSolverClient } from "@/components/solvers/QuordleSolverClient";
 import { SpellingBeeSolverClient } from "@/components/solvers/SpellingBeeSolverClient";
@@ -29,7 +30,7 @@ import { absoluteUrl, breadcrumbSchema, disclaimer } from "@/lib/seo";
 type Props = { params: { slug: string } };
 
 export function generateStaticParams() {
-  return solverRegistry.filter((solver) => solver.implemented && ["wordle", "spelling-bee", "anagram", "letter-box", "crossword"].some((kind) => solver.inputType === kind)).map((solver) => ({ slug: solver.slug }));
+  return solverRegistry.filter((solver) => solver.implemented && ["wordle", "spelling-bee", "anagram", "letter-box", "crossword", "jumble"].some((kind) => solver.inputType === kind)).map((solver) => ({ slug: solver.slug }));
 }
 
 export function generateMetadata({ params }: Props): Metadata {
@@ -51,6 +52,7 @@ function SolverWorkspace({ inputType }: { inputType: string }) {
   if (inputType === "anagram") return <AnagramSolverClient />;
   if (inputType === "letter-box") return <LetterBoxSolverClient />;
   if (inputType === "crossword") return <CrosswordSolverClient />;
+  if (inputType === "jumble") return <JumbleSolverClient />;
   return null;
 }
 
@@ -1364,11 +1366,206 @@ function CrosswordSolverPage() {
   );
 }
 
+const jumbleFaq = [
+  {
+    question: "What is Jumble Solver?",
+    answer: "Jumble Solver helps unscramble jumbled letters into word candidates and suggests final answer possibilities.",
+  },
+  {
+    question: "How do I use Jumble Solver?",
+    answer: "Enter the scrambled words, add the final clue if you have it, then click Solve Jumble.",
+  },
+  {
+    question: "Do I need to provide the clue?",
+    answer: "No. The clue is optional, but it can help you choose better final answer candidates.",
+  },
+  {
+    question: "Is Jumble Solver free to use?",
+    answer: "Yes. It is free and runs in your browser using a local word list.",
+  },
+  {
+    question: "Can Jumble Solver solve every puzzle?",
+    answer: "It provides candidates from the included dictionary. Use the clue and puzzle context to pick the best answer.",
+  },
+];
+
+function JumbleInfoCard({
+  Icon,
+  title,
+  children,
+  accent,
+}: {
+  Icon: typeof Search;
+  title: string;
+  children: React.ReactNode;
+  accent: string;
+}) {
+  return (
+    <section className="rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 text-center shadow-md shadow-[#315C4C]/5">
+      <span className="mx-auto grid h-14 w-14 place-items-center rounded-xl" style={{ color: accent }}>
+        <Icon className="h-10 w-10" />
+      </span>
+      <h2 className="mt-5 text-lg font-black text-[#142436]">{title}</h2>
+      <div className="mt-3 text-sm leading-7 text-[#4A5968]">{children}</div>
+    </section>
+  );
+}
+
+function JumbleSolverPage() {
+  const path = "/solvers/jumble-solver";
+  const relatedTools = [
+    { href: "/solvers/anagram-solver", label: "Anagram Solver", points: ["Find words from scrambled letters", "Great for anagram and jumble games", "Instant results and suggestions"], Icon: Shuffle, accent: "#008F83", cta: "Try Anagram Solver" },
+    { href: "/solvers/word-unscrambler", label: "Word Unscrambler", points: ["Unscramble letters into valid words", "Supports long and short words", "Perfect for any word puzzle"], Icon: Star, accent: "#8A57D6", cta: "Try Word Unscrambler" },
+    { href: "/solvers/crossword-solver", label: "Crossword Helper", points: ["Find answers for crossword clues", "Search by length or known letters", "Boost your crossword skills"], Icon: ClipboardList, accent: "#F39C12", cta: "Try Crossword Helper" },
+    { href: "/all-solvers", label: "Pattern Solver", points: ["Find words that match patterns", "Use ? or _ as wildcard letters", "Ideal for word game players"], Icon: ListChecks, accent: "#56B23F", cta: "Try Pattern Solver" },
+  ];
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: jumbleFaq.map((item) => ({ "@type": "Question", name: item.question, acceptedAnswer: { "@type": "Answer", text: item.answer } })),
+  };
+
+  return (
+    <article className="-mt-10">
+      <JsonLd data={breadcrumbSchema([{ name: "Home", url: "/" }, { name: "All Solvers", url: "/all-solvers" }, { name: "Jumble Solver", url: path }])} />
+      <JsonLd data={faqSchema} />
+      <JsonLd data={{ "@context": "https://schema.org", "@type": "WebApplication", name: "Jumble Solver", url: absoluteUrl(path), applicationCategory: "GameApplication", isAccessibleForFree: true }} />
+
+      <section className="relative mx-[calc(50%-50vw)] overflow-hidden bg-[radial-gradient(circle_at_50%_0%,#F8FBFF_0%,#F8F5EF_58%,#F8F5EF_100%)] px-4 py-14">
+        <div className="pointer-events-none absolute -left-8 top-24 hidden h-40 w-40 opacity-30 md:block [background-image:radial-gradient(#8BBED0_1.4px,transparent_1.4px)] [background-size:16px_16px]" />
+        <div className="pointer-events-none absolute -right-20 top-20 hidden h-64 w-64 rounded-full bg-[#DDF4F1] md:block" />
+        <div className="pointer-events-none absolute right-8 top-16 hidden h-32 w-32 opacity-30 md:block [background-image:radial-gradient(#8BBED0_1.4px,transparent_1.4px)] [background-size:16px_16px]" />
+        <div className="mx-auto max-w-6xl">
+          <header className="text-center">
+            <p className="mx-auto inline-flex items-center gap-2 rounded-full bg-[#FFE4D8] px-5 py-2 text-sm font-black text-[#F06423]">
+              Word Solver Tool
+            </p>
+            <h1 className="mt-5 text-5xl font-black leading-tight text-[#142436] sm:text-6xl">
+              Jumble <span className="text-[#F06423]">Solver</span>
+            </h1>
+            <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-[#4A5968]">
+              Solve daily jumble puzzles instantly by unscrambling words and finding the final answer.
+            </p>
+          </header>
+
+          <section className="mx-auto mt-10 max-w-4xl" aria-label="Jumble Solver workspace">
+            <Suspense fallback={<div className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-sm">Loading Jumble Solver...</div>}>
+              <JumbleSolverClient />
+            </Suspense>
+          </section>
+
+          <section className="mx-auto mt-6 grid max-w-4xl gap-5 md:grid-cols-2">
+            <div className="rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-md shadow-[#315C4C]/5">
+              <div className="flex items-start gap-5">
+                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-[#AEE5DF] text-[#008F83]">
+                  <ClipboardList className="h-5 w-5" />
+                </span>
+                <div>
+                  <h2 className="text-xl font-black text-[#142436]">How It Works</h2>
+                  <ol className="mt-4 grid gap-2 text-sm leading-6 text-[#4A5968]">
+                    <li><strong className="mr-2 rounded-full border border-[#008F83] px-2 py-0.5 text-[#008F83]">1</strong>Enter the scrambled words</li>
+                    <li><strong className="mr-2 rounded-full border border-[#008F83] px-2 py-0.5 text-[#008F83]">2</strong>Add the final clue (optional)</li>
+                    <li><strong className="mr-2 rounded-full border border-[#008F83] px-2 py-0.5 text-[#008F83]">3</strong>Click Solve Jumble</li>
+                    <li><strong className="mr-2 rounded-full border border-[#008F83] px-2 py-0.5 text-[#008F83]">4</strong>Get unscrambled words and final answer</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+            <div className="rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-md shadow-[#315C4C]/5">
+              <div className="flex items-start gap-5">
+                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-[#FFF4D8] text-[#F39C12]">
+                  <Star className="h-5 w-5" />
+                </span>
+                <div>
+                  <h2 className="text-xl font-black text-[#142436]">Jumble Tips</h2>
+                  <ul className="mt-4 grid gap-2 text-sm leading-6 text-[#4A5968]">
+                    <li className="flex gap-2"><span className="text-[#F06423]">&bull;</span>Look for common letter patterns</li>
+                    <li className="flex gap-2"><span className="text-[#F06423]">&bull;</span>Try different vowel positions</li>
+                    <li className="flex gap-2"><span className="text-[#F06423]">&bull;</span>Consider word endings like -ING, -ED</li>
+                    <li className="flex gap-2"><span className="text-[#F06423]">&bull;</span>Use the final clue for context</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section className="mx-auto mt-8 grid max-w-6xl gap-5 sm:grid-cols-2 lg:grid-cols-5">
+        <JumbleInfoCard Icon={FileText} title="What is Jumble?" accent="#008F83">
+          <p>Jumble is a popular word puzzle that challenges you to unscramble letters and solve the final mystery word using a helpful clue.</p>
+        </JumbleInfoCard>
+        <JumbleInfoCard Icon={SlidersHorizontal} title="How to Use Jumble Solver?" accent="#8A57D6">
+          <p>Enter scrambled words and an optional clue. Our tool quickly finds possible solutions and the final answer.</p>
+        </JumbleInfoCard>
+        <JumbleInfoCard Icon={Users} title="Who Can Use Jumble Solver?" accent="#2F80D8">
+          <p>Students, puzzle lovers, and word game players of all ages can use Jumble Solver to learn and have fun.</p>
+        </JumbleInfoCard>
+        <JumbleInfoCard Icon={Trophy} title="Why Use Our Solver?" accent="#F39C12">
+          <p>Fast, accurate, and easy to use. Save time and improve your vocabulary with smart solving help.</p>
+        </JumbleInfoCard>
+        <JumbleInfoCard Icon={ListChecks} title="Summary" accent="#56B23F">
+          <p>Jumble Solver helps you unscramble words and solve the puzzle with confidence and ease every day.</p>
+        </JumbleInfoCard>
+      </section>
+
+      <section className="mx-auto mt-10 max-w-6xl">
+        <h2 className="text-center text-3xl font-black text-[#142436]">
+          Explore More <span className="text-[#008F83]">Word Solvers</span>
+        </h2>
+        <p className="mt-2 text-center text-sm text-[#68645E]">Try our other powerful tools to solve any word puzzle with ease.</p>
+        <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {relatedTools.map(({ href, label, points, Icon, accent, cta }) => (
+            <Link key={label} href={href} className="group rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-md shadow-[#315C4C]/5 hover:-translate-y-1 hover:shadow-lg">
+              <div className="flex items-center gap-4">
+                <span className="grid h-14 w-14 place-items-center rounded-xl text-white" style={{ backgroundColor: accent }}>
+                  <Icon className="h-7 w-7" />
+                </span>
+                <h3 className="text-lg font-black text-[#142436]">{label}</h3>
+              </div>
+              <ul className="mt-5 grid gap-2 text-sm text-[#344153]">
+                {points.map((point) => (
+                  <li key={point} className="flex gap-2">
+                    <span style={{ color: accent }}>&bull;</span>
+                    <span>{point}</span>
+                  </li>
+                ))}
+              </ul>
+              <span className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-black text-white" style={{ backgroundColor: accent }}>
+                {cta}
+              </span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="mx-auto mt-10 max-w-5xl">
+        <h2 className="text-center text-3xl font-black text-[#142436]">
+          FAQs About <span className="text-[#008F83]">Jumble Solver</span>
+        </h2>
+        <div className="mt-5 divide-y divide-[#E5DED3] overflow-hidden rounded-xl border border-[#E5DED3] bg-[#FFFDF9] shadow-sm">
+          {jumbleFaq.map((item, index) => (
+            <details key={item.question} className="group p-4">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-black text-[#142436]">
+                <span>{index + 1}. {item.question}</span>
+                <ArrowRight className="h-4 w-4 text-[#008F83] transition group-open:rotate-90" />
+              </summary>
+              <p className="mt-3 text-sm leading-6 text-[#68645E]">{item.answer}</p>
+            </details>
+          ))}
+        </div>
+        <p className="mt-6 text-center text-sm leading-6 text-[#68645E]">{disclaimer}</p>
+      </section>
+    </article>
+  );
+}
+
 export default function SolverPage({ params }: Props) {
   const solver = getSolver(params.slug);
   if (!solver || !solver.implemented || solver.inputType === "directory") notFound();
   if (solver.slug === "quordle-solver") return <QuordleSolverPage />;
   if (solver.slug === "crossword-solver") return <CrosswordSolverPage />;
+  if (solver.slug === "jumble-solver") return <JumbleSolverPage />;
   if (solver.inputType === "wordle" && solver.wordLength) return <WordleLengthSolverPage solver={solver} />;
   if (solver.slug === "letter-box-solver") return <LetterBoxSolverPage />;
   if (solver.slug === "spelling-bee-solver") return <SpellingBeeSolverPage />;

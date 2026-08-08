@@ -159,6 +159,14 @@ async function exerciseTools(page) {
   await page.getByRole("button", { name: "Find Words" }).click();
   const wwfCount = await page.locator("text=QUIET").count();
   if (!wwfCount) record("Words With Friends Solver did not produce QUIET");
+
+  await page.goto(`${baseUrl}/solvers/jumble-solver/`, { waitUntil: "networkidle" });
+  await page.getByPlaceholder(/Enter scrambled word 1/i).fill("REACT");
+  await page.getByPlaceholder(/Enter scrambled word 2/i).fill("QUIET");
+  await page.getByPlaceholder(/final answer/i).fill("word puzzle");
+  await page.getByRole("button", { name: "Solve Jumble" }).click();
+  const jumbleCount = await page.locator("text=Unscrambled Words").count();
+  if (!jumbleCount) record("Jumble Solver did not render unscrambled words area");
 }
 
 async function exerciseNavHover(page) {
@@ -213,6 +221,7 @@ try {
     "/solvers/quordle-solver/",
     "/solvers/crossword-solver/",
     "/solvers/words-with-friends-solver/",
+    "/solvers/jumble-solver/",
     "/hints/connections/",
     "/hints/strands/2026-08-02/",
     "/today/",

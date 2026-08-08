@@ -4,7 +4,7 @@ export type SolverConfig = {
   shortDescription: string;
   category: "Wordle Solvers" | "Puzzle Solvers" | "Word Finders";
   icon: "grid" | "bee" | "shuffle" | "search" | "book" | "sparkles";
-  inputType: "wordle" | "spelling-bee" | "anagram" | "letter-box" | "crossword" | "directory";
+  inputType: "wordle" | "spelling-bee" | "anagram" | "letter-box" | "crossword" | "jumble" | "directory";
   relatedSolvers: string[];
   seo: {
     title: string;
@@ -184,16 +184,16 @@ export const solverRegistry: SolverConfig[] = [
   {
     slug: "jumble-solver",
     name: "Jumble Solver",
-    shortDescription: "A planned quick unscrambler for jumble-style word puzzles.",
+    shortDescription: "Unscramble daily jumble words and explore final answer candidates from a clue.",
     category: "Word Finders",
     icon: "shuffle",
-    inputType: "directory",
-    relatedSolvers: ["anagram-solver", "word-unscrambler", "wordle-solver"],
+    inputType: "jumble",
+    relatedSolvers: ["anagram-solver", "word-unscrambler", "crossword-solver"],
     seo: {
       title: "Jumble Solver - Unscramble Jumbled Letters",
-      description: "A planned solver for jumble-style scrambled word puzzles.",
+      description: "Use a Jumble solver to unscramble multiple jumbled words and find final answer candidates from a clue.",
     },
-    implemented: false,
+    implemented: true,
   },
 ];
 

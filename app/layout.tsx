@@ -70,7 +70,7 @@ const puzzleSolverMenu = [
   { href: "/solvers/quordle-solver", label: "Quordle Solver" },
   { href: "/solvers/crossword-solver", label: "Crossword Solver" },
   { href: "/solvers/words-with-friends-solver", label: "Words With Friends Solver" },
-  { href: "/all-solvers", label: "Jumble Solver" },
+  { href: "/solvers/jumble-solver", label: "Jumble Solver" },
 ];
 
 function BrandLogo() {
