@@ -5,6 +5,18 @@ const root = process.cwd();
 const outDir = path.join(root, "out");
 const siteUrl = "https://strandshint.net";
 const sitemapPath = path.join(outDir, "sitemap.xml");
+const solverRoutes = new Set([
+  "/wordle-solver",
+  "/spelling-bee-solver",
+  "/anagram-solver",
+  "/word-unscrambler",
+  "/scrabble-solver",
+  "/scrabble-word-finder",
+  "/quordle-solver",
+  "/crossword-solver",
+  "/words-with-friends-solver",
+  "/jumble-solver",
+]);
 let failures = 0;
 
 function fail(message) {
@@ -69,7 +81,7 @@ if (!existsSync(sitemapPath)) {
     if (canonical !== url.replace(/\/$/, "")) fail(`${url} canonical mismatch: ${canonical || "missing"}`);
     if (!jsonLdTypes.includes("BreadcrumbList")) fail(`${url} is missing BreadcrumbList JSON-LD`);
     if (!linkCount) fail(`${url} has no internal links`);
-    if (url.includes("/solvers/") && !jsonLdTypes.includes("WebApplication")) {
+    if (solverRoutes.has(new URL(url).pathname.replace(/\/$/, "")) && !jsonLdTypes.includes("WebApplication")) {
       fail(`${url} solver page is missing WebApplication JSON-LD`);
     }
   }

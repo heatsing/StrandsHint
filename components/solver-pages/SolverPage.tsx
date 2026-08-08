@@ -30,10 +30,6 @@ import { absoluteUrl, breadcrumbSchema, disclaimer } from "@/lib/seo";
 
 type Props = { params: { slug: string } };
 
-export function generateStaticParams() {
-  return solverRegistry.filter((solver) => solver.implemented && ["wordle", "spelling-bee", "anagram", "letter-box", "crossword", "jumble"].some((kind) => solver.inputType === kind)).map((solver) => ({ slug: solver.slug }));
-}
-
 export function generateMetadata({ params }: Props): Metadata {
   const solver = getSolver(params.slug);
   if (!solver || !solver.implemented) return {};
@@ -182,10 +178,10 @@ function InfoRow({
 }
 
 function SpellingBeeSolverPage() {
-  const path = "/solvers/spelling-bee-solver";
+  const path = "/spelling-bee-solver";
   const relatedTools = [
-    { href: "/solvers/word-unscrambler", label: "Word Unscrambler", text: "Unscramble letters instantly and find possible words.", Icon: Shuffle, accent: "#D99A00" },
-    { href: "/solvers/anagram-solver", label: "Anagram Solver", text: "Find anagrams and solve words from any letters.", Icon: RefreshCw, accent: "#008F83" },
+    { href: "/word-unscrambler", label: "Word Unscrambler", text: "Unscramble letters instantly and find possible words.", Icon: Shuffle, accent: "#D99A00" },
+    { href: "/anagram-solver", label: "Anagram Solver", text: "Find anagrams and solve words from any letters.", Icon: RefreshCw, accent: "#008F83" },
     { href: "/strands-word-finder", label: "Word Finder", text: "Find all words by length, starting letter, and more.", Icon: ListChecks, accent: "#3FA34D" },
     { href: "/all-solvers", label: "Pattern Solver", text: "Use known letters and blanks to find matching words.", Icon: ClipboardList, accent: "#E0544F" },
   ];
@@ -375,10 +371,10 @@ function WordleSolverPage({ solver }: { solver: NonNullable<ReturnType<typeof ge
     sideDots: "#2F80D8",
     gradient: "linear-gradient(90deg,#008F83,#12A37F)",
   };
-  const path = `/solvers/${solver.slug}`;
+  const path = getSolverPath(solver);
   const relatedTools = [
-    { href: "/solvers/anagram-solver", label: "Anagram Solver", points: ["Find words from jumbled letters", "Supports multiple lengths", "Great for word games"], Icon: Shuffle, accent: "#008F83", cta: "Try Anagram Solver" },
-    { href: "/solvers/word-unscrambler", label: "Word Unscrambler", points: ["Unscramble letters instantly", "Find all possible words", "Sort by length or alphabet"], Icon: FileText, accent: "#D99A00", cta: "Try Unscrambler" },
+    { href: "/anagram-solver", label: "Anagram Solver", points: ["Find words from jumbled letters", "Supports multiple lengths", "Great for word games"], Icon: Shuffle, accent: "#008F83", cta: "Try Anagram Solver" },
+    { href: "/word-unscrambler", label: "Word Unscrambler", points: ["Unscramble letters instantly", "Find all possible words", "Sort by length or alphabet"], Icon: FileText, accent: "#D99A00", cta: "Try Unscrambler" },
     { href: "/5-letter-wordle-solver", label: "5-Letter Word Finder", points: ["Find all 5-letter words", "Filter by included letters", "Perfect for Wordle hints"], Icon: ListChecks, accent: "#3FA34D", cta: "Try 5-Letter Finder" },
     { href: "/all-solvers", label: "Pattern Solver", points: ["Use patterns like _A_E_", "Wildcard and position based", "Find words that match"], Icon: ClipboardList, accent: "#8A57D6", cta: "Try Pattern Solver" },
   ];
@@ -516,8 +512,8 @@ function WordleLengthSolverPage({ solver }: { solver: NonNullable<ReturnType<typ
   const path = getSolverPath(solver);
   const relatedTools = [
     { href: "/5-letter-wordle-solver", label: "5-Letter Word Finder", points: ["Find all valid 5-letter words", "Great for Wordle and more", "Sort, filter, and explore"], Icon: ListChecks, accent: "#3FA34D" },
-    { href: "/solvers/anagram-solver", label: "Anagram Solver", points: ["Find words from messy letters", "All lengths and dictionary-based", "Perfect for any word game"], Icon: Search, accent: "#008F83" },
-    { href: "/solvers/word-unscrambler", label: "Word Unscrambler", points: ["Unscramble letters instantly", "Filter by length and patterns", "Boost your vocabulary"], Icon: Shuffle, accent: "#D99A00" },
+    { href: "/anagram-solver", label: "Anagram Solver", points: ["Find words from messy letters", "All lengths and dictionary-based", "Perfect for any word game"], Icon: Search, accent: "#008F83" },
+    { href: "/word-unscrambler", label: "Word Unscrambler", points: ["Unscramble letters instantly", "Filter by length and patterns", "Boost your vocabulary"], Icon: Shuffle, accent: "#D99A00" },
     { href: "/all-solvers", label: "Pattern Solver", points: ["Use known letters and blanks", "Find words that match pattern", "Wildcard friendly"], Icon: ClipboardList, accent: "#E0544F" },
   ];
   const faq = wordleLengthFaq.map((item) =>
@@ -667,11 +663,11 @@ function WordleLengthSolverPage({ solver }: { solver: NonNullable<ReturnType<typ
 }
 
 function LetterBoxSolverPage() {
-  const path = "/solvers/letter-box-solver";
+  const path = "/letter-box-solver";
   const relatedTools = [
-    { href: "/solvers/anagram-solver", label: "Anagram Solver", points: ["Find all possible anagrams", "From letters you provide", "Expand your vocabulary"], Icon: ListChecks, accent: "#008F83" },
-    { href: "/solvers/word-unscrambler", label: "Word Unscrambler", points: ["Unscramble jumbled letters", "Find all valid words", "Perfect for any word game"], Icon: Shuffle, accent: "#8A57D6" },
-    { href: "/solvers/crossword-solver", label: "Crossword Helper", points: ["Get crossword answers", "Clue-based suggestions", "Solve puzzles with ease"], Icon: ClipboardList, accent: "#2F80D8" },
+    { href: "/anagram-solver", label: "Anagram Solver", points: ["Find all possible anagrams", "From letters you provide", "Expand your vocabulary"], Icon: ListChecks, accent: "#008F83" },
+    { href: "/word-unscrambler", label: "Word Unscrambler", points: ["Unscramble jumbled letters", "Find all valid words", "Perfect for any word game"], Icon: Shuffle, accent: "#8A57D6" },
+    { href: "/crossword-solver", label: "Crossword Helper", points: ["Get crossword answers", "Clue-based suggestions", "Solve puzzles with ease"], Icon: ClipboardList, accent: "#2F80D8" },
     { href: "/all-solvers", label: "Pattern Solver", points: ["Find words by pattern", "Use wildcards like _ or ?", "Custom length options"], Icon: Star, accent: "#E86F3D" },
   ];
   const faqSchema = {
@@ -850,10 +846,10 @@ const wordFinderPageConfig = {
       { Icon: Users, title: "Who Can Use This Tool?", body: "Students, writers, gamers, and word enthusiasts of all levels.", accent: "#008F83" },
     ],
     related: [
-      { href: "/solvers/word-unscrambler", label: "Word Unscrambler", text: "Unscramble letters instantly and find all possible words.", Icon: Shuffle, accent: "#D99A00", cta: "Use Unscrambler" },
-      { href: "/solvers/scrabble-word-finder", label: "Scrabble Word Finder", text: "Find valid Scrabble words and maximize your score.", Icon: ListChecks, accent: "#3FA34D", cta: "Find Scrabble Words" },
+      { href: "/word-unscrambler", label: "Word Unscrambler", text: "Unscramble letters instantly and find all possible words.", Icon: Shuffle, accent: "#D99A00", cta: "Use Unscrambler" },
+      { href: "/scrabble-word-finder", label: "Scrabble Word Finder", text: "Find valid Scrabble words and maximize your score.", Icon: ListChecks, accent: "#3FA34D", cta: "Find Scrabble Words" },
       { href: "/all-solvers", label: "Pattern Solver", text: "Find words that match specific patterns and blanks.", Icon: ClipboardList, accent: "#E0544F", cta: "Use Pattern Solver" },
-      { href: "/solvers/crossword-solver", label: "Crossword Helper", text: "Solve crossword clues faster and discover new words.", Icon: Search, accent: "#2F80D8", cta: "Open Crossword Helper" },
+      { href: "/crossword-solver", label: "Crossword Helper", text: "Solve crossword clues faster and discover new words.", Icon: Search, accent: "#2F80D8", cta: "Open Crossword Helper" },
     ],
     faq: [
       ["How does the Anagram Solver work?", "It compares your letters against a local word list and returns words that can be formed from those letters."],
@@ -892,10 +888,10 @@ const wordFinderPageConfig = {
       { Icon: Users, title: "Who Can Use Word Unscrambler?", body: "Word game players, students, learners, puzzle fans, and trivia players.", accent: "#2F80D8" },
     ],
     related: [
-      { href: "/solvers/anagram-solver", label: "Anagram Solver", text: "Find words from messy letters with dictionary-based search.", Icon: RefreshCw, accent: "#008F83", cta: "Use Anagram Solver" },
-      { href: "/solvers/scrabble-word-finder", label: "Scrabble Word Finder", text: "Find valid Scrabble words and improve your score.", Icon: ListChecks, accent: "#8A57D6", cta: "Find Words" },
+      { href: "/anagram-solver", label: "Anagram Solver", text: "Find words from messy letters with dictionary-based search.", Icon: RefreshCw, accent: "#008F83", cta: "Use Anagram Solver" },
+      { href: "/scrabble-word-finder", label: "Scrabble Word Finder", text: "Find valid Scrabble words and improve your score.", Icon: ListChecks, accent: "#8A57D6", cta: "Find Words" },
       { href: "/all-solvers", label: "Pattern Solver", text: "Use patterns and wildcards to find words that match.", Icon: ClipboardList, accent: "#E0544F", cta: "Use Pattern Solver" },
-      { href: "/solvers/crossword-solver", label: "Crossword Helper", text: "Search by clue or pattern with a practical word helper.", Icon: Search, accent: "#2F80D8", cta: "Open Crossword Helper" },
+      { href: "/crossword-solver", label: "Crossword Helper", text: "Search by clue or pattern with a practical word helper.", Icon: Search, accent: "#2F80D8", cta: "Open Crossword Helper" },
     ],
     faq: [
       ["Is the Word Unscrambler really free?", "Yes. You can use it without signing in."],
@@ -936,10 +932,10 @@ const wordFinderPageConfig = {
       { Icon: Users, title: "Who Can Use This Tool?", body: "Casual players, students, word game fans, and competitive puzzle solvers.", accent: "#008F83" },
     ],
     related: [
-      { href: "/solvers/scrabble-word-finder", label: "Scrabble Word Finder", text: "Browse high-scoring Scrabble-style words from rack letters.", Icon: ListChecks, accent: "#3FA34D", cta: "Find Scrabble Words" },
-      { href: "/solvers/word-unscrambler", label: "Word Unscrambler", text: "Unscramble mixed letters and filter by word length.", Icon: Shuffle, accent: "#D99A00", cta: "Use Unscrambler" },
-      { href: "/solvers/anagram-solver", label: "Anagram Solver", text: "Find rearranged words from any letter set.", Icon: Search, accent: "#008F83", cta: "Use Anagram Solver" },
-      { href: "/solvers/words-with-friends-solver", label: "Words With Friends Solver", text: "Find word-game candidates with similar rack logic.", Icon: Star, accent: "#2F80D8", cta: "Try WWF Solver" },
+      { href: "/scrabble-word-finder", label: "Scrabble Word Finder", text: "Browse high-scoring Scrabble-style words from rack letters.", Icon: ListChecks, accent: "#3FA34D", cta: "Find Scrabble Words" },
+      { href: "/word-unscrambler", label: "Word Unscrambler", text: "Unscramble mixed letters and filter by word length.", Icon: Shuffle, accent: "#D99A00", cta: "Use Unscrambler" },
+      { href: "/anagram-solver", label: "Anagram Solver", text: "Find rearranged words from any letter set.", Icon: Search, accent: "#008F83", cta: "Use Anagram Solver" },
+      { href: "/words-with-friends-solver", label: "Words With Friends Solver", text: "Find word-game candidates with similar rack logic.", Icon: Star, accent: "#2F80D8", cta: "Try WWF Solver" },
     ],
     faq: [
       ["Is this Scrabble Solver free to use?", "Yes. It runs in your browser and does not require an account."],
@@ -979,9 +975,9 @@ const wordFinderPageConfig = {
       { Icon: Users, title: "Who Can Use This Tool?", body: "Students, teachers, word game fans, and competitive players.", accent: "#008F83" },
     ],
     related: [
-      { href: "/solvers/anagram-solver", label: "Anagram Solver", text: "Find words from messy letters and any dictionary-based set.", Icon: Search, accent: "#008F83", cta: "Use Anagram Solver" },
-      { href: "/solvers/word-unscrambler", label: "Word Unscrambler", text: "Unscramble letters instantly and filter by length.", Icon: Shuffle, accent: "#D99A00", cta: "Use Unscrambler" },
-      { href: "/solvers/crossword-solver", label: "Crossword Helper", text: "Solve crossword clues faster with pattern search.", Icon: ClipboardList, accent: "#2F80D8", cta: "Open Crossword Helper" },
+      { href: "/anagram-solver", label: "Anagram Solver", text: "Find words from messy letters and any dictionary-based set.", Icon: Search, accent: "#008F83", cta: "Use Anagram Solver" },
+      { href: "/word-unscrambler", label: "Word Unscrambler", text: "Unscramble letters instantly and filter by length.", Icon: Shuffle, accent: "#D99A00", cta: "Use Unscrambler" },
+      { href: "/crossword-solver", label: "Crossword Helper", text: "Solve crossword clues faster with pattern search.", Icon: ClipboardList, accent: "#2F80D8", cta: "Open Crossword Helper" },
       { href: "/all-solvers", label: "Pattern Solver", text: "Use known letters and blanks to find matching words.", Icon: Star, accent: "#E0544F", cta: "Use Pattern Solver" },
     ],
     faq: [
@@ -1038,9 +1034,9 @@ const wordFinderPageConfig = {
       { Icon: Users, title: "Who Can Use This Tool?", body: "Perfect for players of all skill levels and ages.", accent: "#F06423", cta: "Learn more" },
     ],
     related: [
-      { href: "/solvers/anagram-solver", label: "Anagram Solver", text: "Find words from mixed letters and maximize your score.", Icon: RefreshCw, accent: "#008F83", cta: "Use Anagram Solver" },
-      { href: "/solvers/word-unscrambler", label: "Word Unscrambler", text: "Unscramble letters instantly and find all possible words.", Icon: Shuffle, accent: "#D99A00", cta: "Use Unscrambler" },
-      { href: "/solvers/scrabble-word-finder", label: "Scrabble Word Finder", text: "Find valid Scrabble words and top-scoring plays.", Icon: ListChecks, accent: "#3FA34D", cta: "Find Words" },
+      { href: "/anagram-solver", label: "Anagram Solver", text: "Find words from mixed letters and maximize your score.", Icon: RefreshCw, accent: "#008F83", cta: "Use Anagram Solver" },
+      { href: "/word-unscrambler", label: "Word Unscrambler", text: "Unscramble letters instantly and find all possible words.", Icon: Shuffle, accent: "#D99A00", cta: "Use Unscrambler" },
+      { href: "/scrabble-word-finder", label: "Scrabble Word Finder", text: "Find valid Scrabble words and top-scoring plays.", Icon: ListChecks, accent: "#3FA34D", cta: "Find Words" },
       { href: "/all-solvers", label: "Pattern Solver", text: "Find words that match your pattern or known letters.", Icon: ClipboardList, accent: "#E0544F", cta: "Use Pattern Solver" },
     ],
     faq: [
@@ -1085,7 +1081,7 @@ function WordFinderInfoCard({
 function WordFinderMarketingPage({ solver }: { solver: NonNullable<ReturnType<typeof getSolver>> }) {
   const config = wordFinderPageConfig[solver.slug as keyof typeof wordFinderPageConfig];
   if (!config) return null;
-  const path = `/solvers/${solver.slug}`;
+  const path = getSolverPath(solver);
   const faq = config.faq.map(([question, answer]) => ({ question, answer }));
   const faqSchema = {
     "@context": "https://schema.org",
@@ -1216,7 +1212,7 @@ const scrabbleSolverFaq = [
 ];
 
 function ScrabbleSolverPage({ solver }: { solver: NonNullable<ReturnType<typeof getSolver>> }) {
-  const path = `/solvers/${solver.slug}`;
+  const path = getSolverPath(solver);
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -1232,9 +1228,9 @@ function ScrabbleSolverPage({ solver }: { solver: NonNullable<ReturnType<typeof 
     ["Q, Z", "10"],
   ];
   const relatedTools = [
-    { href: "/solvers/anagram-solver", label: "Anagram Solver", points: ["Find words from mixed letters", "Word forms and variations", "Maximize your score"], Icon: Shuffle, accent: "#3FA34D", cta: "Try Anagram Solver" },
-    { href: "/solvers/word-unscrambler", label: "Word Unscrambler", points: ["Unscramble letters instantly", "All possible word combinations", "Sort by length or score"], Icon: ListChecks, accent: "#2F80D8", cta: "Try Unscrambler" },
-    { href: "/solvers/crossword-solver", label: "Crossword Helper", points: ["Find words by pattern length", "Get fitting words for clues", "Supports blanks and patterns"], Icon: ClipboardList, accent: "#8A57D6", cta: "Try Crossword Helper" },
+    { href: "/anagram-solver", label: "Anagram Solver", points: ["Find words from mixed letters", "Word forms and variations", "Maximize your score"], Icon: Shuffle, accent: "#3FA34D", cta: "Try Anagram Solver" },
+    { href: "/word-unscrambler", label: "Word Unscrambler", points: ["Unscramble letters instantly", "All possible word combinations", "Sort by length or score"], Icon: ListChecks, accent: "#2F80D8", cta: "Try Unscrambler" },
+    { href: "/crossword-solver", label: "Crossword Helper", points: ["Find words by pattern length", "Get fitting words for clues", "Supports blanks and patterns"], Icon: ClipboardList, accent: "#8A57D6", cta: "Try Crossword Helper" },
     { href: "/all-solvers", label: "Pattern Solver", points: ["Match specific letter patterns", "Use ? for unknown letters", "Great for tricky puzzles"], Icon: Star, accent: "#D99A00", cta: "Try Pattern Solver" },
   ];
 
@@ -1398,12 +1394,12 @@ function QuordleInfoCard({
 }
 
 function QuordleSolverPage() {
-  const path = "/solvers/quordle-solver";
+  const path = "/quordle-solver";
   const relatedTools = [
-    { href: "/solvers/anagram-solver", label: "Anagram Solver", points: ["Find words from letters", "Perfect for anagram games", "Fast and easy results"], Icon: Shuffle, accent: "#8A57D6", cta: "Try Anagram Solver" },
-    { href: "/solvers/word-unscrambler", label: "Word Unscrambler", points: ["Unscramble any letters", "Discover all possible words", "Great for word games"], Icon: RefreshCw, accent: "#2F80D8", cta: "Try Unscrambler" },
+    { href: "/anagram-solver", label: "Anagram Solver", points: ["Find words from letters", "Perfect for anagram games", "Fast and easy results"], Icon: Shuffle, accent: "#8A57D6", cta: "Try Anagram Solver" },
+    { href: "/word-unscrambler", label: "Word Unscrambler", points: ["Unscramble any letters", "Discover all possible words", "Great for word games"], Icon: RefreshCw, accent: "#2F80D8", cta: "Try Unscrambler" },
     { href: "/all-solvers", label: "Pattern Solver", points: ["Find words by pattern", "Use ? for unknown letters", "Supports custom lengths"], Icon: ListChecks, accent: "#12A37F", cta: "Try Pattern Solver" },
-    { href: "/solvers/crossword-solver", label: "Crossword Helper", points: ["Solve crossword clues", "Get suggestions fast", "Boost your puzzle skills"], Icon: ClipboardList, accent: "#F06423", cta: "Try Crossword Helper" },
+    { href: "/crossword-solver", label: "Crossword Helper", points: ["Solve crossword clues", "Get suggestions fast", "Boost your puzzle skills"], Icon: ClipboardList, accent: "#F06423", cta: "Try Crossword Helper" },
   ];
   const faqSchema = {
     "@context": "https://schema.org",
@@ -1590,12 +1586,12 @@ function CrosswordInfoCard({
 }
 
 function CrosswordSolverPage() {
-  const path = "/solvers/crossword-solver";
+  const path = "/crossword-solver";
   const relatedTools = [
-    { href: "/solvers/anagram-solver", label: "Anagram Solver", text: "Find words from letters and solve anagrams.", Icon: RefreshCw, accent: "#008F83", cta: "Open" },
-    { href: "/solvers/word-unscrambler", label: "Word Unscrambler", text: "Unscramble letters to discover words.", Icon: Shuffle, accent: "#D99A00", cta: "Open" },
+    { href: "/anagram-solver", label: "Anagram Solver", text: "Find words from letters and solve anagrams.", Icon: RefreshCw, accent: "#008F83", cta: "Open" },
+    { href: "/word-unscrambler", label: "Word Unscrambler", text: "Unscramble letters to discover words.", Icon: Shuffle, accent: "#D99A00", cta: "Open" },
     { href: "/all-solvers", label: "Pattern Solver", text: "Find words that match your letter pattern.", Icon: ListChecks, accent: "#E0544F", cta: "Open" },
-    { href: "/solvers/scrabble-word-finder", label: "Scrabble Word Finder", text: "Find high-scoring words for your next move.", Icon: ClipboardList, accent: "#2F80D8", cta: "Open" },
+    { href: "/scrabble-word-finder", label: "Scrabble Word Finder", text: "Find high-scoring words for your next move.", Icon: ClipboardList, accent: "#2F80D8", cta: "Open" },
   ];
   const faqSchema = {
     "@context": "https://schema.org",
@@ -1775,11 +1771,11 @@ function JumbleInfoCard({
 }
 
 function JumbleSolverPage() {
-  const path = "/solvers/jumble-solver";
+  const path = "/jumble-solver";
   const relatedTools = [
-    { href: "/solvers/anagram-solver", label: "Anagram Solver", points: ["Find words from scrambled letters", "Great for anagram and jumble games", "Instant results and suggestions"], Icon: Shuffle, accent: "#008F83", cta: "Try Anagram Solver" },
-    { href: "/solvers/word-unscrambler", label: "Word Unscrambler", points: ["Unscramble letters into valid words", "Supports long and short words", "Perfect for any word puzzle"], Icon: Star, accent: "#8A57D6", cta: "Try Word Unscrambler" },
-    { href: "/solvers/crossword-solver", label: "Crossword Helper", points: ["Find answers for crossword clues", "Search by length or known letters", "Boost your crossword skills"], Icon: ClipboardList, accent: "#F39C12", cta: "Try Crossword Helper" },
+    { href: "/anagram-solver", label: "Anagram Solver", points: ["Find words from scrambled letters", "Great for anagram and jumble games", "Instant results and suggestions"], Icon: Shuffle, accent: "#008F83", cta: "Try Anagram Solver" },
+    { href: "/word-unscrambler", label: "Word Unscrambler", points: ["Unscramble letters into valid words", "Supports long and short words", "Perfect for any word puzzle"], Icon: Star, accent: "#8A57D6", cta: "Try Word Unscrambler" },
+    { href: "/crossword-solver", label: "Crossword Helper", points: ["Find answers for crossword clues", "Search by length or known letters", "Boost your crossword skills"], Icon: ClipboardList, accent: "#F39C12", cta: "Try Crossword Helper" },
     { href: "/all-solvers", label: "Pattern Solver", points: ["Find words that match patterns", "Use ? or _ as wildcard letters", "Ideal for word game players"], Icon: ListChecks, accent: "#56B23F", cta: "Try Pattern Solver" },
   ];
   const faqSchema = {
@@ -1935,7 +1931,7 @@ export default function SolverPage({ params }: Props) {
   if (solver.slug === "letter-box-solver") return <LetterBoxSolverPage />;
   if (solver.slug === "spelling-bee-solver") return <SpellingBeeSolverPage />;
   if (solver.slug === "anagram-solver" || solver.slug === "word-unscrambler" || solver.slug === "scrabble-solver" || solver.slug === "scrabble-word-finder" || solver.slug === "words-with-friends-solver") return <WordFinderMarketingPage solver={solver} />;
-  const path = `/solvers/${solver.slug}`;
+  const path = getSolverPath(solver);
   const related = solver.relatedSolvers.map(getSolver).filter(Boolean);
   const faq = [
     { question: `What is the ${solver.name}?`, answer: `${solver.name} is a local helper that narrows word candidates from the information you enter.` },
@@ -1999,7 +1995,7 @@ export default function SolverPage({ params }: Props) {
         <h2 className="font-serif text-3xl font-black">Related solvers</h2>
         <div className="mt-4 grid gap-4 md:grid-cols-3">
           {related.map((item) => item ? (
-            <Link key={item.slug} href={item.implemented && item.inputType !== "directory" ? `/solvers/${item.slug}` : "/all-solvers"} className="group rounded-xl border border-[#E5DED3] bg-white p-4 hover:border-[#315C4C]/50">
+            <Link key={item.slug} href={getSolverPath(item)} className="group rounded-xl border border-[#E5DED3] bg-white p-4 hover:border-[#315C4C]/50">
               <h3 className="font-serif text-xl font-black">{item.name}</h3>
               <p className="mt-2 text-sm leading-6 text-[#68645E]">{item.shortDescription}</p>
               <span className="mt-3 inline-flex items-center gap-2 text-sm font-bold text-[#315C4C]">Open <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" /></span>

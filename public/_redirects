@@ -11,3 +11,14 @@
 /solvers/10-letter-wordle-solver/ /10-letter-wordle-solver/ 301
 /solvers/11-letter-wordle-solver/ /11-letter-wordle-solver/ 301
 /solvers/12-letter-wordle-solver/ /12-letter-wordle-solver/ 301
+/solvers/wordle-solver/ /wordle-solver/ 301
+/solvers/spelling-bee-solver/ /spelling-bee-solver/ 301
+/solvers/letter-box-solver/ /letter-box-solver/ 301
+/solvers/scrabble-solver/ /scrabble-solver/ 301
+/solvers/scrabble-word-finder/ /scrabble-word-finder/ 301
+/solvers/word-unscrambler/ /word-unscrambler/ 301
+/solvers/anagram-solver/ /anagram-solver/ 301
+/solvers/quordle-solver/ /quordle-solver/ 301
+/solvers/crossword-solver/ /crossword-solver/ 301
+/solvers/words-with-friends-solver/ /words-with-friends-solver/ 301
+/solvers/jumble-solver/ /jumble-solver/ 301

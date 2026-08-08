@@ -100,14 +100,14 @@ async function checkPage(page, route, viewportName) {
 }
 
 async function exerciseTools(page) {
-  await page.goto(`${baseUrl}/solvers/wordle-solver/`, { waitUntil: "networkidle" });
+  await page.goto(`${baseUrl}/wordle-solver/`, { waitUntil: "networkidle" });
   await page.getByLabel("Green letter 1").fill("A");
   await page.getByLabel("Excluded Letters (Gray)").fill("RT");
   await page.getByRole("button", { name: "Find Solutions" }).click();
   const wordleCount = await page.locator("text=APPLE").count();
   if (!wordleCount) record("Wordle Solver example did not produce APPLE");
 
-  await page.goto(`${baseUrl}/solvers/spelling-bee-solver/`, { waitUntil: "networkidle" });
+  await page.goto(`${baseUrl}/spelling-bee-solver/`, { waitUntil: "networkidle" });
   await page.getByLabel("Center letter").fill("E");
   for (const [index, letter] of ["A", "B", "L", "T", "C", "N"].entries()) {
     await page.getByLabel(`Outer letter ${index + 1}`).fill(letter);
@@ -116,51 +116,51 @@ async function exerciseTools(page) {
   const beeResultCount = await page.locator("text=ELECT").count();
   if (!beeResultCount) record("Spelling Bee Solver example did not produce ELECT");
 
-  await page.goto(`${baseUrl}/solvers/letter-box-solver/`, { waitUntil: "networkidle" });
+  await page.goto(`${baseUrl}/letter-box-solver/`, { waitUntil: "networkidle" });
   await page.getByRole("button", { name: "Autofill Today" }).click();
   await page.getByRole("button", { name: "Find Solutions" }).click();
   const letterBoxCount = await page.locator("text=Solutions").count();
   if (!letterBoxCount) record("Letter Boxed Solver did not render solutions area");
 
-  await page.goto(`${baseUrl}/solvers/anagram-solver/`, { waitUntil: "networkidle" });
+  await page.goto(`${baseUrl}/anagram-solver/`, { waitUntil: "networkidle" });
   await page.getByPlaceholder(/Enter word to find anagrams/i).fill("REACT");
   await page.getByRole("button", { name: "Find Anagrams" }).click();
   const anagramCount = await page.locator("text=TRACE").count();
   if (!anagramCount) record("Anagram Solver example did not produce TRACE");
 
-  await page.goto(`${baseUrl}/solvers/word-unscrambler/`, { waitUntil: "networkidle" });
+  await page.goto(`${baseUrl}/word-unscrambler/`, { waitUntil: "networkidle" });
   await page.getByPlaceholder(/Enter scrambled letters/i).fill("REACT");
   await page.getByRole("button", { name: "Unscramble Words" }).click();
   const unscramblerCount = await page.locator("text=TRACE").count();
   if (!unscramblerCount) record("Word Unscrambler did not produce TRACE");
 
-  await page.goto(`${baseUrl}/solvers/scrabble-word-finder/`, { waitUntil: "networkidle" });
+  await page.goto(`${baseUrl}/scrabble-word-finder/`, { waitUntil: "networkidle" });
   await page.getByPlaceholder(/Enter your letters/i).fill("QUIET?");
   await page.getByRole("button", { name: "Find Words" }).click();
   const scrabbleCount = await page.locator("text=QUIET").count();
   if (!scrabbleCount) record("Scrabble Word Finder did not produce QUIET");
 
-  await page.goto(`${baseUrl}/solvers/quordle-solver/`, { waitUntil: "networkidle" });
+  await page.goto(`${baseUrl}/quordle-solver/`, { waitUntil: "networkidle" });
   await page.getByLabel("Green letter 1").fill("S");
   await page.getByLabel("Yellow letter 2").fill("T");
   await page.getByRole("button", { name: "Find Solutions" }).click();
   const quordleCount = await page.locator("text=Solutions").count();
   if (!quordleCount) record("Quordle Solver did not render solutions area");
 
-  await page.goto(`${baseUrl}/solvers/crossword-solver/`, { waitUntil: "networkidle" });
+  await page.goto(`${baseUrl}/crossword-solver/`, { waitUntil: "networkidle" });
   await page.getByPlaceholder(/Enter the crossword clue/i).fill("word puzzle");
   await page.getByPlaceholder(/Enter known letters/i).fill("P?ZZ?E");
   await page.getByRole("button", { name: "Solve Clue" }).click();
   const crosswordCount = await page.locator("text=Ranked Solutions").count();
   if (!crosswordCount) record("Crossword Solver did not render ranked solutions area");
 
-  await page.goto(`${baseUrl}/solvers/words-with-friends-solver/`, { waitUntil: "networkidle" });
+  await page.goto(`${baseUrl}/words-with-friends-solver/`, { waitUntil: "networkidle" });
   await page.getByPlaceholder(/Enter your letters/i).fill("QUIET?");
   await page.getByRole("button", { name: "Find Words" }).click();
   const wwfCount = await page.locator("text=QUIET").count();
   if (!wwfCount) record("Words With Friends Solver did not produce QUIET");
 
-  await page.goto(`${baseUrl}/solvers/jumble-solver/`, { waitUntil: "networkidle" });
+  await page.goto(`${baseUrl}/jumble-solver/`, { waitUntil: "networkidle" });
   await page.getByPlaceholder(/Enter scrambled word 1/i).fill("REACT");
   await page.getByPlaceholder(/Enter scrambled word 2/i).fill("QUIET");
   await page.getByPlaceholder(/final answer/i).fill("word puzzle");
@@ -191,11 +191,11 @@ async function exerciseNavHover(page) {
   }
 
   await page.getByRole("button", { name: "Puzzle Solver" }).hover();
-  if (!(await page.locator('nav a[href*="/solvers/words-with-friends-solver"]').first().isVisible())) {
+  if (!(await page.locator('nav a[href*="/words-with-friends-solver"]').first().isVisible())) {
     record("Puzzle Solver menu did not open on hover");
   }
   await page.mouse.move(20, 500);
-  if (await page.locator('nav a[href*="/solvers/words-with-friends-solver"]').first().isVisible()) {
+  if (await page.locator('nav a[href*="/words-with-friends-solver"]').first().isVisible()) {
     record("Puzzle Solver menu did not close after hover out");
   }
 }
@@ -210,18 +210,18 @@ try {
     "/",
     "/all-solvers/",
     "/daily-hints/",
-    "/solvers/wordle-solver/",
+    "/wordle-solver/",
     "/4-letter-wordle-solver/",
     "/12-letter-wordle-solver/",
-    "/solvers/spelling-bee-solver/",
-    "/solvers/letter-box-solver/",
-    "/solvers/anagram-solver/",
-    "/solvers/word-unscrambler/",
-    "/solvers/scrabble-word-finder/",
-    "/solvers/quordle-solver/",
-    "/solvers/crossword-solver/",
-    "/solvers/words-with-friends-solver/",
-    "/solvers/jumble-solver/",
+    "/spelling-bee-solver/",
+    "/letter-box-solver/",
+    "/anagram-solver/",
+    "/word-unscrambler/",
+    "/scrabble-word-finder/",
+    "/quordle-solver/",
+    "/crossword-solver/",
+    "/words-with-friends-solver/",
+    "/jumble-solver/",
     "/hints/connections/",
     "/hints/strands/2026-08-02/",
     "/today/",

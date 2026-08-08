@@ -2,24 +2,31 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getSolver, solverRegistry } from "@/data/solver-registry";
 import { absoluteUrl } from "@/lib/seo";
-import SolverPage from "../solvers/[slug]/page";
+import SolverPage from "@/components/solver-pages/SolverPage";
 
 type Props = { params: { slug: string } };
 
-const rootWordleSolvers = solverRegistry.filter((solver) => solver.implemented && Boolean(solver.wordLength));
+const rootSolvers = solverRegistry.filter((solver) => solver.implemented && solver.inputType !== "directory");
 
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return rootWordleSolvers.map((solver) => ({ slug: solver.slug }));
+  return rootSolvers.map((solver) => ({ slug: solver.slug }));
 }
 
 export function generateMetadata({ params }: Props): Metadata {
   const solver = getSolver(params.slug);
-  if (!solver || !solver.implemented || !solver.wordLength) return {};
+  if (!solver || !solver.implemented || solver.inputType === "directory") return {};
   const path = `/${solver.slug}`;
+  const title =
+    solver.slug === "scrabble-word-finder" ||
+    solver.slug === "scrabble-solver" ||
+    solver.slug === "spelling-bee-solver" ||
+    solver.slug === "letter-box-solver"
+      ? { absolute: solver.seo.title }
+      : solver.seo.title;
   return {
-    title: solver.seo.title,
+    title,
     description: solver.seo.description,
     alternates: { canonical: path },
     openGraph: { title: solver.seo.title, description: solver.seo.description, url: absoluteUrl(path), type: "website" },
@@ -29,6 +36,6 @@ export function generateMetadata({ params }: Props): Metadata {
 
 export default function RootWordleSolverPage({ params }: Props) {
   const solver = getSolver(params.slug);
-  if (!solver || !solver.implemented || !solver.wordLength) notFound();
+  if (!solver || !solver.implemented || solver.inputType === "directory") notFound();
   return <SolverPage params={params} />;
 }

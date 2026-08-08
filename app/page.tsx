@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import Link from "next/link";
 import {
   Archive,
@@ -18,7 +18,7 @@ import {
   Zap,
 } from "lucide-react";
 import { JsonLd } from "@/components/JsonLd";
-import { getImplementedSolvers } from "@/data/solver-registry";
+import { getImplementedSolvers, getSolverPath } from "@/data/solver-registry";
 import { breadcrumbSchema, disclaimer } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -126,21 +126,21 @@ const dailyHintCards = [
 
 const solverCards = [
   {
-    href: "/solvers/anagram-solver",
+    href: "/anagram-solver",
     title: "Anagram Solver",
     points: ["Find words from messy letters", "Supports wildcard letters", "Sorted by length"],
     Icon: Shuffle,
     accent: "#008F83",
   },
   {
-    href: "/solvers/word-unscrambler",
+    href: "/word-unscrambler",
     title: "Word Unscrambler",
     points: ["Unscramble letters locally", "Filter by length and pattern", "Copy results"],
     Icon: Shuffle,
     accent: "#D99A00",
   },
   {
-    href: "/solvers/wordle-solver",
+    href: "/wordle-solver",
     title: "Wordle Solver",
     points: ["Use known positions", "Include and exclude letters", "Handles repeated letters"],
     Icon: Grid3X3,
@@ -154,7 +154,7 @@ const solverCards = [
     accent: "#2F80D8",
   },
   {
-    href: "/solvers/spelling-bee-solver",
+    href: "/spelling-bee-solver",
     title: "Spelling Bee Solver",
     points: ["Center-letter rules", "Pangram detection", "Score calculation"],
     Icon: Sparkles,
@@ -364,7 +364,7 @@ export default function HomePage() {
 
       <section className="sr-only" aria-label="Implemented solver links">
         {implementedSolvers.map((solver) => (
-          <Link key={solver.slug} href={`/solvers/${solver.slug}`}>
+          <Link key={solver.slug} href={getSolverPath(solver)}>
             {solver.name}
           </Link>
         ))}

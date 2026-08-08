@@ -62,17 +62,17 @@ const wordleLengthMenu = Array.from({ length: 10 }, (_, index) => {
 });
 
 const puzzleSolverMenu = [
-  { href: "/solvers/wordle-solver", label: "Wordle Solver" },
-  { href: "/solvers/spelling-bee-solver", label: "Spelling Bee Solver" },
-  { href: "/solvers/letter-box-solver", label: "Letter Boxed Solver" },
-  { href: "/solvers/scrabble-solver", label: "Scrabble Solver" },
-  { href: "/solvers/scrabble-word-finder", label: "Scrabble Word Finder" },
-  { href: "/solvers/word-unscrambler", label: "Word Unscrambler" },
-  { href: "/solvers/anagram-solver", label: "Anagram Solver" },
-  { href: "/solvers/quordle-solver", label: "Quordle Solver" },
-  { href: "/solvers/crossword-solver", label: "Crossword Solver" },
-  { href: "/solvers/words-with-friends-solver", label: "Words With Friends Solver" },
-  { href: "/solvers/jumble-solver", label: "Jumble Solver" },
+  { href: "/wordle-solver", label: "Wordle Solver" },
+  { href: "/spelling-bee-solver", label: "Spelling Bee Solver" },
+  { href: "/letter-box-solver", label: "Letter Boxed Solver" },
+  { href: "/scrabble-solver", label: "Scrabble Solver" },
+  { href: "/scrabble-word-finder", label: "Scrabble Word Finder" },
+  { href: "/word-unscrambler", label: "Word Unscrambler" },
+  { href: "/anagram-solver", label: "Anagram Solver" },
+  { href: "/quordle-solver", label: "Quordle Solver" },
+  { href: "/crossword-solver", label: "Crossword Solver" },
+  { href: "/words-with-friends-solver", label: "Words With Friends Solver" },
+  { href: "/jumble-solver", label: "Jumble Solver" },
 ];
 
 function BrandLogo() {
@@ -206,9 +206,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div>
               <h2 className="font-black text-white">Solver Tools</h2>
               <nav className="mt-3 grid gap-2">
-                <Link href="/solvers/anagram-solver" className="hover:text-white">Anagram Solver</Link>
-                <Link href="/solvers/word-unscrambler" className="hover:text-white">Word Unscrambler</Link>
-                <Link href="/solvers/wordle-solver" className="hover:text-white">Wordle Solver</Link>
+                <Link href="/anagram-solver" className="hover:text-white">Anagram Solver</Link>
+                <Link href="/word-unscrambler" className="hover:text-white">Word Unscrambler</Link>
+                <Link href="/wordle-solver" className="hover:text-white">Wordle Solver</Link>
                 <Link href="/strands-solver" className="hover:text-white">Strands Solver</Link>
                 <Link href="/all-solvers" className="hover:text-white">All Word Solvers</Link>
               </nav>
