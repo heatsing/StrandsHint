@@ -139,6 +139,13 @@ async function exerciseTools(page) {
   await page.getByRole("button", { name: "Find Words" }).click();
   const scrabbleCount = await page.locator("text=QUIET").count();
   if (!scrabbleCount) record("Scrabble Word Finder did not produce QUIET");
+
+  await page.goto(`${baseUrl}/solvers/quordle-solver/`, { waitUntil: "networkidle" });
+  await page.getByLabel("Green letter 1").fill("S");
+  await page.getByLabel("Yellow letter 2").fill("T");
+  await page.getByRole("button", { name: "Find Solutions" }).click();
+  const quordleCount = await page.locator("text=Solutions").count();
+  if (!quordleCount) record("Quordle Solver did not render solutions area");
 }
 
 await new Promise((resolve) => server.listen(port, "127.0.0.1", resolve));
@@ -159,6 +166,7 @@ try {
     "/solvers/anagram-solver/",
     "/solvers/word-unscrambler/",
     "/solvers/scrabble-word-finder/",
+    "/solvers/quordle-solver/",
     "/hints/connections/",
     "/hints/strands/2026-08-02/",
     "/today/",

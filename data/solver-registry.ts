@@ -139,6 +139,21 @@ export const solverRegistry: SolverConfig[] = [
     implemented: true,
   },
   {
+    slug: "quordle-solver",
+    name: "Quordle Solver",
+    shortDescription: "Find five-letter word candidates from Quordle-style green, yellow, and gray clues.",
+    category: "Wordle Solvers",
+    icon: "sparkles",
+    inputType: "wordle",
+    relatedSolvers: ["anagram-solver", "word-unscrambler", "wordle-solver"],
+    seo: {
+      title: "Quordle Solver - Find Possible Quordle Words",
+      description:
+        "Use a Quordle solver to filter five-letter word candidates by green letters, yellow letters, and excluded gray letters.",
+    },
+    implemented: true,
+  },
+  {
     slug: "crossword-solver",
     name: "Crossword Solver",
     shortDescription: "A planned pattern solver for crossword-style clues.",

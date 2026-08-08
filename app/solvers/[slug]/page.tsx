@@ -18,6 +18,7 @@ import {
 import { JsonLd } from "@/components/JsonLd";
 import { AnagramSolverClient } from "@/components/solvers/AnagramSolverClient";
 import { LetterBoxSolverClient } from "@/components/solvers/LetterBoxSolverClient";
+import { QuordleSolverClient } from "@/components/solvers/QuordleSolverClient";
 import { SpellingBeeSolverClient } from "@/components/solvers/SpellingBeeSolverClient";
 import { WordFinderToolClient } from "@/components/solvers/WordFinderToolClient";
 import { WordleSolverClient } from "@/components/solvers/WordleSolverClient";
@@ -900,9 +901,200 @@ function WordFinderMarketingPage({ solver }: { solver: NonNullable<ReturnType<ty
   );
 }
 
+const quordleFaq = [
+  {
+    question: "What is Quordle?",
+    answer: "Quordle is a word puzzle where you solve four five-letter words at the same time using shared guesses.",
+  },
+  {
+    question: "Is Quordle made by The New York Times?",
+    answer: "No. This helper is independent and is not affiliated with any official puzzle publisher.",
+  },
+  {
+    question: "Where can I play Quordle today?",
+    answer: "Play Quordle on its official game site, then use this page to reason through possible word candidates.",
+  },
+  {
+    question: "How do I get a Quordle hint today?",
+    answer: "Enter green, yellow, and gray clues from your board. The solver will narrow possible five-letter words.",
+  },
+  {
+    question: "Does Quordle repeat old puzzles?",
+    answer: "Puzzle schedules vary by publisher. This site does not scrape or store official Quordle answers.",
+  },
+];
+
+function QuordleInfoCard({
+  Icon,
+  title,
+  children,
+}: {
+  Icon: typeof Search;
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section className="rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 text-center shadow-md shadow-[#315C4C]/5">
+      <span className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-[#DDF8ED] text-[#12A37F]">
+        <Icon className="h-8 w-8" />
+      </span>
+      <h2 className="mt-5 text-xl font-black text-[#142436]">{title}</h2>
+      <div className="mt-3 text-sm leading-7 text-[#4A5968]">{children}</div>
+    </section>
+  );
+}
+
+function QuordleSolverPage() {
+  const path = "/solvers/quordle-solver";
+  const relatedTools = [
+    { href: "/solvers/anagram-solver", label: "Anagram Solver", points: ["Find words from letters", "Perfect for anagram games", "Fast and easy results"], Icon: Shuffle, accent: "#8A57D6", cta: "Try Anagram Solver" },
+    { href: "/solvers/word-unscrambler", label: "Word Unscrambler", points: ["Unscramble any letters", "Discover all possible words", "Great for word games"], Icon: RefreshCw, accent: "#2F80D8", cta: "Try Unscrambler" },
+    { href: "/all-solvers", label: "Pattern Solver", points: ["Find words by pattern", "Use ? for unknown letters", "Supports custom lengths"], Icon: ListChecks, accent: "#12A37F", cta: "Try Pattern Solver" },
+    { href: "/all-solvers", label: "Crossword Helper", points: ["Solve crossword clues", "Get suggestions fast", "Boost your puzzle skills"], Icon: ClipboardList, accent: "#F06423", cta: "Try Crossword Helper" },
+  ];
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: quordleFaq.map((item) => ({ "@type": "Question", name: item.question, acceptedAnswer: { "@type": "Answer", text: item.answer } })),
+  };
+
+  return (
+    <article className="-mt-10">
+      <JsonLd data={breadcrumbSchema([{ name: "Home", url: "/" }, { name: "All Solvers", url: "/all-solvers" }, { name: "Quordle Solver", url: path }])} />
+      <JsonLd data={faqSchema} />
+      <JsonLd data={{ "@context": "https://schema.org", "@type": "WebApplication", name: "Quordle Solver", url: absoluteUrl(path), applicationCategory: "GameApplication", isAccessibleForFree: true }} />
+
+      <section className="relative mx-[calc(50%-50vw)] overflow-hidden bg-[radial-gradient(circle_at_50%_0%,#F8FBFF_0%,#F8F5EF_58%,#F8F5EF_100%)] px-4 py-14">
+        <div className="pointer-events-none absolute -left-8 top-28 hidden h-36 w-36 opacity-30 md:block [background-image:radial-gradient(#12A37F_1.4px,transparent_1.4px)] [background-size:14px_14px]" />
+        <div className="pointer-events-none absolute right-10 top-24 hidden h-32 w-32 opacity-30 md:block [background-image:radial-gradient(#ED3F68_1.4px,transparent_1.4px)] [background-size:14px_14px]" />
+        <div className="mx-auto max-w-6xl">
+          <header className="text-center">
+            <p className="mx-auto inline-flex items-center gap-2 rounded-full bg-[#FFE8EF] px-4 py-2 text-sm font-black text-[#ED3F68]">
+              Word Solver Tool
+            </p>
+            <h1 className="mt-5 text-5xl font-black leading-tight text-[#142436] sm:text-6xl">
+              Quordle <span className="text-[#ED3F68]">Solver</span>
+            </h1>
+            <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-[#4A5968]">
+              Enter your known letters and constraints to find the perfect Quordle solution.
+            </p>
+          </header>
+
+          <section className="mt-10" aria-label="Quordle Solver workspace">
+            <Suspense fallback={<div className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-sm">Loading Quordle Solver...</div>}>
+              <QuordleSolverClient />
+            </Suspense>
+          </section>
+
+          <section className="mt-6 grid gap-5 md:grid-cols-2">
+            <div className="rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-md shadow-[#315C4C]/5">
+              <div className="flex items-start gap-5">
+                <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-[#FFE8EF] text-[#ED3F68]">
+                  <Star className="h-6 w-6" />
+                </span>
+                <div>
+                  <h2 className="text-xl font-black text-[#142436]">Pro Tips</h2>
+                  <ul className="mt-4 grid gap-2 text-sm leading-6 text-[#4A5968]">
+                    <li>Start broad, then narrow down with each guess.</li>
+                    <li>Use words with common vowels and consonants early.</li>
+                    <li>Read every clue carefully because colors are key.</li>
+                    <li>Save your last few guesses for the solver.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div className="rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-md shadow-[#315C4C]/5">
+              <div className="flex items-start gap-5">
+                <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-[#DFF6F0] text-[#008F83]">
+                  <FileText className="h-6 w-6" />
+                </span>
+                <div>
+                  <h2 className="text-xl font-black text-[#142436]">How to Use</h2>
+                  <div className="mt-4 grid gap-2 text-sm leading-6 text-[#4A5968]">
+                    <p><strong className="text-[#12A37F]">Green:</strong> Letter is correct and in the right position.</p>
+                    <p><strong className="text-[#D99A00]">Yellow:</strong> Letter is in the word but wrong position.</p>
+                    <p><strong className="text-[#68645E]">Gray:</strong> Letter is not in the word.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section className="mx-auto mt-8 grid max-w-6xl gap-5 sm:grid-cols-2 lg:grid-cols-5">
+        <QuordleInfoCard Icon={Search} title="What is Quordle?">
+          <p>Quordle is a daily word puzzle where you solve four five-letter words simultaneously.</p>
+        </QuordleInfoCard>
+        <QuordleInfoCard Icon={FileText} title="What is Quordle Solver and How to Use It?">
+          <p>Our solver helps you find possible words based on the letters you know and clues from your guesses.</p>
+        </QuordleInfoCard>
+        <QuordleInfoCard Icon={Star} title="Need a Quordle Hint Today">
+          <p>Get instant hints and shortlists to keep your streak alive and solve today&apos;s puzzle faster.</p>
+        </QuordleInfoCard>
+        <QuordleInfoCard Icon={Trophy} title="Features That Set the Quordle Solver Apart">
+          <p>No account required, color-based input, unlimited use, and fast results across all four grids.</p>
+        </QuordleInfoCard>
+        <QuordleInfoCard Icon={ListChecks} title="Summary">
+          <p>Use smart strategies and our solver to solve Quordle faster and build your winning streak.</p>
+        </QuordleInfoCard>
+      </section>
+
+      <section className="mx-auto mt-10 max-w-6xl">
+        <h2 className="text-center text-3xl font-black text-[#142436]">
+          Explore <span className="text-[#12A37F]">More</span> Word Solvers
+        </h2>
+        <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {relatedTools.map(({ href, label, points, Icon, accent, cta }) => (
+            <Link key={label} href={href} className="group rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-md shadow-[#315C4C]/5 hover:-translate-y-1 hover:shadow-lg">
+              <div className="flex items-center gap-4">
+                <span className="grid h-14 w-14 place-items-center rounded-full" style={{ backgroundColor: `${accent}18`, color: accent }}>
+                  <Icon className="h-7 w-7" />
+                </span>
+                <h3 className="text-lg font-black" style={{ color: accent }}>{label}</h3>
+              </div>
+              <ul className="mt-5 grid gap-2 text-sm text-[#344153]">
+                {points.map((point) => (
+                  <li key={point} className="flex gap-2">
+                    <span>&bull;</span>
+                    <span>{point}</span>
+                  </li>
+                ))}
+              </ul>
+              <span className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-lg border px-4 py-2.5 text-sm font-black" style={{ borderColor: `${accent}66`, backgroundColor: `${accent}10`, color: accent }}>
+                {cta} <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+              </span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="mx-auto mt-10 max-w-5xl">
+        <p className="mx-auto w-fit rounded-full bg-[#DFF6F0] px-4 py-1 text-xs font-black uppercase text-[#008F83]">FAQ</p>
+        <h2 className="mt-3 text-center text-3xl font-black text-[#142436]">
+          Frequently Asked <span className="text-[#12A37F]">Questions</span>
+        </h2>
+        <div className="mt-5 divide-y divide-[#E5DED3] overflow-hidden rounded-xl border border-[#E5DED3] bg-[#FFFDF9] shadow-sm">
+          {quordleFaq.map((item) => (
+            <details key={item.question} className="group p-4">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-black text-[#142436]">
+                {item.question}
+                <ArrowRight className="h-4 w-4 text-[#008F83] transition group-open:rotate-90" />
+              </summary>
+              <p className="mt-3 text-sm leading-6 text-[#68645E]">{item.answer}</p>
+            </details>
+          ))}
+        </div>
+        <p className="mt-6 text-center text-sm leading-6 text-[#68645E]">{disclaimer}</p>
+      </section>
+    </article>
+  );
+}
+
 export default function SolverPage({ params }: Props) {
   const solver = getSolver(params.slug);
   if (!solver || !solver.implemented || solver.inputType === "directory") notFound();
+  if (solver.slug === "quordle-solver") return <QuordleSolverPage />;
   if (solver.inputType === "wordle" && solver.wordLength) return <WordleLengthSolverPage solver={solver} />;
   if (solver.slug === "letter-box-solver") return <LetterBoxSolverPage />;
   if (solver.slug === "spelling-bee-solver") return <SpellingBeeSolverPage />;

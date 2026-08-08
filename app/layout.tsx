@@ -67,7 +67,7 @@ const puzzleSolverMenu = [
   { href: "/solvers/scrabble-word-finder", label: "Scrabble Word Finder" },
   { href: "/solvers/word-unscrambler", label: "Word Unscrambler" },
   { href: "/solvers/anagram-solver", label: "Anagram Solver" },
-  { href: "/all-solvers", label: "Quordle Solver" },
+  { href: "/solvers/quordle-solver", label: "Quordle Solver" },
   { href: "/all-solvers", label: "Crossword Solver" },
   { href: "/all-solvers", label: "Words With Friends Solver" },
   { href: "/all-solvers", label: "Jumble Solver" },

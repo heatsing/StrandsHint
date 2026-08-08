@@ -23,6 +23,7 @@ const requiredFiles = [
   "solvers/anagram-solver/index.html",
   "solvers/word-unscrambler/index.html",
   "solvers/scrabble-word-finder/index.html",
+  "solvers/quordle-solver/index.html",
   "hints/strands/2026-08-02/index.html",
   "archive/index.html",
   "admin/puzzles/new/index.html",
@@ -51,6 +52,7 @@ const pageChecks = [
   ["solvers/anagram-solver/index.html", ["Anagram Solver", "Find Anagrams", "What are Anagrams?", "FAQPage", "BreadcrumbList"]],
   ["solvers/word-unscrambler/index.html", ["Word Unscrambler", "Unscramble Words", "How It Works", "FAQPage", "BreadcrumbList"]],
   ["solvers/scrabble-word-finder/index.html", ["Scrabble Word Finder", "Find Words", "Letter Values", "FAQPage", "BreadcrumbList"]],
+  ["solvers/quordle-solver/index.html", ["Quordle Solver", "Known Letters", "Pro Tips", "Frequently Asked", "FAQPage", "BreadcrumbList"]],
   ["hints/strands/2026-08-02/index.html", ["Strands hints for 2026-08-02", "Reveal short hint", "Reveal answers", "FAQPage", "BreadcrumbList"]],
   ["admin/puzzles/new/index.html", ["noindex", "Slug preview", "Copy JSON"]],
   ["admin/daily/new/index.html", ["noindex", "Generate a daily SEO JSON entry", "Generated daily JSON", "Copy JSON"]],
@@ -86,7 +88,7 @@ if (!existsSync(outDir)) {
 
   const sitemap = readOutFile("sitemap.xml");
   if (sitemap.includes("/admin")) fail("sitemap.xml should not include admin URLs");
-  for (const route of ["/", "/all-solvers", "/daily-hints", "/today", "/todays-strands-answer", "/strands-hints", "/strands-solver", "/strands-spangram-helper", "/strands-word-finder", "/archive", "/today/wordle-hints", "/today/connections-hints", "/today/strands-hints", "/hints/connections", "/solvers/wordle-solver", "/solvers/spelling-bee-solver", "/solvers/anagram-solver", "/solvers/word-unscrambler", "/solvers/scrabble-word-finder", "/hints/strands/2026-08-02"]) {
+  for (const route of ["/", "/all-solvers", "/daily-hints", "/today", "/todays-strands-answer", "/strands-hints", "/strands-solver", "/strands-spangram-helper", "/strands-word-finder", "/archive", "/today/wordle-hints", "/today/connections-hints", "/today/strands-hints", "/hints/connections", "/solvers/wordle-solver", "/solvers/spelling-bee-solver", "/solvers/anagram-solver", "/solvers/word-unscrambler", "/solvers/scrabble-word-finder", "/solvers/quordle-solver", "/hints/strands/2026-08-02"]) {
     if (!sitemap.includes(`https://strandshint.net${route}`)) fail(`sitemap.xml is missing ${route}`);
   }
 }
