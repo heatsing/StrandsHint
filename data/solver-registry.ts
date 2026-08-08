@@ -59,7 +59,7 @@ export const solverRegistry: SolverConfig[] = [
     inputType: "spelling-bee",
     relatedSolvers: ["anagram-solver", "word-unscrambler", "wordle-solver"],
     seo: {
-      title: "Spelling Bee Solver - Find Words and Pangrams",
+      title: "Spelling Bee Solver Helper and Solutions | StrandsHint",
       description:
         "Find Spelling Bee-style words locally using a center letter, six outer letters, pangram detection, and scoring.",
     },

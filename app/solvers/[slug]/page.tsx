@@ -38,7 +38,9 @@ export function generateMetadata({ params }: Props): Metadata {
   if (!solver || !solver.implemented) return {};
   const path = `/solvers/${solver.slug}`;
   const title =
-    solver.slug === "scrabble-word-finder" ? { absolute: solver.seo.title } : solver.seo.title;
+    solver.slug === "scrabble-word-finder" || solver.slug === "spelling-bee-solver"
+      ? { absolute: solver.seo.title }
+      : solver.seo.title;
   return {
     title,
     description: solver.seo.description,
