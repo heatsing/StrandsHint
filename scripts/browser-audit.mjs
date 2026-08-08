@@ -161,6 +161,37 @@ async function exerciseTools(page) {
   if (!wwfCount) record("Words With Friends Solver did not produce QUIET");
 }
 
+async function exerciseNavHover(page) {
+  await page.goto(`${baseUrl}/`, { waitUntil: "networkidle" });
+
+  await page.getByRole("button", { name: "Daily Game Hints" }).hover();
+  if (!(await page.locator('nav a[href*="/hints/connections"]').first().isVisible())) {
+    record("Daily Game Hints menu did not open on hover");
+  }
+  await page.mouse.move(20, 500);
+  if (await page.locator('nav a[href*="/hints/connections"]').first().isVisible()) {
+    record("Daily Game Hints menu did not close after hover out");
+  }
+
+  await page.getByRole("button", { name: "Word Solvers" }).hover();
+  if (!(await page.locator('nav a[href*="/solvers/3-letter-wordle-solver"]').first().isVisible())) {
+    record("Word Solvers menu did not open on hover");
+  }
+  await page.mouse.move(20, 500);
+  if (await page.locator('nav a[href*="/solvers/3-letter-wordle-solver"]').first().isVisible()) {
+    record("Word Solvers menu did not close after hover out");
+  }
+
+  await page.getByRole("button", { name: "Puzzle Solver" }).hover();
+  if (!(await page.locator('nav a[href*="/solvers/words-with-friends-solver"]').first().isVisible())) {
+    record("Puzzle Solver menu did not open on hover");
+  }
+  await page.mouse.move(20, 500);
+  if (await page.locator('nav a[href*="/solvers/words-with-friends-solver"]').first().isVisible()) {
+    record("Puzzle Solver menu did not close after hover out");
+  }
+}
+
 await new Promise((resolve) => server.listen(port, "127.0.0.1", resolve));
 
 const browser = await chromium.launch({
@@ -197,6 +228,7 @@ try {
   }
 
   const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
+  await exerciseNavHover(page);
   await exerciseTools(page);
   await page.close();
 } finally {

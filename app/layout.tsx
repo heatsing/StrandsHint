@@ -102,12 +102,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <BrandLogo />
             </Link>
             <nav className="flex flex-wrap gap-2 text-sm lg:items-center">
-              <details className="group relative">
-                <summary className="inline-flex cursor-pointer list-none items-center gap-1 rounded-full px-3 py-2 font-black text-[#24333A] hover:bg-[#EDE6DC] hover:text-[#008F83]">
+              <div className="group relative">
+                <button type="button" className="inline-flex cursor-default items-center gap-1 rounded-full px-3 py-2 font-black text-[#24333A] hover:bg-[#EDE6DC] hover:text-[#008F83] focus-visible:bg-[#EDE6DC] focus-visible:text-[#008F83] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#008F83]/20">
                   Daily Game Hints
-                  <ChevronDown className="h-3.5 w-3.5 transition group-open:rotate-180" />
-                </summary>
-                <div className="absolute left-0 top-full z-40 mt-2 max-h-[70vh] w-80 overflow-y-auto rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-2 shadow-xl shadow-[#315C4C]/10">
+                  <ChevronDown className="h-3.5 w-3.5 transition group-hover:rotate-180 group-focus-within:rotate-180" />
+                </button>
+                <div className="absolute left-0 top-full z-40 hidden max-h-[70vh] w-80 overflow-y-auto rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-2 shadow-xl shadow-[#315C4C]/10 group-hover:block group-focus-within:block">
                   {hintMenu.map((item) => (
                     <Link
                       key={item.href}
@@ -118,7 +118,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     </Link>
                   ))}
                 </div>
-              </details>
+              </div>
 
               <Link
                 href="/todays-strands-answer"
@@ -127,12 +127,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 Today&apos;s Answers
               </Link>
 
-              <details className="group relative">
-                <summary className="inline-flex cursor-pointer list-none items-center gap-1 rounded-full px-3 py-2 font-black text-[#24333A] hover:bg-[#EDE6DC] hover:text-[#008F83]">
+              <div className="group relative">
+                <button type="button" className="inline-flex cursor-default items-center gap-1 rounded-full px-3 py-2 font-black text-[#24333A] hover:bg-[#EDE6DC] hover:text-[#008F83] focus-visible:bg-[#EDE6DC] focus-visible:text-[#008F83] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#008F83]/20">
                   Word Solvers
-                  <ChevronDown className="h-3.5 w-3.5 transition group-open:rotate-180" />
-                </summary>
-                <div className="absolute left-0 top-full z-40 mt-2 max-h-[70vh] w-72 overflow-y-auto rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-2 shadow-xl shadow-[#315C4C]/10">
+                  <ChevronDown className="h-3.5 w-3.5 transition group-hover:rotate-180 group-focus-within:rotate-180" />
+                </button>
+                <div className="absolute left-0 top-full z-40 hidden max-h-[70vh] w-72 overflow-y-auto rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-2 shadow-xl shadow-[#315C4C]/10 group-hover:block group-focus-within:block">
                   {wordleLengthMenu.map((item) => (
                     <Link
                       key={item.href}
@@ -143,14 +143,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     </Link>
                   ))}
                 </div>
-              </details>
+              </div>
 
-              <details className="group relative">
-                <summary className="inline-flex cursor-pointer list-none items-center gap-1 rounded-full px-3 py-2 font-black text-[#24333A] hover:bg-[#EDE6DC] hover:text-[#008F83]">
+              <div className="group relative">
+                <button type="button" className="inline-flex cursor-default items-center gap-1 rounded-full px-3 py-2 font-black text-[#24333A] hover:bg-[#EDE6DC] hover:text-[#008F83] focus-visible:bg-[#EDE6DC] focus-visible:text-[#008F83] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#008F83]/20">
                   Puzzle Solver
-                  <ChevronDown className="h-3.5 w-3.5 transition group-open:rotate-180" />
-                </summary>
-                <div className="absolute left-0 top-full z-40 mt-2 max-h-[70vh] w-80 overflow-y-auto rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-2 shadow-xl shadow-[#315C4C]/10">
+                  <ChevronDown className="h-3.5 w-3.5 transition group-hover:rotate-180 group-focus-within:rotate-180" />
+                </button>
+                <div className="absolute left-0 top-full z-40 hidden max-h-[70vh] w-80 overflow-y-auto rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-2 shadow-xl shadow-[#315C4C]/10 group-hover:block group-focus-within:block">
                   {puzzleSolverMenu.map((item) => (
                     <Link
                       key={`${item.href}-${item.label}`}
@@ -161,7 +161,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     </Link>
                   ))}
                 </div>
-              </details>
+              </div>
 
               <Link
                 href="/all-solvers"
