@@ -37,8 +37,10 @@ export function generateMetadata({ params }: Props): Metadata {
   const solver = getSolver(params.slug);
   if (!solver || !solver.implemented) return {};
   const path = `/solvers/${solver.slug}`;
+  const title =
+    solver.slug === "scrabble-word-finder" ? { absolute: solver.seo.title } : solver.seo.title;
   return {
-    title: solver.seo.title,
+    title,
     description: solver.seo.description,
     alternates: { canonical: path },
     openGraph: { title: solver.seo.title, description: solver.seo.description, url: absoluteUrl(path), type: "website" },

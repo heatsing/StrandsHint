@@ -133,7 +133,7 @@ export const solverRegistry: SolverConfig[] = [
     inputType: "anagram",
     relatedSolvers: ["word-unscrambler", "anagram-solver", "words-with-friends-solver"],
     seo: {
-      title: "Scrabble Word Finder - Find High-Scoring Words",
+      title: "Scrabble Word Finder | Online Scrabble Solver and Cheat Site | StrandsHint",
       description: "Use a Scrabble word finder to make words from rack letters, blank tiles, and optional filters.",
     },
     implemented: true,
