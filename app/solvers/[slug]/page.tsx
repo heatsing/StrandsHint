@@ -554,42 +554,42 @@ function WordleLengthSolverPage({ solver }: { solver: NonNullable<ReturnType<typ
             </p>
           </header>
 
-          <div className="mt-10 grid gap-6 lg:grid-cols-[1fr_23rem]">
+          <div className="mx-auto mt-10 max-w-4xl">
             <Suspense fallback={<div className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-sm">Loading {wordLength} Letter Wordle Solver...</div>}>
               <WordleSolverClient initialLength={wordLength} fixedLength accent={theme.accent} />
             </Suspense>
-
-            <aside className="grid content-start gap-6">
-              <section className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-lg shadow-[#315C4C]/10">
-                <div className="flex items-center gap-3">
-                  <span className="grid h-10 w-10 place-items-center rounded-lg" style={{ backgroundColor: theme.accentSoft, color: theme.accent }}>
-                    <Star className="h-5 w-5" />
-                  </span>
-                  <h2 className="text-xl font-black text-[#142436]">Pro Tips</h2>
-                </div>
-                <ul className="mt-5 grid gap-3 text-sm leading-6 text-[#344153]">
-                  <li>Lock in confirmed letters first (green).</li>
-                  <li>Add common letters to narrow results.</li>
-                  <li>Don&apos;t overload yellow letters early.</li>
-                  <li>Refine step by step for better results.</li>
-                </ul>
-              </section>
-
-              <section className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-lg shadow-[#315C4C]/10">
-                <div className="flex items-center gap-3">
-                  <span className="grid h-10 w-10 place-items-center rounded-lg bg-[#EAF3FF] text-[#2F80D8]">
-                    <ClipboardList className="h-5 w-5" />
-                  </span>
-                  <h2 className="text-xl font-black text-[#142436]">How to Use</h2>
-                </div>
-                <div className="mt-5 grid gap-3 text-sm leading-6 text-[#344153]">
-                  <p><strong className="text-[#008F83]">Green:</strong> Letter is correct and in the right position.</p>
-                  <p><strong className="text-[#D99A00]">Yellow:</strong> Letter is in the word but wrong position.</p>
-                  <p><strong className="text-[#68645E]">Gray:</strong> Letter is not in the word.</p>
-                </div>
-              </section>
-            </aside>
           </div>
+
+          <aside className="mx-auto mt-6 grid max-w-4xl gap-6 md:grid-cols-2">
+            <section className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-lg shadow-[#315C4C]/10">
+              <div className="flex items-center gap-3">
+                <span className="grid h-10 w-10 place-items-center rounded-lg" style={{ backgroundColor: theme.accentSoft, color: theme.accent }}>
+                  <Star className="h-5 w-5" />
+                </span>
+                <h2 className="text-xl font-black text-[#142436]">Pro Tips</h2>
+              </div>
+              <ul className="mt-5 grid gap-3 text-sm leading-6 text-[#344153]">
+                <li>Lock in confirmed letters first (green).</li>
+                <li>Add common letters to narrow results.</li>
+                <li>Don&apos;t overload yellow letters early.</li>
+                <li>Refine step by step for better results.</li>
+              </ul>
+            </section>
+
+            <section className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-lg shadow-[#315C4C]/10">
+              <div className="flex items-center gap-3">
+                <span className="grid h-10 w-10 place-items-center rounded-lg bg-[#EAF3FF] text-[#2F80D8]">
+                  <ClipboardList className="h-5 w-5" />
+                </span>
+                <h2 className="text-xl font-black text-[#142436]">How to Use</h2>
+              </div>
+              <div className="mt-5 grid gap-3 text-sm leading-6 text-[#344153]">
+                <p><strong className="text-[#008F83]">Green:</strong> Letter is correct and in the right position.</p>
+                <p><strong className="text-[#D99A00]">Yellow:</strong> Letter is in the word but wrong position.</p>
+                <p><strong className="text-[#68645E]">Gray:</strong> Letter is not in the word.</p>
+              </div>
+            </section>
+          </aside>
         </div>
       </section>
 
