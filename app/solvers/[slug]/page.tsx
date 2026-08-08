@@ -38,7 +38,10 @@ export function generateMetadata({ params }: Props): Metadata {
   if (!solver || !solver.implemented) return {};
   const path = `/solvers/${solver.slug}`;
   const title =
-    solver.slug === "scrabble-word-finder" || solver.slug === "spelling-bee-solver"
+    solver.slug === "scrabble-word-finder" ||
+    solver.slug === "scrabble-solver" ||
+    solver.slug === "spelling-bee-solver" ||
+    solver.slug === "letter-box-solver"
       ? { absolute: solver.seo.title }
       : solver.seo.title;
   return {
@@ -112,7 +115,7 @@ const wordleLengthFaq = [
 const letterBoxFaq = [
   {
     question: "Is this solver free to use?",
-    answer: "Yes. The Letter Box Solver is free and runs from a local word list in your browser.",
+    answer: "Yes. The Letter Boxed Solver is free and runs from a local word list in your browser.",
   },
   {
     question: "How do I enter the letters?",
@@ -513,9 +516,9 @@ function LetterBoxSolverPage() {
 
   return (
     <article className="-mt-10">
-      <JsonLd data={breadcrumbSchema([{ name: "Home", url: "/" }, { name: "All Solvers", url: "/all-solvers" }, { name: "Letter Box Solver", url: path }])} />
+      <JsonLd data={breadcrumbSchema([{ name: "Home", url: "/" }, { name: "All Solvers", url: "/all-solvers" }, { name: "Letter Boxed Solver", url: path }])} />
       <JsonLd data={faqSchema} />
-      <JsonLd data={{ "@context": "https://schema.org", "@type": "WebApplication", name: "Letter Box Solver", url: absoluteUrl(path), applicationCategory: "GameApplication", isAccessibleForFree: true }} />
+      <JsonLd data={{ "@context": "https://schema.org", "@type": "WebApplication", name: "Letter Boxed Solver", url: absoluteUrl(path), applicationCategory: "GameApplication", isAccessibleForFree: true }} />
 
       <section className="relative mx-[calc(50%-50vw)] overflow-hidden bg-[radial-gradient(circle_at_50%_0%,#F4FFFD_0%,#F8F5EF_58%,#F8F5EF_100%)] px-4 py-14">
         <div className="pointer-events-none absolute -left-20 top-24 hidden h-64 w-64 rounded-full bg-[#DDF4F1] md:block" />
@@ -527,7 +530,7 @@ function LetterBoxSolverPage() {
               Letter Box Tool
             </p>
             <h1 className="mt-5 text-5xl font-black leading-tight text-[#142436] sm:text-6xl">
-              Letter Box <span className="text-[#8A57D6]">Solver</span>
+              Letter Boxed <span className="text-[#8A57D6]">Solver</span>
             </h1>
             <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-[#4A5968]">
               Find optimal word combinations to solve Letter Boxed-style puzzles in minimum moves.
@@ -535,7 +538,7 @@ function LetterBoxSolverPage() {
           </header>
 
           <div className="mx-auto mt-10 max-w-4xl">
-            <Suspense fallback={<div className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-sm">Loading Letter Box Solver...</div>}>
+            <Suspense fallback={<div className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-sm">Loading Letter Boxed Solver...</div>}>
               <LetterBoxSolverClient />
             </Suspense>
           </div>
@@ -579,10 +582,10 @@ function LetterBoxSolverPage() {
         <WordleInfoCard Icon={FileText} title="What is Letter Boxed?">
           <p>Letter Boxed is a word puzzle where you connect letters around a square to form words.</p>
         </WordleInfoCard>
-        <WordleInfoCard Icon={RefreshCw} title="How Does Letter Box Solver Work?">
+        <WordleInfoCard Icon={RefreshCw} title="How Does Letter Boxed Solver Work?">
           <p>The solver analyzes letters, validates side rules, and finds word chains from the local word list.</p>
         </WordleInfoCard>
-        <WordleInfoCard Icon={ClipboardList} title="How to Use Letter Box Solver?">
+        <WordleInfoCard Icon={ClipboardList} title="How to Use Letter Boxed Solver?">
           <ol className="text-left">
             <li>1. Enter the 12 letters around the box.</li>
             <li>2. Choose your target move count.</li>
@@ -735,6 +738,49 @@ const wordFinderPageConfig = {
       ["Are the results based on real words?", "Results come from the local dictionary included with this site."],
       ["Do you have a mobile app?", "No separate app is required. The web page is mobile friendly."],
       ["Can I request a hint for a past puzzle?", "You can browse site hint pages, but all daily content is manually maintained."],
+    ],
+  },
+  "scrabble-solver": {
+    variant: "scrabble",
+    badge: "Word Solver Tool",
+    titlePrefix: "Scrabble",
+    titleHighlight: "Solver",
+    accent: "#008F83",
+    gradient: "linear-gradient(90deg,#008F83,#00766D)",
+    intro: "Find playable Scrabble words from your rack letters, blank tiles, and optional word filters.",
+    belowPanels: [
+      {
+        Icon: Star,
+        title: "Letter Values",
+        body: "A,E,I,O,U,L,N,S,T,R = 1; D,G = 2; B,C,M,P = 3; F,H,V,W,Y = 4; K = 5; J,X = 8; Q,Z = 10.",
+        accent: "#D99A00",
+      },
+      {
+        Icon: Trophy,
+        title: "Scoring Tips",
+        body: "Try high-value letters first, save blanks for hard letters, and check short words when the board is tight.",
+        accent: "#008F83",
+      },
+    ],
+    infoCards: [
+      { Icon: FileText, title: "What is Scrabble Solver?", body: "A Scrabble solver helps turn rack letters and blanks into playable word candidates.", accent: "#008F83" },
+      { Icon: ClipboardList, title: "How to Use Scrabble Solver?", body: "Enter your rack letters, use ? for blanks, set optional filters, then find words.", accent: "#008F83" },
+      { Icon: Star, title: "Key Features", body: "Rack search, blank tile support, word length filters, and score-based results.", accent: "#008F83" },
+      { Icon: Trophy, title: "Why Use Our Solver?", body: "Save time, compare possible plays, and spot words you might miss by hand.", accent: "#008F83" },
+      { Icon: Users, title: "Who Can Use This Tool?", body: "Casual players, students, word game fans, and competitive puzzle solvers.", accent: "#008F83" },
+    ],
+    related: [
+      { href: "/solvers/scrabble-word-finder", label: "Scrabble Word Finder", text: "Browse high-scoring Scrabble-style words from rack letters.", Icon: ListChecks, accent: "#3FA34D", cta: "Find Scrabble Words" },
+      { href: "/solvers/word-unscrambler", label: "Word Unscrambler", text: "Unscramble mixed letters and filter by word length.", Icon: Shuffle, accent: "#D99A00", cta: "Use Unscrambler" },
+      { href: "/solvers/anagram-solver", label: "Anagram Solver", text: "Find rearranged words from any letter set.", Icon: Search, accent: "#008F83", cta: "Use Anagram Solver" },
+      { href: "/solvers/words-with-friends-solver", label: "Words With Friends Solver", text: "Find word-game candidates with similar rack logic.", Icon: Star, accent: "#2F80D8", cta: "Try WWF Solver" },
+    ],
+    faq: [
+      ["Is this Scrabble Solver free to use?", "Yes. It runs in your browser and does not require an account."],
+      ["Can I use blank tiles?", "Yes. Type ? or use a space for a blank tile."],
+      ["How are scores calculated?", "Candidate scores use standard English-language Scrabble-style letter values."],
+      ["Can I filter by word length?", "Yes. Open Advanced Options to choose minimum and maximum word lengths."],
+      ["Is this an official Scrabble tool?", "No. It is an independent word helper for puzzle and word game practice."],
     ],
   },
   "scrabble-word-finder": {
@@ -1573,7 +1619,7 @@ export default function SolverPage({ params }: Props) {
   if (solver.inputType === "wordle" && solver.wordLength) return <WordleLengthSolverPage solver={solver} />;
   if (solver.slug === "letter-box-solver") return <LetterBoxSolverPage />;
   if (solver.slug === "spelling-bee-solver") return <SpellingBeeSolverPage />;
-  if (solver.slug === "anagram-solver" || solver.slug === "word-unscrambler" || solver.slug === "scrabble-word-finder" || solver.slug === "words-with-friends-solver") return <WordFinderMarketingPage solver={solver} />;
+  if (solver.slug === "anagram-solver" || solver.slug === "word-unscrambler" || solver.slug === "scrabble-solver" || solver.slug === "scrabble-word-finder" || solver.slug === "words-with-friends-solver") return <WordFinderMarketingPage solver={solver} />;
   const path = `/solvers/${solver.slug}`;
   const related = solver.relatedSolvers.map(getSolver).filter(Boolean);
   const faq = [

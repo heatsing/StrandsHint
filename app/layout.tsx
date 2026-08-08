@@ -62,8 +62,10 @@ const wordleLengthMenu = Array.from({ length: 10 }, (_, index) => {
 });
 
 const puzzleSolverMenu = [
+  { href: "/solvers/wordle-solver", label: "Wordle Solver" },
   { href: "/solvers/spelling-bee-solver", label: "Spelling Bee Solver" },
   { href: "/solvers/letter-box-solver", label: "Letter Boxed Solver" },
+  { href: "/solvers/scrabble-solver", label: "Scrabble Solver" },
   { href: "/solvers/scrabble-word-finder", label: "Scrabble Word Finder" },
   { href: "/solvers/word-unscrambler", label: "Word Unscrambler" },
   { href: "/solvers/anagram-solver", label: "Anagram Solver" },

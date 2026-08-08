@@ -66,6 +66,20 @@ export const solverRegistry: SolverConfig[] = [
     implemented: true,
   },
   {
+    slug: "scrabble-solver",
+    name: "Scrabble Solver",
+    shortDescription: "Enter rack letters and blanks to find high-scoring Scrabble-style word solutions.",
+    category: "Puzzle Solvers",
+    icon: "book",
+    inputType: "anagram",
+    relatedSolvers: ["scrabble-word-finder", "word-unscrambler", "anagram-solver"],
+    seo: {
+      title: "Scrabble Solver Helper and Solutions | StrandsHint",
+      description: "Use a Scrabble solver to search rack letters, blank tiles, word lengths, and high-scoring word candidates.",
+    },
+    implemented: true,
+  },
+  {
     slug: "anagram-solver",
     name: "Anagram Solver",
     shortDescription: "Unscramble letters with length filters, starts-with, ends-with, and required letters.",
@@ -111,14 +125,14 @@ export const solverRegistry: SolverConfig[] = [
   },
   {
     slug: "letter-box-solver",
-    name: "Letter Box Solver",
+    name: "Letter Boxed Solver",
     shortDescription: "Enter 12 box letters and find efficient word chains for Letter Boxed-style puzzles.",
     category: "Puzzle Solvers",
     icon: "grid",
     inputType: "letter-box",
     relatedSolvers: ["anagram-solver", "word-unscrambler", "crossword-solver"],
     seo: {
-      title: "Letter Box Solver - Find Letter Boxed Word Chains",
+      title: "Letter Boxed Solver Helper and Solutions | StrandsHint",
       description:
         "Use a Letter Box solver to enter 12 side letters and find word chains that follow Letter Boxed-style rules.",
     },
@@ -131,7 +145,7 @@ export const solverRegistry: SolverConfig[] = [
     category: "Word Finders",
     icon: "book",
     inputType: "anagram",
-    relatedSolvers: ["word-unscrambler", "anagram-solver", "words-with-friends-solver"],
+    relatedSolvers: ["scrabble-solver", "word-unscrambler", "anagram-solver", "words-with-friends-solver"],
     seo: {
       title: "Scrabble Word Finder | Online Scrabble Solver and Cheat Site | StrandsHint",
       description: "Use a Scrabble word finder to make words from rack letters, blank tiles, and optional filters.",

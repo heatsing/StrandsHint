@@ -22,6 +22,7 @@ const requiredFiles = [
   "solvers/spelling-bee-solver/index.html",
   "solvers/anagram-solver/index.html",
   "solvers/word-unscrambler/index.html",
+  "solvers/scrabble-solver/index.html",
   "solvers/scrabble-word-finder/index.html",
   "solvers/quordle-solver/index.html",
   "solvers/crossword-solver/index.html",
@@ -54,6 +55,7 @@ const pageChecks = [
   ["solvers/spelling-bee-solver/index.html", ["Spelling Bee Solver", "Center letter", "Pangram", "FAQPage", "BreadcrumbList"]],
   ["solvers/anagram-solver/index.html", ["Anagram Solver", "Find Anagrams", "What are Anagrams?", "FAQPage", "BreadcrumbList"]],
   ["solvers/word-unscrambler/index.html", ["Word Unscrambler", "Unscramble Words", "How It Works", "FAQPage", "BreadcrumbList"]],
+  ["solvers/scrabble-solver/index.html", ["Scrabble Solver", "Find Words", "Letter Values", "FAQPage", "BreadcrumbList"]],
   ["solvers/scrabble-word-finder/index.html", ["Scrabble Word Finder", "Find Words", "Letter Values", "FAQPage", "BreadcrumbList"]],
   ["solvers/quordle-solver/index.html", ["Quordle Solver", "Known Letters", "Pro Tips", "Frequently Asked", "FAQPage", "BreadcrumbList"]],
   ["solvers/crossword-solver/index.html", ["Crossword Solver", "Solve Clue", "Pattern Examples", "FAQPage", "BreadcrumbList"]],
@@ -94,7 +96,7 @@ if (!existsSync(outDir)) {
 
   const sitemap = readOutFile("sitemap.xml");
   if (sitemap.includes("/admin")) fail("sitemap.xml should not include admin URLs");
-  for (const route of ["/", "/all-solvers", "/daily-hints", "/today", "/todays-strands-answer", "/strands-hints", "/strands-solver", "/strands-spangram-helper", "/strands-word-finder", "/archive", "/today/wordle-hints", "/today/connections-hints", "/today/strands-hints", "/hints/connections", "/solvers/wordle-solver", "/solvers/spelling-bee-solver", "/solvers/anagram-solver", "/solvers/word-unscrambler", "/solvers/scrabble-word-finder", "/solvers/quordle-solver", "/solvers/crossword-solver", "/solvers/words-with-friends-solver", "/solvers/jumble-solver", "/hints/strands/2026-08-02"]) {
+  for (const route of ["/", "/all-solvers", "/daily-hints", "/today", "/todays-strands-answer", "/strands-hints", "/strands-solver", "/strands-spangram-helper", "/strands-word-finder", "/archive", "/today/wordle-hints", "/today/connections-hints", "/today/strands-hints", "/hints/connections", "/solvers/wordle-solver", "/solvers/spelling-bee-solver", "/solvers/anagram-solver", "/solvers/word-unscrambler", "/solvers/scrabble-solver", "/solvers/scrabble-word-finder", "/solvers/quordle-solver", "/solvers/crossword-solver", "/solvers/words-with-friends-solver", "/solvers/jumble-solver", "/hints/strands/2026-08-02"]) {
     if (!sitemap.includes(`https://strandshint.net${route}`)) fail(`sitemap.xml is missing ${route}`);
   }
 }

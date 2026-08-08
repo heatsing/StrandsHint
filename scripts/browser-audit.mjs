@@ -120,7 +120,7 @@ async function exerciseTools(page) {
   await page.getByRole("button", { name: "Autofill Today" }).click();
   await page.getByRole("button", { name: "Find Solutions" }).click();
   const letterBoxCount = await page.locator("text=Solutions").count();
-  if (!letterBoxCount) record("Letter Box Solver did not render solutions area");
+  if (!letterBoxCount) record("Letter Boxed Solver did not render solutions area");
 
   await page.goto(`${baseUrl}/solvers/anagram-solver/`, { waitUntil: "networkidle" });
   await page.getByPlaceholder(/Enter word to find anagrams/i).fill("REACT");
