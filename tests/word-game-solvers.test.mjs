@@ -14,6 +14,17 @@ test("Wordle handles repeated required letters", () => {
   assert.deepEqual(result, ["BELLE"]);
 });
 
+test("Wordle does not double-count yellow letters passed as includes and misplaced", () => {
+  const result = solveWordle(["DAB", "DAD", "DAY", "DCA", "CAB"], {
+    length: 3,
+    pattern: "D__",
+    includes: "A",
+    misplaced: "A:1",
+    excluded: "C",
+  });
+  assert.deepEqual(result, ["DAB", "DAD", "DAY"]);
+});
+
 test("Spelling Bee requires the center letter", () => {
   const result = solveSpellingBee([...words, "BATCH"], { center: "E", outer: "ABLTCN" }).map((item) => item.word);
   assert.ok(result.includes("ELECT"));
