@@ -49,6 +49,8 @@
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.15",
     "typescript": "^5.6.3",
+    "word-list": "^4.1.0",
+    "wordnet-db": "^3.1.14",
     "wrangler": "^4.81.1"
   }
 }
