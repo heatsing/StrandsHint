@@ -25,6 +25,22 @@ test("Wordle does not double-count yellow letters passed as includes and misplac
   assert.deepEqual(result, ["DAB", "DAD", "DAY"]);
 });
 
+test("Wordle yellow matching works consistently across supported lengths", () => {
+  for (let length = 3; length <= 12; length++) {
+    const matching = `D${"A".padEnd(length - 1, "B")}`;
+    const blockedByPosition = `A${"B".repeat(length - 1)}`;
+    const blockedByExcluded = `D${"A".padEnd(length - 2, "B")}C`;
+    const result = solveWordle([matching, blockedByPosition, blockedByExcluded], {
+      length,
+      pattern: `D${"_".repeat(length - 1)}`,
+      includes: "A",
+      misplaced: "A:1",
+      excluded: "C",
+    });
+    assert.deepEqual(result, [matching]);
+  }
+});
+
 test("Spelling Bee requires the center letter", () => {
   const result = solveSpellingBee([...words, "BATCH"], { center: "E", outer: "ABLTCN" }).map((item) => item.word);
   assert.ok(result.includes("ELECT"));

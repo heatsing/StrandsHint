@@ -1,8 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { RefreshCw, Search } from "lucide-react";
-import { quordleWordBank } from "@/data/tool-word-banks";
 import { solveWordle } from "@/lib/word-game-solvers";
 import { CopyButton } from "./CopyButton";
 
@@ -19,21 +18,48 @@ export function QuordleSolverClient() {
   const [yellow, setYellow] = useState<string[]>(Array(5).fill(""));
   const [excluded, setExcluded] = useState("");
   const [searched, setSearched] = useState(false);
+  const [wordBank, setWordBank] = useState<string[]>([]);
+  const [loadingWords, setLoadingWords] = useState(false);
+  const [wordBankError, setWordBankError] = useState("");
 
   const results = useMemo(() => {
-    if (!searched) return [];
+    if (!searched || !wordBank.length) return [];
     const misplaced = yellow
       .map((letter, index) => (letter ? `${letter}:${index + 1}` : ""))
       .filter(Boolean)
       .join(" ");
-    return solveWordle(quordleWordBank, {
+    return solveWordle(wordBank, {
       length: 5,
       pattern: cellsToPattern(green),
       includes: yellow.filter(Boolean).join(""),
       misplaced,
       excluded,
     });
-  }, [green, yellow, excluded, searched]);
+  }, [green, yellow, excluded, searched, wordBank]);
+
+  useEffect(() => {
+    let active = true;
+    setLoadingWords(true);
+    fetch("/wordle-banks/5.json")
+      .then((response) => {
+        if (!response.ok) throw new Error("Unable to load word bank.");
+        return response.json() as Promise<string[]>;
+      })
+      .then((words) => {
+        if (!active) return;
+        setWordBank(words);
+        setLoadingWords(false);
+      })
+      .catch(() => {
+        if (!active) return;
+        setWordBankError("Word list could not load. Refresh and try again.");
+        setLoadingWords(false);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   function updateCell(kind: "green" | "yellow", index: number, value: string) {
     const next = kind === "green" ? green.slice() : yellow.slice();
@@ -116,6 +142,7 @@ export function QuordleSolverClient() {
         <button
           type="button"
           onClick={() => setSearched(true)}
+          disabled={loadingWords || Boolean(wordBankError)}
           className="inline-flex h-14 items-center justify-center gap-3 rounded-lg bg-[linear-gradient(90deg,#F13E4F,#E83EA2)] px-7 text-base font-black text-white shadow-sm"
         >
           <Search className="h-5 w-5" />
@@ -138,8 +165,10 @@ export function QuordleSolverClient() {
         </div>
         {searched && results.length ? <div className="mt-4"><CopyButton text={results.join("\n")} /></div> : null}
         <div className="mt-4 flex max-h-72 flex-wrap gap-2 overflow-auto">
+          {loadingWords ? <p className="text-sm leading-6 text-[#68645E]">Loading five-letter word list...</p> : null}
+          {wordBankError ? <p className="text-sm leading-6 text-[#A7473D]">{wordBankError}</p> : null}
           {!searched ? <p className="text-sm leading-6 text-[#68645E]">Enter Quordle clues, then find possible five-letter words.</p> : null}
-          {searched && !results.length ? <p className="text-sm leading-6 text-[#68645E]">No matches yet. Remove one clue or check repeated letters.</p> : null}
+          {searched && !loadingWords && !wordBankError && !results.length ? <p className="text-sm leading-6 text-[#68645E]">No matches yet. Remove one clue or check repeated letters.</p> : null}
           {results.map((word) => (
             <span key={word} className="rounded-full border border-[#E5DED3] bg-[#FFFDF9] px-3 py-1.5 font-mono text-sm font-black text-[#142436]">
               {word}
