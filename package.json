@@ -12,6 +12,7 @@
     "test": "node --test tests/*.mjs",
     "generate:wordle3": "node scripts/generate-wordle-3-bank.mjs 3",
     "generate:wordle4": "node scripts/generate-wordle-3-bank.mjs 4",
+    "generate:wordle5": "node scripts/generate-wordle-3-bank.mjs 5",
     "create:daily-hint": "node scripts/create-daily-hint.mjs",
     "seo:audit": "node scripts/seo-audit.mjs",
     "browser:audit": "node scripts/browser-audit.mjs",
