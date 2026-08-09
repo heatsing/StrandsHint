@@ -15,6 +15,7 @@
     "generate:wordle5": "node scripts/generate-wordle-3-bank.mjs 5",
     "generate:wordle6": "node scripts/generate-wordle-3-bank.mjs 6",
     "generate:wordle7": "node scripts/generate-wordle-3-bank.mjs 7",
+    "generate:wordle8": "node scripts/generate-wordle-3-bank.mjs 8",
     "create:daily-hint": "node scripts/create-daily-hint.mjs",
     "seo:audit": "node scripts/seo-audit.mjs",
     "browser:audit": "node scripts/browser-audit.mjs",
