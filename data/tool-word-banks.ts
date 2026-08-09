@@ -1,11 +1,4 @@
 import { wordBank } from "./word-bank";
-import { wordle3LetterBank } from "./wordle-3-letter-bank";
-import { wordle4LetterBank } from "./wordle-4-letter-bank";
-import { wordle5LetterBank } from "./wordle-5-letter-bank";
-import { wordle6LetterBank } from "./wordle-6-letter-bank";
-import { wordle7LetterBank } from "./wordle-7-letter-bank";
-import { wordle8LetterBank } from "./wordle-8-letter-bank";
-import { wordle9LetterBank } from "./wordle-9-letter-bank";
 
 function uniqueWords(words: string[]) {
   return Array.from(new Set(words.map((word) => word.toUpperCase().replace(/[^A-Z]/g, "")).filter(Boolean)));
@@ -16,13 +9,6 @@ const baseWords = uniqueWords(wordBank);
 export const wordleWordBanks = Object.fromEntries(
   Array.from({ length: 10 }, (_, index) => {
     const length = index + 3;
-    if (length === 3) return [length, wordle3LetterBank];
-    if (length === 4) return [length, wordle4LetterBank];
-    if (length === 5) return [length, wordle5LetterBank];
-    if (length === 6) return [length, wordle6LetterBank];
-    if (length === 7) return [length, wordle7LetterBank];
-    if (length === 8) return [length, wordle8LetterBank];
-    if (length === 9) return [length, wordle9LetterBank];
     return [length, baseWords.filter((word) => word.length === length)];
   }),
 ) as Record<number, string[]>;

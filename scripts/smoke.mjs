@@ -37,6 +37,16 @@ const requiredFiles = [
   "404.html",
   "robots.txt",
   "sitemap.xml",
+  "wordle-banks/3.json",
+  "wordle-banks/4.json",
+  "wordle-banks/5.json",
+  "wordle-banks/6.json",
+  "wordle-banks/7.json",
+  "wordle-banks/8.json",
+  "wordle-banks/9.json",
+  "wordle-banks/10.json",
+  "wordle-banks/11.json",
+  "wordle-banks/12.json",
 ];
 
 const pageChecks = [

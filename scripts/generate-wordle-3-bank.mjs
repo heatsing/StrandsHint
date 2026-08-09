@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 
 const root = process.cwd();
@@ -8,8 +8,8 @@ if (!Number.isInteger(length) || length < 3 || length > 12) {
 }
 
 const sourcePath = path.join(root, "node_modules", "an-array-of-english-words", "index.json");
-const outputPath = path.join(root, "data", `wordle-${length}-letter-bank.ts`);
-const exportName = `wordle${length}LetterBank`;
+const outputDir = path.join(root, "public", "wordle-banks");
+const outputPath = path.join(outputDir, `${length}.json`);
 
 const sourceWords = JSON.parse(readFileSync(sourcePath, "utf8"));
 const words = Array.from(
@@ -20,14 +20,6 @@ const words = Array.from(
   ),
 ).sort();
 
-const lines = [
-  "// Generated from an-array-of-english-words@2.0.0 (MIT).",
-  `// Regenerate with: node scripts/generate-wordle-3-bank.mjs ${length}`,
-  `export const ${exportName} = [`,
-  ...words.map((word) => `  ${JSON.stringify(word)},`),
-  "];",
-  "",
-];
-
-writeFileSync(outputPath, lines.join("\n"));
+mkdirSync(outputDir, { recursive: true });
+writeFileSync(outputPath, `${JSON.stringify(words)}\n`);
 console.log(`Wrote ${words.length} ${length}-letter words to ${path.relative(root, outputPath)}`);

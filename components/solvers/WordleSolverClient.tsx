@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { CheckCircle2, RefreshCw, Search, XCircle } from "lucide-react";
-import { getWordleWordBank } from "@/data/tool-word-banks";
 import { explainWordleLogic, solveWordle } from "@/lib/word-game-solvers";
 import { CopyButton } from "./CopyButton";
 
@@ -25,6 +24,18 @@ function letterCells(value: string, length: number) {
     .map((letter) => (letter === "_" ? "" : letter));
 }
 
+const wordBankCache = new Map<number, string[]>();
+
+async function loadWordleWordBank(length: number) {
+  const cached = wordBankCache.get(length);
+  if (cached) return cached;
+  const response = await fetch(`/wordle-banks/${length}.json`);
+  if (!response.ok) throw new Error(`Word bank ${length} failed to load.`);
+  const words = (await response.json()) as string[];
+  wordBankCache.set(length, words);
+  return words;
+}
+
 export function WordleSolverClient({ initialLength = 5, fixedLength = false, accent = "#008F83" }: Props) {
   const searchParams = useSearchParams();
   const queryLength = searchParams.get("length");
@@ -34,6 +45,9 @@ export function WordleSolverClient({ initialLength = 5, fixedLength = false, acc
   const [yellow, setYellow] = useState("");
   const [excluded, setExcluded] = useState("");
   const [searched, setSearched] = useState(false);
+  const [wordBank, setWordBank] = useState<string[]>([]);
+  const [loadingWords, setLoadingWords] = useState(false);
+  const [wordBankError, setWordBankError] = useState("");
 
   const greenCells = letterCells(green, numericLength);
   const yellowCells = letterCells(yellow, numericLength);
@@ -45,9 +59,36 @@ export function WordleSolverClient({ initialLength = 5, fixedLength = false, acc
   const includes = yellowCells.filter(Boolean).join("");
   const validLength = numericLength >= 3 && numericLength <= 12;
   const results = useMemo(
-    () => (searched ? solveWordle(getWordleWordBank(numericLength), { length: numericLength, pattern, includes, misplaced, excluded }) : []),
-    [searched, numericLength, pattern, includes, misplaced, excluded],
+    () => (searched && wordBank.length ? solveWordle(wordBank, { length: numericLength, pattern, includes, misplaced, excluded }) : []),
+    [searched, wordBank, numericLength, pattern, includes, misplaced, excluded],
   );
+
+  useEffect(() => {
+    let active = true;
+    setWordBank([]);
+    setWordBankError("");
+    if (!validLength) {
+      setLoadingWords(false);
+      return;
+    }
+
+    setLoadingWords(true);
+    loadWordleWordBank(numericLength)
+      .then((words) => {
+        if (!active) return;
+        setWordBank(words);
+        setLoadingWords(false);
+      })
+      .catch(() => {
+        if (!active) return;
+        setWordBankError("Word list could not load. Refresh and try again.");
+        setLoadingWords(false);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [numericLength, validLength]);
 
   useEffect(() => {
     if (!fixedLength && queryLength && Number(queryLength) >= 3 && Number(queryLength) <= 12) {
@@ -151,7 +192,7 @@ export function WordleSolverClient({ initialLength = 5, fixedLength = false, acc
         <button
           type="button"
           onClick={() => setSearched(true)}
-          disabled={!validLength}
+          disabled={!validLength || loadingWords || Boolean(wordBankError)}
           className="inline-flex items-center justify-center gap-2 rounded-lg px-6 py-4 text-sm font-black text-white shadow-sm disabled:cursor-not-allowed disabled:opacity-50"
           style={{ backgroundColor: accent }}
         >
@@ -180,8 +221,10 @@ export function WordleSolverClient({ initialLength = 5, fixedLength = false, acc
         </div>
         {searched && results.length ? <div className="mt-4"><CopyButton text={results.join("\n")} /></div> : null}
         <div className="mt-4 flex max-h-72 flex-wrap gap-2 overflow-auto">
+          {loadingWords ? <p className="text-sm text-[#68645E]">Loading {numericLength}-letter word list...</p> : null}
+          {wordBankError ? <p className="text-sm text-[#A7473D]">{wordBankError}</p> : null}
           {!searched ? <p className="text-sm text-[#68645E]">Enter clues, then find solutions.</p> : null}
-          {searched && !results.length ? <p className="text-sm text-[#68645E]">No matches. Remove one filter or check repeated letters.</p> : null}
+          {searched && !loadingWords && !wordBankError && !results.length ? <p className="text-sm text-[#68645E]">No matches. Remove one filter or check repeated letters.</p> : null}
           {results.map((word: string) => (
             <span key={word} className="rounded-full border border-[#E5DED3] bg-[#FFFDF9] px-3 py-1.5 font-mono text-sm font-bold">
               {word}
