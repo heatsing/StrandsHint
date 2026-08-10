@@ -221,7 +221,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <Link href="/archive" className="hover:text-white">Archive</Link>
                 <Link href="/privacy-policy" className="hover:text-white">Privacy Policy</Link>
                 <Link href="/terms-of-use" className="hover:text-white">Terms of Use</Link>
-                <Link href="/sitemap.xml" className="hover:text-white">Sitemap</Link>
+                <Link href="/sitemap/" className="hover:text-white">Sitemap</Link>
               </nav>
             </div>
           </div>
