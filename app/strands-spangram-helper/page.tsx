@@ -26,8 +26,8 @@ export default function SpangramHelperPage() {
       </div>
       <div className="mt-8"><SolverTool mode="spangram" /></div>
       <div className="mt-8 flex flex-wrap gap-3 text-sm">
-        <a href="/strands-hints" className="rounded-md border border-slate-300 px-4 py-2 hover:bg-slate-50">Today&apos;s hints</a>
-        <a href="/strands-solver" className="rounded-md border border-slate-300 px-4 py-2 hover:bg-slate-50">Full solver</a>
+        <a href="/strands-hints/" className="rounded-md border border-slate-300 px-4 py-2 hover:bg-slate-50">Today&apos;s hints</a>
+        <a href="/strands-solver/" className="rounded-md border border-slate-300 px-4 py-2 hover:bg-slate-50">Full solver</a>
       </div>
       <FAQ items={[{ question: "What makes a spangram candidate?", answer: "This helper marks longer words that can connect edge to edge in the grid. It does not guarantee the official answer." }]} />
     </>

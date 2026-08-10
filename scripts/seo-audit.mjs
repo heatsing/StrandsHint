@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 
 const root = process.cwd();
@@ -45,10 +45,29 @@ function getJsonLdTypes(html) {
     });
 }
 
+function readDirRecursive(dir) {
+  const entries = [];
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    const entryPath = path.join(dir, entry.name);
+    if (entry.isDirectory()) entries.push(...readDirRecursive(entryPath));
+    else entries.push(entryPath);
+  }
+  return entries;
+}
+
+function getExportedHtmlFiles(dir) {
+  return readDirRecursive(dir).filter((file) => path.basename(file) === "index.html");
+}
+
 function routeToFile(url) {
   const pathname = new URL(url).pathname;
   if (pathname === "/") return path.join(outDir, "index.html");
-  return path.join(outDir, pathname.replace(/^\//, ""), "index.html");
+  return path.join(outDir, pathname.replace(/^\//, "").replace(/\/$/, ""), "index.html");
+}
+
+function isFinalStaticUrl(url) {
+  const pathname = new URL(url).pathname;
+  return pathname === "/" || pathname.endsWith("/");
 }
 
 if (!existsSync(sitemapPath)) {
@@ -61,6 +80,8 @@ if (!existsSync(sitemapPath)) {
   if (urls.some((url) => url.includes("/admin"))) fail("sitemap must not include admin URLs");
 
   for (const url of urls) {
+    if (!isFinalStaticUrl(url)) fail(`${url} should include the final trailing slash URL`);
+
     const file = routeToFile(url);
     if (!existsSync(file)) {
       fail(`${url} does not have a matching exported HTML file`);
@@ -71,19 +92,28 @@ if (!existsSync(sitemapPath)) {
     const title = html.match(/<title>(.*?)<\/title>/is)?.[1]?.trim();
     const description = html.match(/<meta name="description" content="(.*?)"/is)?.[1]?.trim();
     const h1Count = matchAll(html, /<h1[\s>]/gi).length;
-    const canonical = html.match(/<link rel="canonical" href="(.*?)"/is)?.[1]?.replace(/\/$/, "");
+    const canonical = html.match(/<link rel="canonical" href="(.*?)"/is)?.[1];
     const linkCount = matchAll(html, /<a\s+[^>]*href=/gi).length;
     const jsonLdTypes = getJsonLdTypes(html);
 
     if (!title) fail(`${url} is missing a title`);
     if (!description) fail(`${url} is missing a meta description`);
     if (h1Count !== 1) fail(`${url} should have exactly one H1, found ${h1Count}`);
-    if (canonical !== url.replace(/\/$/, "")) fail(`${url} canonical mismatch: ${canonical || "missing"}`);
+    if (canonical !== url) fail(`${url} canonical mismatch: ${canonical || "missing"}`);
     if (!jsonLdTypes.includes("BreadcrumbList")) fail(`${url} is missing BreadcrumbList JSON-LD`);
     if (!linkCount) fail(`${url} has no internal links`);
     if (solverRoutes.has(new URL(url).pathname.replace(/\/$/, "")) && !jsonLdTypes.includes("WebApplication")) {
       fail(`${url} solver page is missing WebApplication JSON-LD`);
     }
+  }
+}
+
+for (const file of getExportedHtmlFiles(outDir)) {
+  const html = readFileSync(file, "utf8");
+  const hrefs = matchAll(html, /<a\s+[^>]*href="([^"]+)"/g).map((match) => match[1]);
+  for (const href of hrefs) {
+    if (!href.startsWith("/") || href === "/" || href.includes("#") || href.includes(".")) continue;
+    if (!href.endsWith("/")) fail(`${file} links to non-final internal URL ${href}`);
   }
 }
 
