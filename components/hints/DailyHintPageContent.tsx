@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { JsonLd } from "@/components/JsonLd";
 import type { DailyPuzzle } from "@/lib/daily-hints";
-import { absoluteUrl, breadcrumbSchema, disclaimer } from "@/lib/seo";
+import { breadcrumbSchema, disclaimer } from "@/lib/seo";
 
 export function DailyHintPageContent({
   gameName,

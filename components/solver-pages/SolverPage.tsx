@@ -25,7 +25,7 @@ import { ScrabbleSolverClient } from "@/components/solvers/ScrabbleSolverClient"
 import { SpellingBeeSolverClient } from "@/components/solvers/SpellingBeeSolverClient";
 import { WordFinderToolClient } from "@/components/solvers/WordFinderToolClient";
 import { WordleSolverClient } from "@/components/solvers/WordleSolverClient";
-import { getSolver, getSolverPath, solverRegistry } from "@/data/solver-registry";
+import { getSolver, getSolverPath } from "@/data/solver-registry";
 import { absoluteUrl, breadcrumbSchema, disclaimer } from "@/lib/seo";
 
 type Props = { params: { slug: string } };

@@ -6,24 +6,26 @@ import { PuzzleAnswerContent } from "@/components/PuzzleAnswerContent";
 import { getPublishedPuzzles, getPuzzleByDate } from "@/lib/puzzle-data";
 import { breadcrumbSchema } from "@/lib/seo";
 
-type Props = { params: { date: string } };
+type Props = { params: Promise<{ date: string }> };
 
 export function generateStaticParams() {
   return getPublishedPuzzles().map((puzzle) => ({ date: puzzle.date }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const puzzle = await getPuzzleByDate(params.date);
+  const { date } = await params;
+  const puzzle = await getPuzzleByDate(date);
   if (!puzzle) return { title: "Archive puzzle not found" };
   return {
     title: puzzle.seoTitle,
     description: puzzle.seoDescription,
-    alternates: { canonical: `/archive/${params.date}` },
+    alternates: { canonical: `/archive/${date}` },
   };
 }
 
 export default async function ArchiveDatePage({ params }: Props) {
-  const puzzle = await getPuzzleByDate(params.date);
+  const { date } = await params;
+  const puzzle = await getPuzzleByDate(date);
   if (!puzzle) notFound();
   return (
     <>

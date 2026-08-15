@@ -19,8 +19,8 @@ export function QuordleSolverClient() {
   const [excluded, setExcluded] = useState("");
   const [searched, setSearched] = useState(false);
   const [wordBank, setWordBank] = useState<string[]>([]);
-  const [loadingWords, setLoadingWords] = useState(false);
   const [wordBankError, setWordBankError] = useState("");
+  const loadingWords = !wordBank.length && !wordBankError;
 
   const results = useMemo(() => {
     if (!searched || !wordBank.length) return [];
@@ -38,8 +38,8 @@ export function QuordleSolverClient() {
   }, [green, yellow, excluded, searched, wordBank]);
 
   useEffect(() => {
+    if (wordBank.length) return;
     let active = true;
-    setLoadingWords(true);
     fetch("/wordle-banks/5.json")
       .then((response) => {
         if (!response.ok) throw new Error("Unable to load word bank.");
@@ -48,18 +48,17 @@ export function QuordleSolverClient() {
       .then((words) => {
         if (!active) return;
         setWordBank(words);
-        setLoadingWords(false);
+        setWordBankError("");
       })
       .catch(() => {
         if (!active) return;
         setWordBankError("Word list could not load. Refresh and try again.");
-        setLoadingWords(false);
       });
 
     return () => {
       active = false;
     };
-  }, []);
+  }, [wordBank.length]);
 
   function updateCell(kind: "green" | "yellow", index: number, value: string) {
     const next = kind === "green" ? green.slice() : yellow.slice();

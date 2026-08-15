@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { CheckCircle2, RefreshCw, Search, XCircle } from "lucide-react";
 import { explainWordleLogic, solveWordle } from "@/lib/word-game-solvers";
@@ -39,14 +39,18 @@ async function loadWordleWordBank(length: number) {
 export function WordleSolverClient({ initialLength = 5, fixedLength = false, accent = "#008F83" }: Props) {
   const searchParams = useSearchParams();
   const queryLength = searchParams.get("length");
-  const [length, setLength] = useState(String(initialLength));
+  const queryLengthValue = Number(queryLength);
+  const initialQueryLength =
+    !fixedLength && queryLengthValue >= 3 && queryLengthValue <= 12
+      ? String(queryLengthValue)
+      : String(initialLength);
+  const [length, setLength] = useState(initialQueryLength);
   const numericLength = Number(length);
   const [green, setGreen] = useState("");
   const [yellow, setYellow] = useState("");
   const [excluded, setExcluded] = useState("");
   const [searched, setSearched] = useState(false);
-  const [wordBank, setWordBank] = useState<string[]>([]);
-  const [loadingWords, setLoadingWords] = useState(false);
+  const [wordBanks, setWordBanks] = useState<Record<number, string[]>>({});
   const [wordBankError, setWordBankError] = useState("");
 
   const greenCells = letterCells(green, numericLength);
@@ -58,44 +62,32 @@ export function WordleSolverClient({ initialLength = 5, fixedLength = false, acc
     .join(" ");
   const includes = yellowCells.filter(Boolean).join("");
   const validLength = numericLength >= 3 && numericLength <= 12;
-  const results = useMemo(
-    () => (searched && wordBank.length ? solveWordle(wordBank, { length: numericLength, pattern, includes, misplaced, excluded }) : []),
-    [searched, wordBank, numericLength, pattern, includes, misplaced, excluded],
-  );
+  const wordBank = validLength ? wordBanks[numericLength] ?? [] : [];
+  const loadingWords = validLength && !wordBank.length && !wordBankError;
+  const results =
+    searched && wordBank.length
+      ? solveWordle(wordBank, { length: numericLength, pattern, includes, misplaced, excluded })
+      : [];
 
   useEffect(() => {
-    let active = true;
-    setWordBank([]);
-    setWordBankError("");
-    if (!validLength) {
-      setLoadingWords(false);
-      return;
-    }
+    if (!validLength || wordBanks[numericLength]) return;
 
-    setLoadingWords(true);
+    let active = true;
     loadWordleWordBank(numericLength)
       .then((words) => {
         if (!active) return;
-        setWordBank(words);
-        setLoadingWords(false);
+        setWordBanks((current) => ({ ...current, [numericLength]: words }));
+        setWordBankError("");
       })
       .catch(() => {
         if (!active) return;
         setWordBankError("Word list could not load. Refresh and try again.");
-        setLoadingWords(false);
       });
 
     return () => {
       active = false;
     };
-  }, [numericLength, validLength]);
-
-  useEffect(() => {
-    if (!fixedLength && queryLength && Number(queryLength) >= 3 && Number(queryLength) <= 12) {
-      setLength(queryLength);
-      setSearched(false);
-    }
-  }, [fixedLength, queryLength]);
+  }, [numericLength, validLength, wordBanks]);
 
   function updateCell(kind: "green" | "yellow", index: number, value: string) {
     const cells = kind === "green" ? greenCells.slice() : yellowCells.slice();

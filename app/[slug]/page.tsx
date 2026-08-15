@@ -4,7 +4,8 @@ import { getSolver, solverRegistry } from "@/data/solver-registry";
 import { absoluteUrl } from "@/lib/seo";
 import SolverPage from "@/components/solver-pages/SolverPage";
 
-type Props = { params: { slug: string } };
+type RouteParams = { slug: string };
+type Props = { params: Promise<RouteParams> };
 
 const rootSolvers = solverRegistry.filter((solver) => solver.implemented && solver.inputType !== "directory");
 
@@ -14,8 +15,9 @@ export function generateStaticParams() {
   return rootSolvers.map((solver) => ({ slug: solver.slug }));
 }
 
-export function generateMetadata({ params }: Props): Metadata {
-  const solver = getSolver(params.slug);
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const solver = getSolver(slug);
   if (!solver || !solver.implemented || solver.inputType === "directory") return {};
   const path = `/${solver.slug}`;
   const title =
@@ -34,8 +36,9 @@ export function generateMetadata({ params }: Props): Metadata {
   };
 }
 
-export default function RootWordleSolverPage({ params }: Props) {
-  const solver = getSolver(params.slug);
+export default async function RootWordleSolverPage({ params }: Props) {
+  const resolvedParams = await params;
+  const solver = getSolver(resolvedParams.slug);
   if (!solver || !solver.implemented || solver.inputType === "directory") notFound();
-  return <SolverPage params={params} />;
+  return <SolverPage params={resolvedParams} />;
 }

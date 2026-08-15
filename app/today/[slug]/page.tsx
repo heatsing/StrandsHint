@@ -12,15 +12,16 @@ import {
 import { absoluteUrl, breadcrumbSchema, disclaimer } from "@/lib/seo";
 
 type PageProps = {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 };
 
 export function generateStaticParams() {
   return dailySeoPages.map((page) => ({ slug: page.slug }));
 }
 
-export function generateMetadata({ params }: PageProps): Metadata {
-  const page = getDailySeoPage(params.slug);
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const page = getDailySeoPage(slug);
   if (!page) return {};
 
   return {
@@ -36,8 +37,9 @@ export function generateMetadata({ params }: PageProps): Metadata {
   };
 }
 
-export default function DailySeoPage({ params }: PageProps) {
-  const page = getDailySeoPage(params.slug);
+export default async function DailySeoPage({ params }: PageProps) {
+  const { slug } = await params;
+  const page = getDailySeoPage(slug);
   if (!page) notFound();
 
   return (

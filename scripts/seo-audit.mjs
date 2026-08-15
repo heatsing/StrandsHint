@@ -3,7 +3,6 @@ import path from "node:path";
 
 const root = process.cwd();
 const outDir = path.join(root, "out");
-const siteUrl = "https://strandshint.net";
 const sitemapPath = path.join(outDir, "sitemap.xml");
 const solverRoutes = new Set([
   "/wordle-solver",

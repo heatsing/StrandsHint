@@ -7,7 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "node --test tests/*.mjs",
     "generate:wordle-banks": "node scripts/generate-wordle-3-bank.mjs 3 && node scripts/generate-wordle-3-bank.mjs 4 && node scripts/generate-wordle-3-bank.mjs 5 && node scripts/generate-wordle-3-bank.mjs 6 && node scripts/generate-wordle-3-bank.mjs 7 && node scripts/generate-wordle-3-bank.mjs 8 && node scripts/generate-wordle-3-bank.mjs 9 && node scripts/generate-wordle-3-bank.mjs 10 && node scripts/generate-wordle-3-bank.mjs 11 && node scripts/generate-wordle-3-bank.mjs 12",
@@ -30,7 +30,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^1.23.0",
-    "next": "14.2.35",
+    "next": "16.3.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "tailwind-merge": "^3.6.0",
@@ -43,14 +43,21 @@
     "@types/react-dom": "^18.3.1",
     "an-array-of-english-words": "^2.0.0",
     "autoprefixer": "^10.4.20",
-    "eslint": "^8.57.1",
-    "eslint-config-next": "14.2.35",
+    "eslint": "9.39.2",
+    "eslint-config-next": "16.3.1",
     "playwright": "^1.62.1",
-    "postcss": "^8.4.49",
+    "postcss": "8.5.26",
     "tailwindcss": "^3.4.15",
     "typescript": "^5.6.3",
     "word-list": "^4.1.0",
     "wordnet-db": "^3.1.14",
-    "wrangler": "^4.81.1"
+    "wrangler": "4.123.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "brace-expansion@<1.1.18": "1.1.18",
+      "brace-expansion@>=4.0.0 <5.0.9": "5.0.9",
+      "js-yaml@>=4.0.0 <4.3.1": "4.3.1"
+    }
   }
 }
