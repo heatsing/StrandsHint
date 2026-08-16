@@ -107,6 +107,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </Link>
             <nav className="flex flex-wrap gap-2 text-sm lg:items-center">
               <Link prefetch={false}
+                href="/strands-hints"
+                className="inline-flex items-center gap-1 rounded-full px-3 py-2 font-black text-[#24333A] hover:bg-[#EDE6DC] hover:text-[#008F83]"
+              >
+                Strands Hint
+              </Link>
+
+              <Link prefetch={false}
                 href="/todays-strands-answer"
                 className="inline-flex items-center gap-1 rounded-full px-3 py-2 font-black text-[#24333A] hover:bg-[#EDE6DC] hover:text-[#008F83]"
               >
