@@ -1,5 +1,42 @@
 [
   {
+    "id": "2026-08-17-nyt-strands-hints-answers",
+    "date": "2026-08-17",
+    "title": "NYT Strands Hints & Answers Aug 17, 2026: On a bender",
+    "themeHint": "On a bender",
+    "difficulty": "MEDIUM",
+    "spangram": "BODYJOINTS",
+    "spangramHint1": "a clever play on words that refers to parts of the human anatomy that allow for movement. Think about the physical points where your limbs pivot and rotate.",
+    "spangramHint2": "The spangram has 10 letters and ties the whole theme together.",
+    "spangramDirection": "unknown",
+    "words": [],
+    "wordHints": [
+      "Starts with ANK. Verify the full word manually before publishing.",
+      "Starts with ELB. Verify the full word manually before publishing.",
+      "Starts with KNE. Verify the full word manually before publishing.",
+      "Starts with KNU. Verify the full word manually before publishing.",
+      "Starts with NEC. Verify the full word manually before publishing.",
+      "Starts with SHO. Verify the full word manually before publishing.",
+      "Starts with WRI. Verify the full word manually before publishing."
+    ],
+    "spoilerLevelContent": "Imported as an editorial draft from a public third-party page. Verify the theme, spangram, full words, and explanation before publishing.",
+    "seoTitle": "NYT Strands Hints & Answers Aug 17, 2026",
+    "seoDescription": "Spoiler-safe NYT Strands hints, spangram help, and answer reveals for Aug 17, 2026. Theme: On a bender.",
+    "slug": "2026-08-17-nyt-strands-hints-answers",
+    "published": false,
+    "sourceUrl": "https://www.strands.today/strands-hint-and-answer/2026-08-17/",
+    "importedAt": "2026-08-16T11:46:02.976Z",
+    "importedWordPrefixes": [
+      "ANK",
+      "ELB",
+      "KNE",
+      "KNU",
+      "NEC",
+      "SHO",
+      "WRI"
+    ]
+  },
+  {
     "id": "sample-strands-helper-puzzle",
     "date": "2026-07-04",
     "puzzleNumber": 1,

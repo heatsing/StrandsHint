@@ -22,6 +22,11 @@
     "generate:wordle11": "node scripts/generate-wordle-3-bank.mjs 11",
     "generate:wordle12": "node scripts/generate-wordle-3-bank.mjs 12",
     "create:daily-hint": "node scripts/create-daily-hint.mjs",
+    "daily:missing": "node scripts/strands-puzzle.mjs missing",
+    "daily:new": "node scripts/strands-puzzle.mjs new",
+    "daily:today": "node scripts/strands-puzzle.mjs today",
+    "daily:import": "node scripts/strands-puzzle.mjs import",
+    "daily:import:missing": "node scripts/strands-puzzle.mjs import-missing",
     "seo:audit": "node scripts/seo-audit.mjs",
     "browser:audit": "node scripts/browser-audit.mjs",
     "smoke": "node scripts/smoke.mjs"
