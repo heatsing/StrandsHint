@@ -176,20 +176,6 @@ export default function HomePage() {
     <div className="-mt-10">
       <JsonLd data={breadcrumbSchema([{ name: "Home", url: "/" }])} />
       <JsonLd data={faqSchema} />
-      <JsonLd
-        data={{
-          "@context": "https://schema.org",
-          "@type": "WebSite",
-          name: "Strands Hint",
-          url: "https://strandshint.net",
-          potentialAction: {
-            "@type": "SearchAction",
-            target: "https://strandshint.net/all-solvers?q={search_term_string}",
-            "query-input": "required name=search_term_string",
-          },
-        }}
-      />
-
       <section className="relative mx-[calc(50%-50vw)] overflow-hidden bg-[radial-gradient(circle_at_50%_0%,#EEF9F8_0%,#F8F5EF_52%,#F8F5EF_100%)] px-4 py-16 text-center">
         <div className="pointer-events-none absolute -left-10 top-40 hidden h-36 w-36 opacity-40 md:block [background-image:radial-gradient(#00A39A_1.4px,transparent_1.4px)] [background-size:14px_14px]" />
         <div className="pointer-events-none absolute -right-20 top-56 hidden h-64 w-64 rounded-full bg-[#DDF4F1] md:block" />
@@ -206,7 +192,7 @@ export default function HomePage() {
           <div className="mx-auto mt-8 flex max-w-2xl items-center gap-3 rounded-2xl border border-[#E5DED3] bg-white p-2 shadow-lg shadow-[#315C4C]/10">
             <Search className="ml-3 h-5 w-5 text-[#8A857E]" />
             <span className="flex-1 text-left text-sm text-[#8A857E]">Search puzzles, hints, answers...</span>
-            <Link
+            <Link prefetch={false}
               href="/all-solvers"
               className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#008F83] text-white hover:bg-[#00766D]"
               aria-label="Search solver tools"
@@ -217,7 +203,7 @@ export default function HomePage() {
 
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             {quickLinks.map(({ href, label, Icon }) => (
-              <Link
+              <Link prefetch={false}
                 key={href}
                 href={href}
                 className="inline-flex min-w-36 items-center justify-center gap-2 rounded-full border border-[#E5DED3] bg-[#FFFDF9] px-5 py-3 text-sm font-black text-[#24333A] shadow-sm hover:-translate-y-0.5 hover:border-[#008F83]/50 hover:text-[#008F83]"
@@ -229,13 +215,13 @@ export default function HomePage() {
           </div>
 
           <div className="mt-8 flex flex-wrap justify-center gap-4">
-            <Link
+            <Link prefetch={false}
               href="/today/strands-hints"
               className="inline-flex items-center gap-2 rounded-xl bg-[#008F83] px-7 py-4 text-sm font-black text-white shadow-sm hover:bg-[#00766D]"
             >
               Find Today&apos;s Hint <ArrowRight className="h-4 w-4" />
             </Link>
-            <Link
+            <Link prefetch={false}
               href="/archive"
               className="inline-flex items-center gap-2 rounded-xl border border-[#008F83] bg-[#FFFDF9] px-7 py-4 text-sm font-black text-[#008F83] hover:bg-[#F1FAF8]"
             >
@@ -272,7 +258,7 @@ export default function HomePage() {
         </div>
         <div className="mx-auto mt-8 grid max-w-5xl gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {dailyHintCards.map(({ href, title, text, Icon, accent }) => (
-            <Link key={href} href={href} className="group rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 text-center shadow-md shadow-[#315C4C]/5 hover:-translate-y-1 hover:shadow-lg">
+            <Link prefetch={false} key={href} href={href} className="group rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 text-center shadow-md shadow-[#315C4C]/5 hover:-translate-y-1 hover:shadow-lg">
               <span className="mx-auto grid h-14 w-14 place-items-center rounded-xl text-white" style={{ backgroundColor: accent }}>
                 <Icon className="h-7 w-7" />
               </span>
@@ -297,7 +283,7 @@ export default function HomePage() {
         </div>
         <div className="mx-auto mt-8 grid max-w-5xl gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {solverCards.map(({ href, title, points, Icon, accent }) => (
-            <Link key={href} href={href} className="group rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-md shadow-[#315C4C]/5 hover:-translate-y-1 hover:shadow-lg">
+            <Link prefetch={false} key={href} href={href} className="group rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-md shadow-[#315C4C]/5 hover:-translate-y-1 hover:shadow-lg">
               <div className="flex items-center gap-4">
                 <span className="grid h-14 w-14 place-items-center rounded-xl" style={{ backgroundColor: `${accent}18`, color: accent }}>
                   <Icon className="h-7 w-7" />
@@ -364,13 +350,13 @@ export default function HomePage() {
 
       <section className="sr-only" aria-label="Implemented solver links">
         {implementedSolvers.map((solver) => (
-          <Link key={solver.slug} href={getSolverPath(solver)}>
+          <Link prefetch={false} key={solver.slug} href={getSolverPath(solver)}>
             {solver.name}
           </Link>
         ))}
-        <Link href="/all-solvers">All Solvers</Link>
-        <Link href="/daily-hints">All Daily Hints</Link>
-        <Link href="/strands-solver">Strands Solver</Link>
+        <Link prefetch={false} href="/all-solvers">All Solvers</Link>
+        <Link prefetch={false} href="/daily-hints">All Daily Hints</Link>
+        <Link prefetch={false} href="/strands-solver">Strands Solver</Link>
       </section>
     </div>
   );

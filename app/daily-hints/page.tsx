@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowRight, CalendarDays } from "lucide-react";
 import { JsonLd } from "@/components/JsonLd";
 import { dailySeoPages } from "@/lib/daily-seo";
-import { absoluteUrl, breadcrumbSchema, disclaimer } from "@/lib/seo";
+import { absoluteUrl, breadcrumbSchema, disclaimer, itemListSchema } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "All Daily Puzzle Hints - Wordle, Connections & Strands",
@@ -16,6 +16,11 @@ export const metadata: Metadata = {
     url: absoluteUrl("/daily-hints"),
     type: "website",
   },
+  twitter: {
+    card: "summary",
+    title: "All Daily Puzzle Hints",
+    description: "Browse daily spoiler-safe hint pages and related word puzzle tools.",
+  },
 };
 
 const planned = ["Spelling Bee Hints", "Letter Boxed Hints", "Mini Crossword Hints", "Crossword Hints"];
@@ -24,6 +29,16 @@ export default function DailyHintsDirectoryPage() {
   return (
     <article>
       <JsonLd data={breadcrumbSchema([{ name: "Home", url: "/" }, { name: "Daily Hints", url: "/daily-hints" }])} />
+      <JsonLd
+        data={itemListSchema(
+          "All Daily Puzzle Hints",
+          dailySeoPages.map((page) => ({
+            name: page.h1,
+            url: page.path,
+            description: page.searchIntent,
+          })),
+        )}
+      />
       <header className="py-10">
         <p className="font-mono text-sm font-bold uppercase tracking-[0.2em] text-[#315C4C]">Daily hints</p>
         <h1 className="mt-4 max-w-3xl font-serif text-5xl font-black leading-tight text-[#20201E]">
@@ -38,7 +53,7 @@ export default function DailyHintsDirectoryPage() {
         <h2 className="font-serif text-3xl font-black">Available today pages</h2>
         <div className="mt-4 grid gap-4 md:grid-cols-3">
           {dailySeoPages.map((page) => (
-            <Link key={page.slug} href={page.path} className="group rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-5 shadow-sm hover:border-[#315C4C]/50">
+            <Link prefetch={false} key={page.slug} href={page.path} className="group rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-5 shadow-sm hover:border-[#315C4C]/50">
               <CalendarDays className="h-7 w-7 text-[#315C4C]" />
               <h3 className="mt-4 font-serif text-2xl font-black">{page.h1}</h3>
               <p className="mt-2 text-sm leading-6 text-[#68645E]">{page.searchIntent}</p>

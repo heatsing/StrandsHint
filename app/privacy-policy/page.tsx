@@ -40,10 +40,10 @@ export default function PrivacyPolicyPage() {
       <h2 className="mt-8 font-serif text-2xl font-black text-[#20201E]">Independence</h2>
       <p className="mt-3 leading-7 text-[#68645E]">{disclaimer}</p>
       <div className="mt-8 flex flex-wrap gap-3">
-        <Link className="rounded-lg bg-[#315C4C] px-4 py-2 font-bold text-white" href="/">
+        <Link prefetch={false} className="rounded-lg bg-[#315C4C] px-4 py-2 font-bold text-white" href="/">
           Back Home
         </Link>
-        <Link
+        <Link prefetch={false}
           className="rounded-lg border border-[#D4CABD] bg-[#EDE6DC] px-4 py-2 font-bold text-[#20201E]"
           href="/all-solvers"
         >

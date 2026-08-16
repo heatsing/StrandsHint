@@ -1,4 +1,4 @@
-import { absoluteUrl } from "@/lib/seo";
+import { absoluteUrl, siteName } from "@/lib/seo";
 import dailyContent from "@/data/daily-content.json";
 
 export type RelatedPage = { label: string; href: string; description: string };
@@ -201,6 +201,17 @@ export function dailyPageSchema(page: DailySeoPage) {
     dateModified: date,
     isAccessibleForFree: true,
     about: page.game,
+    inLanguage: "en-US",
+    author: {
+      "@type": "Organization",
+      name: siteName,
+      url: absoluteUrl("/"),
+    },
+    publisher: {
+      "@type": "Organization",
+      name: siteName,
+      url: absoluteUrl("/"),
+    },
   };
 }
 

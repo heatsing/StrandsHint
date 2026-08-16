@@ -80,8 +80,8 @@ export function DailyHintPageContent({
       )}
 
       <section className="mt-10 flex flex-wrap gap-3">
-        <Link href="/daily-hints" className="rounded-lg border border-[#D4CABD] bg-[#EDE6DC] px-4 py-2 text-sm font-bold hover:bg-[#E3D9CC]">All daily hints</Link>
-        <Link href="/all-solvers" className="rounded-lg bg-[#315C4C] px-4 py-2 text-sm font-bold text-white hover:bg-[#274B3E]">Browse solvers</Link>
+        <Link prefetch={false} href="/daily-hints" className="rounded-lg border border-[#D4CABD] bg-[#EDE6DC] px-4 py-2 text-sm font-bold hover:bg-[#E3D9CC]">All daily hints</Link>
+        <Link prefetch={false} href="/all-solvers" className="rounded-lg bg-[#315C4C] px-4 py-2 text-sm font-bold text-white hover:bg-[#274B3E]">Browse solvers</Link>
       </section>
     </article>
   );

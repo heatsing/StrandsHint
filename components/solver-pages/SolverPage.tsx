@@ -26,7 +26,7 @@ import { SpellingBeeSolverClient } from "@/components/solvers/SpellingBeeSolverC
 import { WordFinderToolClient } from "@/components/solvers/WordFinderToolClient";
 import { WordleSolverClient } from "@/components/solvers/WordleSolverClient";
 import { getSolver, getSolverPath } from "@/data/solver-registry";
-import { absoluteUrl, breadcrumbSchema, disclaimer } from "@/lib/seo";
+import { absoluteUrl, breadcrumbSchema, disclaimer, webApplicationSchema } from "@/lib/seo";
 
 type Props = { params: { slug: string } };
 
@@ -58,6 +58,24 @@ function SolverWorkspace({ inputType }: { inputType: string }) {
   if (inputType === "crossword") return <CrosswordSolverClient />;
   if (inputType === "jumble") return <JumbleSolverClient />;
   return null;
+}
+
+function solverAppSchema(name: string, path: string) {
+  const slug = path.replace(/^\//, "").replace(/\/$/, "");
+  const solver = getSolver(slug);
+  return webApplicationSchema({
+    name,
+    url: path,
+    description:
+      solver?.seo.description ??
+      `${name} is a local puzzle helper that filters word candidates from the letters and clues you enter.`,
+    featureList: [
+      "Local deterministic word matching",
+      "Mobile-friendly puzzle inputs",
+      "No official puzzle feed scraping",
+      "Free browser-based results",
+    ],
+  });
 }
 
 const spellingBeeFaq = [
@@ -195,7 +213,7 @@ function SpellingBeeSolverPage() {
     <article className="-mt-10">
       <JsonLd data={breadcrumbSchema([{ name: "Home", url: "/" }, { name: "All Solvers", url: "/all-solvers" }, { name: "Spelling Bee Solver", url: path }])} />
       <JsonLd data={faqSchema} />
-      <JsonLd data={{ "@context": "https://schema.org", "@type": "WebApplication", name: "Spelling Bee Solver", url: absoluteUrl(path), applicationCategory: "GameApplication", isAccessibleForFree: true }} />
+      <JsonLd data={solverAppSchema("Spelling Bee Solver", path)} />
 
       <section className="relative mx-[calc(50%-50vw)] overflow-hidden bg-[radial-gradient(circle_at_50%_0%,#F1FBFA_0%,#F8F5EF_55%,#F8F5EF_100%)] px-4 py-14">
         <div className="pointer-events-none absolute -left-10 top-20 hidden h-40 w-40 opacity-35 md:block [background-image:radial-gradient(#00A39A_1.4px,transparent_1.4px)] [background-size:14px_14px]" />
@@ -299,7 +317,7 @@ function SpellingBeeSolverPage() {
         <h2 className="text-center text-3xl font-black text-[#142436]">Explore More Word Solvers</h2>
         <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {relatedTools.map(({ href, label, text, Icon, accent }) => (
-            <Link key={label} href={href} className="group rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 text-center shadow-md shadow-[#315C4C]/5 hover:-translate-y-1 hover:shadow-lg">
+            <Link prefetch={false} key={label} href={href} className="group rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 text-center shadow-md shadow-[#315C4C]/5 hover:-translate-y-1 hover:shadow-lg">
               <span className="mx-auto grid h-14 w-14 place-items-center rounded-xl" style={{ backgroundColor: `${accent}18`, color: accent }}>
                 <Icon className="h-7 w-7" />
               </span>
@@ -388,7 +406,7 @@ function WordleSolverPage({ solver }: { solver: NonNullable<ReturnType<typeof ge
     <article className="-mt-10">
       <JsonLd data={breadcrumbSchema([{ name: "Home", url: "/" }, { name: "All Solvers", url: "/all-solvers" }, { name: solver.name, url: path }])} />
       <JsonLd data={faqSchema} />
-      <JsonLd data={{ "@context": "https://schema.org", "@type": "WebApplication", name: solver.name, url: absoluteUrl(path), applicationCategory: "GameApplication", isAccessibleForFree: true }} />
+      <JsonLd data={solverAppSchema(solver.name, path)} />
 
       <section className="relative mx-[calc(50%-50vw)] overflow-hidden bg-[radial-gradient(circle_at_50%_0%,#F1FBFA_0%,#F8F5EF_55%,#F8F5EF_100%)] px-4 py-14">
         <div className="pointer-events-none absolute -left-10 top-20 hidden h-40 w-40 opacity-35 md:block [background-size:14px_14px]" style={{ backgroundImage: `radial-gradient(${theme.sideDots} 1.4px, transparent 1.4px)` }} />
@@ -461,7 +479,7 @@ function WordleSolverPage({ solver }: { solver: NonNullable<ReturnType<typeof ge
         <p className="mt-2 text-center text-sm text-[#68645E]">Try other tools to solve, discover, and master word puzzles.</p>
         <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {relatedTools.map(({ href, label, points, Icon, accent, cta }) => (
-            <Link key={label} href={href} className="group rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-md shadow-[#315C4C]/5 hover:-translate-y-1 hover:shadow-lg">
+            <Link prefetch={false} key={label} href={href} className="group rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-md shadow-[#315C4C]/5 hover:-translate-y-1 hover:shadow-lg">
               <div className="flex items-center gap-4">
                 <span className="grid h-14 w-14 place-items-center rounded-xl" style={{ backgroundColor: `${accent}18`, color: accent }}>
                   <Icon className="h-7 w-7" />
@@ -471,7 +489,7 @@ function WordleSolverPage({ solver }: { solver: NonNullable<ReturnType<typeof ge
               <ul className="mt-5 grid gap-2 text-sm text-[#68645E]">
                 {points.map((point) => (
                   <li key={point} className="flex gap-2">
-                    <span style={{ color: accent }}>&bull;</span>
+                    <span style={{ color: accent }}>-</span>
                     <span>{point}</span>
                   </li>
                 ))}
@@ -531,7 +549,7 @@ function WordleLengthSolverPage({ solver }: { solver: NonNullable<ReturnType<typ
     <article className="-mt-10">
       <JsonLd data={breadcrumbSchema([{ name: "Home", url: "/" }, { name: "All Solvers", url: "/all-solvers" }, { name: solver.name, url: path }])} />
       <JsonLd data={faqSchema} />
-      <JsonLd data={{ "@context": "https://schema.org", "@type": "WebApplication", name: solver.name, url: absoluteUrl(path), applicationCategory: "GameApplication", isAccessibleForFree: true }} />
+      <JsonLd data={solverAppSchema(solver.name, path)} />
 
       <section className="relative mx-[calc(50%-50vw)] overflow-hidden bg-[radial-gradient(circle_at_50%_0%,#F1FBFA_0%,#F8F5EF_55%,#F8F5EF_100%)] px-4 py-14">
         <div className="pointer-events-none absolute -left-10 top-20 hidden h-40 w-40 opacity-35 md:block [background-size:14px_14px]" style={{ backgroundImage: `radial-gradient(${theme.sideDots} 1.4px, transparent 1.4px)` }} />
@@ -618,7 +636,7 @@ function WordleLengthSolverPage({ solver }: { solver: NonNullable<ReturnType<typ
         </h2>
         <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {relatedTools.map(({ href, label, points, Icon, accent }) => (
-            <Link key={label} href={href} className="group rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-md shadow-[#315C4C]/5 hover:-translate-y-1 hover:shadow-lg">
+            <Link prefetch={false} key={label} href={href} className="group rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-md shadow-[#315C4C]/5 hover:-translate-y-1 hover:shadow-lg">
               <div className="flex items-center gap-4">
                 <span className="grid h-14 w-14 place-items-center rounded-xl" style={{ backgroundColor: `${accent}18`, color: accent }}>
                   <Icon className="h-7 w-7" />
@@ -628,7 +646,7 @@ function WordleLengthSolverPage({ solver }: { solver: NonNullable<ReturnType<typ
               <ul className="mt-5 grid gap-2 text-sm text-[#68645E]">
                 {points.map((point) => (
                   <li key={point} className="flex gap-2">
-                    <span style={{ color: accent }}>&bull;</span>
+                    <span style={{ color: accent }}>-</span>
                     <span>{point}</span>
                   </li>
                 ))}
@@ -680,7 +698,7 @@ function LetterBoxSolverPage() {
     <article className="-mt-10">
       <JsonLd data={breadcrumbSchema([{ name: "Home", url: "/" }, { name: "All Solvers", url: "/all-solvers" }, { name: "Letter Boxed Solver", url: path }])} />
       <JsonLd data={faqSchema} />
-      <JsonLd data={{ "@context": "https://schema.org", "@type": "WebApplication", name: "Letter Boxed Solver", url: absoluteUrl(path), applicationCategory: "GameApplication", isAccessibleForFree: true }} />
+      <JsonLd data={solverAppSchema("Letter Boxed Solver", path)} />
 
       <section className="relative mx-[calc(50%-50vw)] overflow-hidden bg-[radial-gradient(circle_at_50%_0%,#F4FFFD_0%,#F8F5EF_58%,#F8F5EF_100%)] px-4 py-14">
         <div className="pointer-events-none absolute -left-20 top-24 hidden h-64 w-64 rounded-full bg-[#DDF4F1] md:block" />
@@ -769,7 +787,7 @@ function LetterBoxSolverPage() {
         </h2>
         <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {relatedTools.map(({ href, label, points, Icon, accent }) => (
-            <Link key={label} href={href} className="group rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-md shadow-[#315C4C]/5 hover:-translate-y-1 hover:shadow-lg">
+            <Link prefetch={false} key={label} href={href} className="group rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-md shadow-[#315C4C]/5 hover:-translate-y-1 hover:shadow-lg">
               <div className="flex items-center gap-4">
                 <span className="grid h-14 w-14 place-items-center rounded-xl" style={{ backgroundColor: `${accent}18`, color: accent }}>
                   <Icon className="h-7 w-7" />
@@ -779,7 +797,7 @@ function LetterBoxSolverPage() {
               <ul className="mt-5 grid gap-2 text-sm text-[#68645E]">
                 {points.map((point) => (
                   <li key={point} className="flex gap-2">
-                    <span style={{ color: accent }}>&bull;</span>
+                    <span style={{ color: accent }}>-</span>
                     <span>{point}</span>
                   </li>
                 ))}
@@ -1093,7 +1111,7 @@ function WordFinderMarketingPage({ solver }: { solver: NonNullable<ReturnType<ty
     <article className="-mt-10">
       <JsonLd data={breadcrumbSchema([{ name: "Home", url: "/" }, { name: "All Solvers", url: "/all-solvers" }, { name: solver.name, url: path }])} />
       <JsonLd data={faqSchema} />
-      <JsonLd data={{ "@context": "https://schema.org", "@type": "WebApplication", name: solver.name, url: absoluteUrl(path), applicationCategory: "GameApplication", isAccessibleForFree: true }} />
+      <JsonLd data={solverAppSchema(solver.name, path)} />
 
       <section className="relative mx-[calc(50%-50vw)] overflow-hidden bg-[radial-gradient(circle_at_50%_0%,#F1FBFA_0%,#F8F5EF_56%,#F8F5EF_100%)] px-4 py-14">
         <div className="pointer-events-none absolute -left-8 top-20 hidden h-40 w-40 opacity-35 md:block [background-image:radial-gradient(#00A39A_1.4px,transparent_1.4px)] [background-size:14px_14px]" />
@@ -1166,7 +1184,7 @@ function WordFinderMarketingPage({ solver }: { solver: NonNullable<ReturnType<ty
         </h2>
         <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {config.related.map(({ href, label, text, Icon, accent, cta }) => (
-            <Link key={label} href={href} className="group rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-md shadow-[#315C4C]/5 hover:-translate-y-1 hover:shadow-lg">
+            <Link prefetch={false} key={label} href={href} className="group rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-md shadow-[#315C4C]/5 hover:-translate-y-1 hover:shadow-lg">
               <div className="flex items-center gap-4">
                 <span className="grid h-14 w-14 place-items-center rounded-xl" style={{ backgroundColor: `${accent}18`, color: accent }}>
                   <Icon className="h-7 w-7" />
@@ -1238,7 +1256,7 @@ function ScrabbleSolverPage({ solver }: { solver: NonNullable<ReturnType<typeof 
     <article className="-mt-10">
       <JsonLd data={breadcrumbSchema([{ name: "Home", url: "/" }, { name: "All Solvers", url: "/all-solvers" }, { name: solver.name, url: path }])} />
       <JsonLd data={faqSchema} />
-      <JsonLd data={{ "@context": "https://schema.org", "@type": "WebApplication", name: solver.name, url: absoluteUrl(path), applicationCategory: "GameApplication", isAccessibleForFree: true }} />
+      <JsonLd data={solverAppSchema(solver.name, path)} />
 
       <section className="relative mx-[calc(50%-50vw)] overflow-hidden bg-[radial-gradient(circle_at_50%_0%,#F1FBFA_0%,#F8F5EF_56%,#F8F5EF_100%)] px-4 py-14">
         <div className="pointer-events-none absolute -left-8 top-24 hidden h-44 w-44 opacity-35 md:block [background-image:radial-gradient(#2F80D8_1.4px,transparent_1.4px)] [background-size:14px_14px]" />
@@ -1281,7 +1299,7 @@ function ScrabbleSolverPage({ solver }: { solver: NonNullable<ReturnType<typeof 
               <ul className="mt-5 grid gap-2 text-sm leading-6 text-[#344153]">
                 {["Use high-value letters like Q, Z, J, and X when possible.", "Look for prefixes and suffixes to build longer words.", "Save blank tiles for tricky spots or high-value plays.", "Check for bingo opportunities with 7+ letter words.", "Consider premium squares on the board for maximum score."].map((tip) => (
                   <li key={tip} className="flex gap-2">
-                    <span className="text-[#008F83]">✓</span>
+                    <span className="text-[#008F83]">-</span>
                     <span>{tip}</span>
                   </li>
                 ))}
@@ -1306,7 +1324,7 @@ function ScrabbleSolverPage({ solver }: { solver: NonNullable<ReturnType<typeof 
         <p className="mt-2 text-center text-sm text-[#68645E]">Try our collection of powerful tools for every word puzzle challenge.</p>
         <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {relatedTools.map(({ href, label, points, Icon, accent, cta }) => (
-            <Link key={label} href={href} className="group rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-md shadow-[#315C4C]/5 hover:-translate-y-1 hover:shadow-lg">
+            <Link prefetch={false} key={label} href={href} className="group rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-md shadow-[#315C4C]/5 hover:-translate-y-1 hover:shadow-lg">
               <div className="flex items-center gap-4">
                 <span className="grid h-14 w-14 place-items-center rounded-xl" style={{ backgroundColor: `${accent}18`, color: accent }}>
                   <Icon className="h-7 w-7" />
@@ -1316,7 +1334,7 @@ function ScrabbleSolverPage({ solver }: { solver: NonNullable<ReturnType<typeof 
               <ul className="mt-5 grid gap-2 text-sm text-[#68645E]">
                 {points.map((point) => (
                   <li key={point} className="flex gap-2">
-                    <span style={{ color: accent }}>✓</span>
+                    <span style={{ color: accent }}>-</span>
                     <span>{point}</span>
                   </li>
                 ))}
@@ -1411,7 +1429,7 @@ function QuordleSolverPage() {
     <article className="-mt-10">
       <JsonLd data={breadcrumbSchema([{ name: "Home", url: "/" }, { name: "All Solvers", url: "/all-solvers" }, { name: "Quordle Solver", url: path }])} />
       <JsonLd data={faqSchema} />
-      <JsonLd data={{ "@context": "https://schema.org", "@type": "WebApplication", name: "Quordle Solver", url: absoluteUrl(path), applicationCategory: "GameApplication", isAccessibleForFree: true }} />
+      <JsonLd data={solverAppSchema("Quordle Solver", path)} />
 
       <section className="relative mx-[calc(50%-50vw)] overflow-hidden bg-[radial-gradient(circle_at_50%_0%,#F8FBFF_0%,#F8F5EF_58%,#F8F5EF_100%)] px-4 py-14">
         <div className="pointer-events-none absolute -left-8 top-28 hidden h-36 w-36 opacity-30 md:block [background-image:radial-gradient(#12A37F_1.4px,transparent_1.4px)] [background-size:14px_14px]" />
@@ -1495,7 +1513,7 @@ function QuordleSolverPage() {
         </h2>
         <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {relatedTools.map(({ href, label, points, Icon, accent, cta }) => (
-            <Link key={label} href={href} className="group rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-md shadow-[#315C4C]/5 hover:-translate-y-1 hover:shadow-lg">
+            <Link prefetch={false} key={label} href={href} className="group rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-md shadow-[#315C4C]/5 hover:-translate-y-1 hover:shadow-lg">
               <div className="flex items-center gap-4">
                 <span className="grid h-14 w-14 place-items-center rounded-full" style={{ backgroundColor: `${accent}18`, color: accent }}>
                   <Icon className="h-7 w-7" />
@@ -1603,7 +1621,7 @@ function CrosswordSolverPage() {
     <article className="-mt-10">
       <JsonLd data={breadcrumbSchema([{ name: "Home", url: "/" }, { name: "All Solvers", url: "/all-solvers" }, { name: "Crossword Solver", url: path }])} />
       <JsonLd data={faqSchema} />
-      <JsonLd data={{ "@context": "https://schema.org", "@type": "WebApplication", name: "Crossword Solver", url: absoluteUrl(path), applicationCategory: "GameApplication", isAccessibleForFree: true }} />
+      <JsonLd data={solverAppSchema("Crossword Solver", path)} />
 
       <section className="relative mx-[calc(50%-50vw)] overflow-hidden bg-[radial-gradient(circle_at_50%_0%,#F1FBFA_0%,#F8F5EF_58%,#F8F5EF_100%)] px-4 py-14">
         <div className="pointer-events-none absolute -left-8 top-20 hidden h-40 w-40 opacity-35 md:block [background-image:radial-gradient(#00A39A_1.4px,transparent_1.4px)] [background-size:14px_14px]" />
@@ -1688,7 +1706,7 @@ function CrosswordSolverPage() {
         </h2>
         <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {relatedTools.map(({ href, label, text, Icon, accent, cta }) => (
-            <Link key={label} href={href} className="group rounded-xl border p-6 shadow-md shadow-[#315C4C]/5 hover:-translate-y-1 hover:shadow-lg" style={{ borderColor: `${accent}66`, backgroundColor: `${accent}0D` }}>
+            <Link prefetch={false} key={label} href={href} className="group rounded-xl border p-6 shadow-md shadow-[#315C4C]/5 hover:-translate-y-1 hover:shadow-lg" style={{ borderColor: `${accent}66`, backgroundColor: `${accent}0D` }}>
               <div className="flex items-center gap-4">
                 <span className="grid h-14 w-14 place-items-center rounded-xl" style={{ backgroundColor: `${accent}18`, color: accent }}>
                   <Icon className="h-7 w-7" />
@@ -1788,7 +1806,7 @@ function JumbleSolverPage() {
     <article className="-mt-10">
       <JsonLd data={breadcrumbSchema([{ name: "Home", url: "/" }, { name: "All Solvers", url: "/all-solvers" }, { name: "Jumble Solver", url: path }])} />
       <JsonLd data={faqSchema} />
-      <JsonLd data={{ "@context": "https://schema.org", "@type": "WebApplication", name: "Jumble Solver", url: absoluteUrl(path), applicationCategory: "GameApplication", isAccessibleForFree: true }} />
+      <JsonLd data={solverAppSchema("Jumble Solver", path)} />
 
       <section className="relative mx-[calc(50%-50vw)] overflow-hidden bg-[radial-gradient(circle_at_50%_0%,#F8FBFF_0%,#F8F5EF_58%,#F8F5EF_100%)] px-4 py-14">
         <div className="pointer-events-none absolute -left-8 top-24 hidden h-40 w-40 opacity-30 md:block [background-image:radial-gradient(#8BBED0_1.4px,transparent_1.4px)] [background-size:16px_16px]" />
@@ -1875,7 +1893,7 @@ function JumbleSolverPage() {
         <p className="mt-2 text-center text-sm text-[#68645E]">Try our other powerful tools to solve any word puzzle with ease.</p>
         <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {relatedTools.map(({ href, label, points, Icon, accent, cta }) => (
-            <Link key={label} href={href} className="group rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-md shadow-[#315C4C]/5 hover:-translate-y-1 hover:shadow-lg">
+            <Link prefetch={false} key={label} href={href} className="group rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-md shadow-[#315C4C]/5 hover:-translate-y-1 hover:shadow-lg">
               <div className="flex items-center gap-4">
                 <span className="grid h-14 w-14 place-items-center rounded-xl text-white" style={{ backgroundColor: accent }}>
                   <Icon className="h-7 w-7" />
@@ -1885,7 +1903,7 @@ function JumbleSolverPage() {
               <ul className="mt-5 grid gap-2 text-sm text-[#344153]">
                 {points.map((point) => (
                   <li key={point} className="flex gap-2">
-                    <span style={{ color: accent }}>&bull;</span>
+                    <span style={{ color: accent }}>-</span>
                     <span>{point}</span>
                   </li>
                 ))}
@@ -1948,7 +1966,7 @@ export default function SolverPage({ params }: Props) {
     <article>
       <JsonLd data={breadcrumbSchema([{ name: "Home", url: "/" }, { name: "All Solvers", url: "/all-solvers" }, { name: solver.name, url: path }])} />
       <JsonLd data={faqSchema} />
-      <JsonLd data={{ "@context": "https://schema.org", "@type": "WebApplication", name: solver.name, url: absoluteUrl(path), applicationCategory: "GameApplication", isAccessibleForFree: true }} />
+      <JsonLd data={solverAppSchema(solver.name, path)} />
       <header className="py-10">
         <p className="font-mono text-sm font-bold uppercase tracking-[0.2em] text-[#315C4C]">{solver.category}</p>
         <h1 className="mt-4 max-w-3xl break-words font-serif text-5xl font-black leading-tight text-[#20201E]">{solver.name}</h1>
@@ -1995,7 +2013,7 @@ export default function SolverPage({ params }: Props) {
         <h2 className="font-serif text-3xl font-black">Related solvers</h2>
         <div className="mt-4 grid gap-4 md:grid-cols-3">
           {related.map((item) => item ? (
-            <Link key={item.slug} href={getSolverPath(item)} className="group rounded-xl border border-[#E5DED3] bg-white p-4 hover:border-[#315C4C]/50">
+            <Link prefetch={false} key={item.slug} href={getSolverPath(item)} className="group rounded-xl border border-[#E5DED3] bg-white p-4 hover:border-[#315C4C]/50">
               <h3 className="font-serif text-xl font-black">{item.name}</h3>
               <p className="mt-2 text-sm leading-6 text-[#68645E]">{item.shortDescription}</p>
               <span className="mt-3 inline-flex items-center gap-2 text-sm font-bold text-[#315C4C]">Open <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" /></span>

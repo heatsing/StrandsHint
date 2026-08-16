@@ -34,6 +34,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       url: absoluteUrl(page.path),
       type: "article",
     },
+    twitter: {
+      card: "summary",
+      title: page.dailyContent?.headline ?? page.title,
+      description: page.metaDescription,
+    },
   };
 }
 
@@ -137,7 +142,7 @@ export default async function DailySeoPage({ params }: PageProps) {
         <h2 className="font-serif text-3xl font-black text-[#20201E]">Related puzzle pages</h2>
         <div className="mt-5 grid gap-4 md:grid-cols-3">
           {page.relatedPages.map((related) => (
-            <Link
+            <Link prefetch={false}
               key={related.href}
               href={related.href}
               className="group rounded-xl border border-[#E5DED3] bg-[#FFFFFF] p-5 hover:border-[#315C4C]/70"

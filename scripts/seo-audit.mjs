@@ -27,7 +27,7 @@ function matchAll(source, regex) {
   return Array.from(source.matchAll(regex));
 }
 
-function getJsonLdTypes(html) {
+function getJsonLdBlocks(html) {
   return matchAll(html, /<script type="application\/ld\+json"[^>]*>(.*?)<\/script>/gis)
     .map((match) => {
       try {
@@ -36,12 +36,31 @@ function getJsonLdTypes(html) {
         return null;
       }
     })
-    .filter(Boolean)
-    .flatMap((data) => {
-      if (Array.isArray(data)) return data.map((item) => item?.["@type"]).filter(Boolean);
-      if (Array.isArray(data["@graph"])) return data["@graph"].map((item) => item?.["@type"]).filter(Boolean);
-      return data["@type"] ? [data["@type"]] : [];
-    });
+    .filter(Boolean);
+}
+
+function getJsonLdTypes(html) {
+  return getJsonLdBlocks(html).flatMap((data) => {
+    if (Array.isArray(data)) return data.map((item) => item?.["@type"]).filter(Boolean);
+    if (Array.isArray(data["@graph"])) return data["@graph"].map((item) => item?.["@type"]).filter(Boolean);
+    return data["@type"] ? [data["@type"]] : [];
+  });
+}
+
+function collectJsonLdUrls(value, urls = []) {
+  if (!value) return urls;
+  if (typeof value === "string") {
+    if (value.startsWith("https://strandshint.net/")) urls.push(value);
+    return urls;
+  }
+  if (Array.isArray(value)) {
+    value.forEach((item) => collectJsonLdUrls(item, urls));
+    return urls;
+  }
+  if (typeof value === "object") {
+    Object.values(value).forEach((item) => collectJsonLdUrls(item, urls));
+  }
+  return urls;
 }
 
 function readDirRecursive(dir) {
@@ -93,16 +112,29 @@ if (!existsSync(sitemapPath)) {
     const h1Count = matchAll(html, /<h1[\s>]/gi).length;
     const canonical = html.match(/<link rel="canonical" href="(.*?)"/is)?.[1];
     const linkCount = matchAll(html, /<a\s+[^>]*href=/gi).length;
+    const ogTitle = html.match(/<meta property="og:title" content="(.*?)"/is)?.[1]?.trim();
+    const twitterCard = html.match(/<meta name="twitter:card" content="(.*?)"/is)?.[1]?.trim();
+    const jsonLdBlocks = getJsonLdBlocks(html);
     const jsonLdTypes = getJsonLdTypes(html);
 
     if (!title) fail(`${url} is missing a title`);
     if (!description) fail(`${url} is missing a meta description`);
     if (h1Count !== 1) fail(`${url} should have exactly one H1, found ${h1Count}`);
     if (canonical !== url) fail(`${url} canonical mismatch: ${canonical || "missing"}`);
+    if (!ogTitle) fail(`${url} is missing og:title`);
+    if (!twitterCard) fail(`${url} is missing twitter:card`);
+    if (new URL(url).pathname === "/" && !jsonLdTypes.includes("WebSite")) fail(`${url} is missing WebSite JSON-LD`);
     if (!jsonLdTypes.includes("BreadcrumbList")) fail(`${url} is missing BreadcrumbList JSON-LD`);
+    if (["/all-solvers/", "/daily-hints/", "/today/"].includes(new URL(url).pathname) && !jsonLdTypes.includes("ItemList")) {
+      fail(`${url} directory page is missing ItemList JSON-LD`);
+    }
     if (!linkCount) fail(`${url} has no internal links`);
     if (solverRoutes.has(new URL(url).pathname.replace(/\/$/, "")) && !jsonLdTypes.includes("WebApplication")) {
       fail(`${url} solver page is missing WebApplication JSON-LD`);
+    }
+
+    for (const schemaUrl of jsonLdBlocks.flatMap((block) => collectJsonLdUrls(block))) {
+      if (!isFinalStaticUrl(schemaUrl)) fail(`${url} JSON-LD references non-final URL ${schemaUrl}`);
     }
   }
 }

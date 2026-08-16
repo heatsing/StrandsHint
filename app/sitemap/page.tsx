@@ -64,7 +64,7 @@ export default function HtmlSitemapPage() {
               <h2 className="font-serif text-3xl font-black text-[#20201E]">{category}</h2>
               <div className="mt-4 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
                 {categoryRoutes.map((route) => (
-                  <Link
+                  <Link prefetch={false}
                     key={`${category}-${route.path}`}
                     href={withTrailingSlash(route.path)}
                     className="group flex items-center justify-between gap-4 rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-4 font-bold text-[#20201E] shadow-sm hover:border-[#315C4C]/50 hover:text-[#315C4C]"

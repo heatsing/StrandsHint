@@ -11,7 +11,7 @@ export function PuzzleCard({ puzzle }: { puzzle: PuzzleView }) {
       </div>
       <h2 className="mt-3 text-2xl font-bold text-slate-950">{puzzle.title}</h2>
       <p className="mt-3 text-sm leading-6 text-slate-600">{puzzle.themeHint}</p>
-      <Link
+      <Link prefetch={false}
         href="/todays-strands-answer"
         className="mt-5 inline-flex rounded-md bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-700"
       >

@@ -4,8 +4,9 @@ import Link from "next/link";
 import { Roboto } from "next/font/google";
 import { ChevronDown, Heart, Search } from "lucide-react";
 import "./globals.css";
+import { JsonLd } from "@/components/JsonLd";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
-import { disclaimer, siteName, siteUrl } from "@/lib/seo";
+import { disclaimer, siteName, siteUrl, websiteSchema } from "@/lib/seo";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -98,13 +99,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         className={`${roboto.variable} bg-[#F8F5EF] font-sans text-[#20201E] antialiased`}
       >
         <GoogleAnalytics />
+        <JsonLd data={websiteSchema()} />
         <header className="sticky top-0 z-30 border-b border-[#E5DED3] bg-[#FFFDF9]/95 shadow-sm shadow-[#315C4C]/5 backdrop-blur">
           <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-4 lg:flex-row lg:items-center lg:justify-between">
-            <Link href="/" className="flex items-center gap-3" aria-label="Strands Hint home">
+            <Link prefetch={false} href="/" className="flex items-center gap-3" aria-label="Strands Hint home">
               <BrandLogo />
             </Link>
             <nav className="flex flex-wrap gap-2 text-sm lg:items-center">
-              <Link
+              <Link prefetch={false}
                 href="/todays-strands-answer"
                 className="inline-flex items-center gap-1 rounded-full px-3 py-2 font-black text-[#24333A] hover:bg-[#EDE6DC] hover:text-[#008F83]"
               >
@@ -118,7 +120,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 </button>
                 <div className="absolute left-0 top-full z-40 hidden max-h-[70vh] w-80 overflow-y-auto rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-2 shadow-xl shadow-[#315C4C]/10 group-hover:block group-focus-within:block">
                   {hintMenu.map((item) => (
-                    <Link
+                    <Link prefetch={false}
                       key={item.href}
                       href={item.href}
                       className="block rounded-lg px-3 py-2.5 font-bold text-[#24333A] hover:bg-[#EDE6DC] hover:text-[#008F83]"
@@ -136,7 +138,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 </button>
                 <div className="absolute left-0 top-full z-40 hidden max-h-[70vh] w-72 overflow-y-auto rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-2 shadow-xl shadow-[#315C4C]/10 group-hover:block group-focus-within:block">
                   {wordleLengthMenu.map((item) => (
-                    <Link
+                    <Link prefetch={false}
                       key={item.href}
                       href={item.href}
                       className="block rounded-lg px-3 py-2.5 font-bold text-[#24333A] hover:bg-[#EDE6DC] hover:text-[#008F83]"
@@ -154,7 +156,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 </button>
                 <div className="absolute left-0 top-full z-40 hidden max-h-[70vh] w-80 overflow-y-auto rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-2 shadow-xl shadow-[#315C4C]/10 group-hover:block group-focus-within:block">
                   {puzzleSolverMenu.map((item) => (
-                    <Link
+                    <Link prefetch={false}
                       key={`${item.href}-${item.label}`}
                       href={item.href}
                       className="block rounded-lg px-3 py-2.5 font-bold text-[#24333A] hover:bg-[#EDE6DC] hover:text-[#008F83]"
@@ -165,7 +167,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 </div>
               </div>
 
-              <Link
+              <Link prefetch={false}
                 href="/all-solvers"
                 className="ml-0 grid h-11 w-11 place-items-center rounded-lg bg-[#008F83] text-white shadow-sm shadow-[#008F83]/20 hover:bg-[#00766D] lg:ml-3"
                 aria-label="Search word solvers"
@@ -181,7 +183,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div className="pointer-events-none absolute -right-12 top-12 h-40 w-40 rounded-full border border-[#008F83]/40" />
             <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
             <div>
-              <Link href="/" className="flex items-center gap-2" aria-label="Strands Hint home">
+              <Link prefetch={false} href="/" className="flex items-center gap-2" aria-label="Strands Hint home">
                 <BrandLogo />
               </Link>
               <p className="mt-5 max-w-xs leading-6">
@@ -196,32 +198,32 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div>
               <h2 className="font-black text-white">Hint Categories</h2>
               <nav className="mt-3 grid gap-2">
-                <Link href="/today/strands-hints" className="hover:text-white">Today&apos;s Strands Hint</Link>
-                <Link href="/today/connections-hints" className="hover:text-white">Connections Hints</Link>
-                <Link href="/today/wordle-hints" className="hover:text-white">Wordle Hint</Link>
-                <Link href="/hints/spelling-bee" className="hover:text-white">Spelling Bee Hint</Link>
-                <Link href="/daily-hints" className="hover:text-white">All Puzzle Hints</Link>
+                <Link prefetch={false} href="/today/strands-hints" className="hover:text-white">Today&apos;s Strands Hint</Link>
+                <Link prefetch={false} href="/today/connections-hints" className="hover:text-white">Connections Hints</Link>
+                <Link prefetch={false} href="/today/wordle-hints" className="hover:text-white">Wordle Hint</Link>
+                <Link prefetch={false} href="/hints/spelling-bee" className="hover:text-white">Spelling Bee Hint</Link>
+                <Link prefetch={false} href="/daily-hints" className="hover:text-white">All Puzzle Hints</Link>
               </nav>
             </div>
             <div>
               <h2 className="font-black text-white">Solver Tools</h2>
               <nav className="mt-3 grid gap-2">
-                <Link href="/anagram-solver" className="hover:text-white">Anagram Solver</Link>
-                <Link href="/word-unscrambler" className="hover:text-white">Word Unscrambler</Link>
-                <Link href="/wordle-solver" className="hover:text-white">Wordle Solver</Link>
-                <Link href="/strands-solver" className="hover:text-white">Strands Solver</Link>
-                <Link href="/all-solvers" className="hover:text-white">All Word Solvers</Link>
+                <Link prefetch={false} href="/anagram-solver" className="hover:text-white">Anagram Solver</Link>
+                <Link prefetch={false} href="/word-unscrambler" className="hover:text-white">Word Unscrambler</Link>
+                <Link prefetch={false} href="/wordle-solver" className="hover:text-white">Wordle Solver</Link>
+                <Link prefetch={false} href="/strands-solver" className="hover:text-white">Strands Solver</Link>
+                <Link prefetch={false} href="/all-solvers" className="hover:text-white">All Word Solvers</Link>
               </nav>
             </div>
             <div>
               <h2 className="font-black text-white">Resources</h2>
               <nav className="mt-3 grid gap-2">
-                <Link href="/#faq" className="hover:text-white">About Us</Link>
-                <Link href="/strands-hints" className="hover:text-white">How It Works</Link>
-                <Link href="/archive" className="hover:text-white">Archive</Link>
-                <Link href="/privacy-policy" className="hover:text-white">Privacy Policy</Link>
-                <Link href="/terms-of-use" className="hover:text-white">Terms of Use</Link>
-                <Link href="/sitemap/" className="hover:text-white">Sitemap</Link>
+                <Link prefetch={false} href="/#faq" className="hover:text-white">About Us</Link>
+                <Link prefetch={false} href="/strands-hints" className="hover:text-white">How It Works</Link>
+                <Link prefetch={false} href="/archive" className="hover:text-white">Archive</Link>
+                <Link prefetch={false} href="/privacy-policy" className="hover:text-white">Privacy Policy</Link>
+                <Link prefetch={false} href="/terms-of-use" className="hover:text-white">Terms of Use</Link>
+                <Link prefetch={false} href="/sitemap/" className="hover:text-white">Sitemap</Link>
               </nav>
             </div>
           </div>

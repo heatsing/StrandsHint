@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowRight, CalendarDays, RefreshCw, Sparkles } from "lucide-react";
 import { JsonLd } from "@/components/JsonLd";
 import { dailySeoPages } from "@/lib/daily-seo";
-import { absoluteUrl, breadcrumbSchema, disclaimer } from "@/lib/seo";
+import { absoluteUrl, breadcrumbSchema, disclaimer, itemListSchema } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Today's Puzzle Hints - Daily Wordle, Connections & Strands Help",
@@ -16,6 +16,11 @@ export const metadata: Metadata = {
       "Daily spoiler-safe hints and related tools for word puzzle players who want help without immediate answers.",
     url: absoluteUrl("/today"),
     type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Today's Puzzle Hints",
+    description: "Daily spoiler-safe hints for Wordle, Connections, Strands, and related puzzle tools.",
   },
 };
 
@@ -65,6 +70,16 @@ export default function TodayHubPage() {
     <article className="-mt-4">
       <JsonLd data={breadcrumbSchema([{ name: "Home", url: "/" }, { name: "Today", url: "/today" }])} />
       <JsonLd data={collectionSchema} />
+      <JsonLd
+        data={itemListSchema(
+          "Today's Puzzle Hints",
+          dailySeoPages.map((page) => ({
+            name: page.h1,
+            url: page.path,
+            description: page.searchIntent,
+          })),
+        )}
+      />
       <JsonLd data={faqSchema} />
 
       <header className="grid gap-8 py-10 lg:grid-cols-[1fr_22rem] lg:items-end">
@@ -94,7 +109,7 @@ export default function TodayHubPage() {
 
       <section className="grid gap-5 md:grid-cols-3">
         {dailySeoPages.map((page) => (
-          <Link
+          <Link prefetch={false}
             key={page.slug}
             href={page.path}
             className="group rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-lg shadow-black/10 motion-safe:transition hover:-translate-y-1 hover:border-[#315C4C]/70"
@@ -126,7 +141,7 @@ export default function TodayHubPage() {
               ["/strands-word-finder", "Open word finder"],
               ["/archive", "Browse archive"],
             ].map(([href, label]) => (
-              <Link
+              <Link prefetch={false}
                 key={href}
                 href={href}
                 className="rounded-full border border-[#D4CABD] px-4 py-2 text-sm font-bold text-[#20201E] hover:bg-[#E5DED3]/10"

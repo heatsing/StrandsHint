@@ -17,10 +17,10 @@ export default function AdminPage() {
         <code className="mx-1 rounded bg-white px-1">data/daily-content.json</code>.
       </p>
       <div className="mt-6 flex flex-wrap gap-3">
-        <Link href="/admin/puzzles/new" className="inline-flex rounded-full bg-[#20201E] px-4 py-2 text-sm font-semibold text-[#20201E]">
+        <Link prefetch={false} href="/admin/puzzles/new" className="inline-flex rounded-full bg-[#20201E] px-4 py-2 text-sm font-semibold text-[#20201E]">
           Puzzle JSON helper
         </Link>
-        <Link href="/admin/daily/new" className="inline-flex rounded-full bg-[#315C4C] px-4 py-2 text-sm font-semibold text-white">
+        <Link prefetch={false} href="/admin/daily/new" className="inline-flex rounded-full bg-[#315C4C] px-4 py-2 text-sm font-semibold text-white">
           Daily SEO JSON helper
         </Link>
       </div>

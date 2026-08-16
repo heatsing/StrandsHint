@@ -208,7 +208,7 @@ export function ConnectionsHintsPage() {
             Get spoiler-free hints, clever clues, and answer guidance for today&apos;s Connections puzzle.
             Play smarter and keep your streak alive.
           </p>
-          <Link
+          <Link prefetch={false}
             href="/today/connections-hints"
             className="mt-6 inline-flex items-center gap-2 rounded-lg bg-[#2F80D8] px-7 py-3 text-sm font-black text-white shadow-sm hover:bg-[#236DC5]"
           >
@@ -222,7 +222,7 @@ export function ConnectionsHintsPage() {
         <h2 className="text-3xl font-black text-[#142436]">Daily Games Hints &amp; Answers</h2>
         <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
           {dailyGames.map(({ href, label, color, Icon }) => (
-            <Link key={href} href={href} className="group rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-md shadow-[#315C4C]/5 hover:-translate-y-1 hover:shadow-lg">
+            <Link prefetch={false} key={href} href={href} className="group rounded-xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-md shadow-[#315C4C]/5 hover:-translate-y-1 hover:shadow-lg">
               <span className="mx-auto grid h-14 w-14 place-items-center rounded-xl text-white" style={{ backgroundColor: color }}>
                 <Icon className="h-7 w-7" />
               </span>

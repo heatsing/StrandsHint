@@ -13,7 +13,7 @@ export default function AdminPuzzlesPage() {
     <>
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-3xl font-bold text-slate-950">Manual puzzle entries</h1>
-        <Link href="/admin/puzzles/new" className="rounded-md bg-slate-900 px-4 py-2 text-sm font-semibold text-white">New JSON entry</Link>
+        <Link prefetch={false} href="/admin/puzzles/new" className="rounded-md bg-slate-900 px-4 py-2 text-sm font-semibold text-white">New JSON entry</Link>
       </div>
       <div className="mt-8 grid gap-3">
         {puzzles.map((puzzle) => (

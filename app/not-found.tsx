@@ -10,9 +10,9 @@ export default function NotFound() {
         the spoiler-safe tools below.
       </p>
       <div className="mt-6 flex flex-wrap gap-3 text-sm">
-        <Link href="/todays-strands-answer" className="rounded-md bg-slate-900 px-4 py-2 font-semibold text-white hover:bg-slate-700">Today&apos;s answer</Link>
-        <Link href="/strands-solver" className="rounded-md border border-slate-300 px-4 py-2 hover:bg-slate-50">Solver</Link>
-        <Link href="/archive" className="rounded-md border border-slate-300 px-4 py-2 hover:bg-slate-50">Archive</Link>
+        <Link prefetch={false} href="/todays-strands-answer" className="rounded-md bg-slate-900 px-4 py-2 font-semibold text-white hover:bg-slate-700">Today&apos;s answer</Link>
+        <Link prefetch={false} href="/strands-solver" className="rounded-md border border-slate-300 px-4 py-2 hover:bg-slate-50">Solver</Link>
+        <Link prefetch={false} href="/archive" className="rounded-md border border-slate-300 px-4 py-2 hover:bg-slate-50">Archive</Link>
       </div>
     </section>
   );

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowRight, Grid3X3, Search, Shuffle, Sparkles } from "lucide-react";
 import { JsonLd } from "@/components/JsonLd";
 import { getSolverPath, solverRegistry } from "@/data/solver-registry";
-import { absoluteUrl, breadcrumbSchema } from "@/lib/seo";
+import { absoluteUrl, breadcrumbSchema, itemListSchema } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "All Word Puzzle Solvers - Browse Solver Tools",
@@ -15,6 +15,11 @@ export const metadata: Metadata = {
     description: "Browse implemented and planned word puzzle solver tools from Strands Hint.",
     url: absoluteUrl("/all-solvers"),
     type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "All Word Puzzle Solvers",
+    description: "Browse implemented word puzzle solver tools from Strands Hint.",
   },
 };
 
@@ -29,6 +34,18 @@ export default function AllSolversPage() {
   return (
     <article>
       <JsonLd data={breadcrumbSchema([{ name: "Home", url: "/" }, { name: "All Solvers", url: "/all-solvers" }])} />
+      <JsonLd
+        data={itemListSchema(
+          "All Word Puzzle Solvers",
+          solverRegistry
+            .filter((solver) => solver.implemented)
+            .map((solver) => ({
+              name: solver.name,
+              url: hrefForSolver(solver),
+              description: solver.shortDescription,
+            })),
+        )}
+      />
       <header className="py-10">
         <p className="font-mono text-sm font-bold uppercase tracking-[0.2em] text-[#315C4C]">Solver directory</p>
         <h1 className="mt-4 max-w-3xl font-serif text-5xl font-black leading-tight text-[#20201E]">
@@ -47,7 +64,7 @@ export default function AllSolversPage() {
               {solverRegistry.filter((solver) => solver.category === category).map((solver) => {
                 const Icon = iconMap[solver.icon];
                 return (
-                  <Link
+                  <Link prefetch={false}
                     key={solver.slug}
                     href={hrefForSolver(solver)}
                     className="group rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-5 shadow-sm hover:border-[#315C4C]/50"
