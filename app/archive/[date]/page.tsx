@@ -35,10 +35,11 @@ export default async function ArchiveDatePage({ params }: Props) {
   const { date } = await params;
   const puzzle = await getPuzzleByDate(date);
   if (!puzzle) notFound();
+  const recentPuzzles = getPublishedPuzzles();
   return (
     <>
       <JsonLd data={breadcrumbSchema([{ name: "Home", url: "/" }, { name: "Archive", url: "/archive" }, { name: puzzle.dateLabel, url: `/archive/${puzzle.date}` }])} />
-      <PuzzleAnswerContent puzzle={puzzle} />
+      <PuzzleAnswerContent puzzle={puzzle} recentPuzzles={recentPuzzles} mode="archive" />
     </>
   );
 }

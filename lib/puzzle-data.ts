@@ -42,9 +42,18 @@ export function getPublishedPuzzles(): PuzzleView[] {
     .sort((a, b) => b.date.localeCompare(a.date));
 }
 
+export function todayPuzzleDate(timeZone = "America/New_York") {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(new Date());
+}
+
 export function getTodayPuzzle(): PuzzleView | null {
   const published = getPublishedPuzzles();
-  const today = new Date().toISOString().slice(0, 10);
+  const today = todayPuzzleDate();
   return published.find((puzzle) => puzzle.date === today) ?? published[0] ?? null;
 }
 

@@ -1,18 +1,19 @@
 import Link from "next/link";
 import {
-  ArrowLeft,
   ArrowRight,
   CalendarDays,
   CheckCircle2,
   Eye,
-  HelpCircle,
+  Grid3X3,
   Lightbulb,
-  Play,
-  ShieldCheck,
+  Search,
+  Sparkles,
   Star,
 } from "lucide-react";
 import { JsonLd } from "@/components/JsonLd";
+import { NextPuzzleCountdown } from "@/components/NextPuzzleCountdown";
 import type { PuzzleView } from "@/lib/puzzle-data";
+import { disclaimer } from "@/lib/seo";
 import { DifficultyBadge } from "./DifficultyBadge";
 
 const faqItems = [
@@ -36,6 +37,17 @@ const faqSchema = {
   })),
 };
 
+const relatedTools = [
+  { href: "/strands-hints/", label: "Strands Hints", Icon: Lightbulb },
+  { href: "/strands-solver/", label: "Strands Solver", Icon: Grid3X3 },
+  { href: "/strands-spangram-helper/", label: "Spangram Helper", Icon: Sparkles },
+  { href: "/strands-word-finder/", label: "Word Finder", Icon: Search },
+  { href: "/today/connections-hints/", label: "Connections Hints", Icon: Grid3X3 },
+  { href: "/today/wordle-hints/", label: "Wordle Hints", Icon: CheckCircle2 },
+  { href: "/archive/", label: "Strands Archive", Icon: CalendarDays },
+  { href: "/all-solvers/", label: "All Solvers", Icon: Star },
+];
+
 function formatDate(date: string) {
   return new Intl.DateTimeFormat("en-US", {
     month: "long",
@@ -45,10 +57,13 @@ function formatDate(date: string) {
   }).format(new Date(`${date}T00:00:00Z`));
 }
 
-function shiftDate(date: string, days: number) {
-  const value = new Date(`${date}T00:00:00Z`);
-  value.setUTCDate(value.getUTCDate() + days);
-  return value.toISOString().slice(0, 10);
+function shortDate(date: string) {
+  return new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(`${date}T00:00:00Z`));
 }
 
 function wordPreview(word: string) {
@@ -56,355 +71,326 @@ function wordPreview(word: string) {
   return `${word.slice(0, 3)}...`;
 }
 
-function buildGrid(puzzle: PuzzleView, rows = 8, cols = 6) {
-  const letters = [...puzzle.spangram, ...puzzle.words.join("")].join("").toUpperCase();
-  const fallback = "STRANDSHINTPUZZLEHELPERWORDS";
-  const source = `${letters}${fallback}`;
-  return Array.from({ length: rows }, (_, row) =>
-    Array.from({ length: cols }, (_, col) => source[(row * cols + col) % source.length]),
+function RevealButton({
+  closedLabel,
+  openLabel = "Hide",
+  tone = "primary",
+}: {
+  closedLabel: string;
+  openLabel?: string;
+  tone?: "primary" | "dark" | "soft";
+}) {
+  const toneClass =
+    tone === "dark"
+      ? "bg-[#20201E] text-white hover:bg-[#315C4C]"
+      : tone === "soft"
+        ? "bg-[#EDE6DC] text-[#20201E] hover:bg-[#E3D9CC]"
+        : "bg-[#315C4C] text-white hover:bg-[#274B3E]";
+
+  return (
+    <summary
+      className={[
+        "inline-flex cursor-pointer list-none items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-bold shadow-sm transition",
+        toneClass,
+      ].join(" ")}
+    >
+      <Eye className="h-4 w-4" />
+      <span className="group-open:hidden">{closedLabel}</span>
+      <span className="hidden group-open:inline">{openLabel}</span>
+    </summary>
   );
 }
 
-function PuzzleGrid({
-  puzzle,
-  mode,
+function LetterSlots({
+  length,
+  revealed,
+  word,
 }: {
-  puzzle: PuzzleView;
-  mode: "spangram" | "answers";
+  length: number;
+  revealed?: boolean;
+  word?: string;
 }) {
-  const grid = buildGrid(puzzle);
-  const spangramSet = new Set(Array.from({ length: Math.min(puzzle.spangram.length, 12) }, (_, i) => i));
-  const answerSet = new Set(Array.from({ length: Math.min(puzzle.words.join("").length, 34) }, (_, i) => i + 3));
-
+  const letters = revealed && word ? word.toUpperCase().split("") : Array.from({ length }, () => "?");
   return (
-    <div className="mx-auto w-full max-w-[15.5rem] rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-3 shadow-lg shadow-[#315C4C]/10">
-      <div className="grid grid-cols-6 gap-1.5">
-        {grid.flatMap((row, rowIndex) =>
-          row.map((letter, colIndex) => {
-            const index = rowIndex * row.length + colIndex;
-            const isSpangram = spangramSet.has(index);
-            const isAnswer = answerSet.has(index);
-            const active = mode === "spangram" ? isSpangram : isSpangram || isAnswer;
-            return (
-              <span
-                key={`${rowIndex}-${colIndex}`}
-                className={[
-                  "grid aspect-square place-items-center rounded-full text-xs font-black shadow-sm",
-                  active
-                    ? isSpangram
-                      ? "bg-[#F3C330] text-[#142436]"
-                      : "bg-[#6CA8E6] text-white"
-                    : "bg-white text-[#142436]",
-                ].join(" ")}
-              >
-                {letter}
-              </span>
-            );
-          }),
-        )}
-      </div>
+    <div className="flex flex-wrap justify-center gap-2">
+      {letters.map((letter, index) => (
+        <span
+          key={`${letter}-${index}`}
+          className={[
+            "grid h-10 w-10 place-items-center rounded-xl border text-sm font-black uppercase",
+            revealed
+              ? "border-[#315C4C]/20 bg-[#E9F2EE] text-[#315C4C]"
+              : "border-[#E5DED3] bg-white text-[#B8B1A8]",
+          ].join(" ")}
+        >
+          {letter}
+        </span>
+      ))}
     </div>
   );
 }
 
-function RevealDetails({
-  label,
-  children,
-  className = "",
+export function PuzzleAnswerContent({
+  puzzle,
+  recentPuzzles = [],
+  mode = "today",
 }: {
-  label: string;
-  children: React.ReactNode;
-  className?: string;
+  puzzle: PuzzleView;
+  recentPuzzles?: PuzzleView[];
+  mode?: "today" | "archive";
 }) {
-  return (
-    <details className={["group", className].join(" ")}>
-      <summary className="inline-flex cursor-pointer list-none items-center justify-center gap-2 rounded-xl bg-[#16A66A] px-5 py-3 text-sm font-black text-white shadow-md shadow-[#16A66A]/20 hover:bg-[#0F8F5A] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#16A66A]/25">
-        <Eye className="h-4 w-4" />
-        <span className="group-open:hidden">{label}</span>
-        <span className="hidden group-open:inline">Hide section</span>
-      </summary>
-      <div className="mt-5">{children}</div>
-    </details>
-  );
-}
-
-function SectionCard({
-  icon,
-  title,
-  children,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-lg shadow-[#315C4C]/8">
-      <div className="flex items-center gap-3">
-        <span className="grid h-9 w-9 place-items-center rounded-xl bg-[#E9F7F2] text-[#16A66A]">{icon}</span>
-        <h2 className="text-xl font-black text-[#16A66A]">{title}</h2>
-      </div>
-      <div className="mt-5">{children}</div>
-    </section>
-  );
-}
-
-export function PuzzleAnswerContent({ puzzle }: { puzzle: PuzzleView }) {
-  const previousDate = shiftDate(puzzle.date, -1);
-  const nextDate = shiftDate(puzzle.date, 1);
+  const pastPuzzles = recentPuzzles.filter((item) => item.date !== puzzle.date).slice(0, 8);
+  const titlePrefix = mode === "today" ? "Today's Strands Hint & Answer" : "Strands Hint & Answer";
 
   return (
-    <article className="mx-auto max-w-5xl">
+    <article className="mx-auto max-w-3xl">
       <JsonLd data={faqSchema} />
-      <nav className="text-xs font-semibold text-[#6B7280]" aria-label="Breadcrumb">
+
+      <nav className="text-xs font-semibold text-[#68645E]" aria-label="Breadcrumb">
         <ol className="flex flex-wrap items-center gap-2">
           <li>
-            <Link prefetch={false} href="/" className="hover:text-[#16A66A]">
+            <Link prefetch={false} href="/" className="hover:text-[#315C4C]">
               Home
             </Link>
           </li>
           <li>/</li>
           <li>
-            <Link prefetch={false} href="/strands-hints/" className="hover:text-[#16A66A]">
-              Strands Today
+            <Link prefetch={false} href="/archive/" className="hover:text-[#315C4C]">
+              Archive
             </Link>
           </li>
           <li>/</li>
-          <li className="text-[#20201E]">Hints &amp; Answers</li>
+          <li className="text-[#20201E]">{mode === "today" ? "Today" : shortDate(puzzle.date)}</li>
         </ol>
       </nav>
 
-      <div className="mt-8 grid grid-cols-[1fr_auto_1fr] items-center gap-4">
-        <div className="rounded-xl bg-[#EEF5FF] p-4 text-sm font-bold text-[#344153]">
-          <div className="flex items-center gap-1 text-xs text-[#6B7280]">
-            <ArrowLeft className="h-3.5 w-3.5" />
-            Previous Day
-          </div>
-          <p>{formatDate(previousDate)}</p>
-        </div>
-        <span className="rounded-full border border-[#9DBEF6] bg-[#F6FAFF] px-8 py-3 text-sm font-black text-[#3F6FB5]">
-          Today
-        </span>
-        <div className="rounded-xl bg-[#EEF5FF] p-4 text-right text-sm font-bold text-[#344153]">
-          <div className="flex items-center justify-end gap-1 text-xs text-[#6B7280]">
-            Next Day
-            <ArrowRight className="h-3.5 w-3.5" />
-          </div>
-          <p>{formatDate(nextDate)}</p>
-        </div>
-      </div>
-
       <header className="mt-8 text-center">
-        <h1 className="text-balance text-4xl font-black leading-tight text-[#142436] md:text-5xl">
-          Strands Hints &amp; Answers for {formatDate(puzzle.date)}
+        <p className="font-mono text-xs font-bold uppercase tracking-[0.22em] text-[#315C4C]">
+          Spoiler-safe daily page
+        </p>
+        <h1 className="mt-3 text-balance text-4xl font-black leading-tight text-[#20201E] md:text-5xl">
+          {titlePrefix}
         </h1>
-        <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-[#68645E]">
-          Get spoiler-safe help for today&apos;s Strands puzzle. Start with the theme hint, then
-          reveal the spangram and full answers only when you are ready.
+        <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-[#D4CABD] bg-[#FFFDF9] px-4 py-2 text-sm font-bold text-[#315C4C]">
+          <CalendarDays className="h-4 w-4" />
+          {formatDate(puzzle.date)}
+          {puzzle.puzzleNumber ? <span className="text-[#68645E]">· #{puzzle.puzzleNumber}</span> : null}
+        </div>
+        <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-[#68645E]">
+          Reveal only what you need: theme first, then spangram help, then individual theme words, and
+          finally the full answer list.
         </p>
       </header>
 
-      <div className="mt-8 grid gap-5 lg:grid-cols-[1fr_17rem]">
-        <div className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-lg shadow-[#315C4C]/8">
-          <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex items-center gap-4">
-              <span className="grid h-20 w-20 place-items-center rounded-2xl bg-gradient-to-br from-[#8BD8F7] to-[#F8CE45] text-3xl font-black text-[#142436] shadow-sm">
-                SH
-              </span>
-              <div>
-                <h2 className="text-lg font-black text-[#142436]">Today&apos;s Strands Puzzle</h2>
-                <p className="mt-2 flex items-center gap-2 text-sm text-[#68645E]">
-                  <CalendarDays className="h-4 w-4" />
-                  {formatDate(puzzle.date)}
-                </p>
-                <p className="mt-2 text-sm text-[#68645E]">
-                  Theme: <span className="font-black text-[#16A66A]">{puzzle.themeHint}</span>
-                </p>
-              </div>
-            </div>
-            <Link
-              prefetch={false}
-              href="/strands-solver/"
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#16A66A] px-6 py-3 text-sm font-black text-white hover:bg-[#0F8F5A]"
-            >
-              <Play className="h-4 w-4 fill-white" />
-              Open Solver
-            </Link>
+      <section className="mt-8 rounded-2xl border border-[#D6E8DF] bg-[#E9F2EE] p-6">
+        <div className="flex items-start gap-3">
+          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-white text-[#315C4C]">
+            <Lightbulb className="h-5 w-5" />
+          </span>
+          <div>
+            <h2 className="text-lg font-black text-[#20201E]">Today&apos;s theme hint</h2>
+            <p className="mt-2 text-base leading-7 text-[#315C4C]">
+              Think about: <span className="font-black">{puzzle.themeHint}</span>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="mt-5 rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-sm">
+        <div className="flex items-center gap-3">
+          <span className="grid h-10 w-10 place-items-center rounded-xl bg-[#F7E9B8] text-[#9A6B24]">
+            <Star className="h-5 w-5" />
+          </span>
+          <div>
+            <h2 className="text-lg font-black text-[#20201E]">Spangram today</h2>
+            <p className="text-sm text-[#68645E]">{puzzle.spangram.length} letters · direction {puzzle.spangramDirection}</p>
           </div>
         </div>
 
-        <aside className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-lg shadow-[#315C4C]/8">
-          <h2 className="text-lg font-black text-[#142436]">About Strands</h2>
-          <p className="mt-3 text-sm leading-6 text-[#68645E]">
-            Find hidden words using connected letters. The theme connects the answers, and the
-            spangram ties the board together.
-          </p>
-          <Link prefetch={false} href="/strands-hints/" className="mt-4 inline-flex items-center gap-2 text-sm font-black text-[#16A66A]">
-            How to play <ArrowRight className="h-4 w-4" />
-          </Link>
-        </aside>
-      </div>
+        <div className="mt-6">
+          <LetterSlots length={Math.min(puzzle.spangram.length, 16)} />
+        </div>
 
-      <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_17rem]">
-        <div className="grid gap-5">
-          <SectionCard icon={<Lightbulb className="h-5 w-5" />} title="Today&apos;s Strands Hint">
-            <div className="rounded-xl bg-[#ECF8F2] p-5 text-sm leading-7 text-[#344153]">
-              This theme is about: <span className="font-black text-[#142436]">{puzzle.themeHint}</span>
+        <div className="mt-6 flex flex-wrap justify-center gap-3">
+          <details className="group">
+            <RevealButton closedLabel="Show spangram hint" tone="soft" />
+            <div className="mt-4 max-w-xl rounded-xl border border-[#E5DED3] bg-white p-4 text-left text-sm leading-7 text-[#68645E]">
+              <p>{puzzle.spangramHint1}</p>
+              <p className="mt-2">{puzzle.spangramHint2}</p>
             </div>
-            <div className="mt-6 text-center">
-              <p className="text-xs font-semibold text-[#8A857E]">
-                Reveal the theme clue first, then continue only if you want more.
-              </p>
-              <div className="mt-4 flex justify-center gap-2">
-                {Array.from({ length: Math.min(puzzle.spangram.length, 12) }).map((_, index) => (
-                  <span key={index} className="grid h-8 w-8 place-items-center rounded-lg border border-[#E5DED3] bg-white text-xs font-black text-[#B8B1A8]">
-                    ?
+          </details>
+          <details className="group">
+            <RevealButton closedLabel="Show spangram" tone="dark" />
+            <div className="mt-4 space-y-4 text-center">
+              <LetterSlots length={puzzle.spangram.length} revealed word={puzzle.spangram} />
+              <p className="text-2xl font-black uppercase tracking-wide text-[#315C4C]">{puzzle.spangram}</p>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <section className="mt-5 rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-sm">
+        <h2 className="text-lg font-black text-[#20201E]">Theme word hints</h2>
+        <p className="mt-2 text-sm leading-6 text-[#68645E]">
+          Open one card at a time. Each preview hides the full word until you choose to reveal it.
+        </p>
+        <div className="mt-5 grid gap-3 sm:grid-cols-2">
+          {(puzzle.wordList.length ? puzzle.wordList : puzzle.hintList).map((item, index) => {
+            const word = puzzle.wordList[index];
+            const hint = puzzle.hintList[index] || (word ? `A theme word related to "${puzzle.themeHint}".` : item);
+            const preview = word ? wordPreview(word) : String(item).slice(0, 8);
+            return (
+              <details key={`${preview}-${index}`} className="group rounded-xl border border-[#E5DED3] bg-white p-4">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-black text-[#68645E]">
+                  <span>
+                    Word {index + 1}: <span className="font-mono text-[#20201E]">{preview}</span>
                   </span>
-                ))}
-              </div>
-              <RevealDetails label="Reveal Spangram Hint" className="mt-5">
-                <div className="rounded-xl border border-[#D6EFE4] bg-white p-5 text-left text-sm leading-7 text-[#344153]">
-                  <p>{puzzle.spangramHint1}</p>
-                  <p className="mt-2">{puzzle.spangramHint2}</p>
-                  <p className="mt-3 text-xs font-bold uppercase tracking-[0.16em] text-[#16A66A]">
-                    Direction: {puzzle.spangramDirection}
-                  </p>
+                  <Eye className="h-4 w-4 text-[#315C4C]" />
+                </summary>
+                <div className="mt-3 space-y-2">
+                  {word ? <p className="text-base font-black uppercase tracking-wide text-[#20201E]">{word}</p> : null}
+                  <p className="text-sm leading-6 text-[#68645E]">{hint}</p>
                 </div>
-              </RevealDetails>
-            </div>
-          </SectionCard>
+              </details>
+            );
+          })}
+        </div>
+        {!puzzle.wordList.length && puzzle.hintList.length ? (
+          <p className="mt-4 text-xs leading-5 text-[#9A6B24]">
+            Full theme words are still being verified for this date. Prefixes and hints are shown first.
+          </p>
+        ) : null}
+      </section>
 
-          <SectionCard icon={<Star className="h-5 w-5" />} title="Today&apos;s Strands Spangram">
-            <div className="grid gap-6 md:grid-cols-[0.85fr_1fr] md:items-center">
-              <div className="rounded-2xl bg-white p-6 text-center">
-                <p className="text-xs font-black uppercase tracking-[0.16em] text-[#68645E]">Today&apos;s Spangram</p>
-                <RevealDetails label="Reveal Spangram" className="mt-5">
-                  <p className="break-words text-3xl font-black uppercase tracking-wide text-[#16A66A]">
-                    {puzzle.spangram}
-                  </p>
-                  <p className="mt-3 text-sm leading-6 text-[#68645E]">
-                    This spangram captures the theme and gives the puzzle its center line.
-                  </p>
-                </RevealDetails>
-              </div>
-              <PuzzleGrid puzzle={puzzle} mode="spangram" />
-            </div>
-          </SectionCard>
-
-          <SectionCard icon={<HelpCircle className="h-5 w-5" />} title="Hints for Today&apos;s Theme Words">
-            <p className="text-sm leading-6 text-[#68645E]">
-              Click a clue to reveal one theme word. These are separate from the full answer reveal.
-            </p>
-            <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
-              {puzzle.wordList.map((word, index) => (
-                <details key={word} className="group rounded-xl border border-[#E5DED3] bg-white p-4">
-                  <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-black text-[#68645E]">
-                    {wordPreview(word)}
-                    <Eye className="h-4 w-4 text-[#16A66A]" />
-                  </summary>
-                  <p className="mt-3 text-sm font-black uppercase text-[#142436]">{word}</p>
-                  {puzzle.hintList[index] ? (
-                    <p className="mt-1 text-xs leading-5 text-[#68645E]">{puzzle.hintList[index]}</p>
-                  ) : null}
-                </details>
+      <section className="mt-5 rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6 text-center shadow-sm">
+        <h2 className="text-lg font-black text-[#20201E]">Reveal today&apos;s Strands answers</h2>
+        <p className="mx-auto mt-2 max-w-xl text-sm leading-6 text-[#68645E]">
+          Ready for the complete list? This section keeps the spangram and theme words behind one final reveal.
+        </p>
+        <details className="group mt-6">
+          <RevealButton closedLabel="Show all answers" tone="dark" />
+          <div className="mt-6 rounded-2xl border border-[#E5DED3] bg-white p-5 text-left">
+            <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#315C4C]">Theme</p>
+            <p className="mt-2 text-xl font-black text-[#20201E]">{puzzle.themeHint}</p>
+            <div className="mt-5 flex flex-wrap gap-2">
+              <span className="rounded-full bg-[#F7E9B8] px-3 py-1.5 font-mono text-xs font-black uppercase text-[#9A6B24]">
+                {puzzle.spangram}
+              </span>
+              {puzzle.wordList.map((word) => (
+                <span key={word} className="rounded-full bg-[#E9F2EE] px-3 py-1.5 font-mono text-xs font-black uppercase text-[#315C4C]">
+                  {word}
+                </span>
               ))}
             </div>
-          </SectionCard>
+            {puzzle.spoilerLevelContent ? (
+              <p className="mt-5 text-sm leading-6 text-[#68645E]">{puzzle.spoilerLevelContent}</p>
+            ) : null}
+          </div>
+        </details>
+      </section>
 
-          <SectionCard icon={<CheckCircle2 className="h-5 w-5" />} title="Today&apos;s Strands Answers">
-            <p className="text-sm leading-6 text-[#68645E]">
-              Full theme words and spangram stay hidden until you choose to reveal them.
-            </p>
-            <RevealDetails label="Reveal All Answers" className="mt-5">
-              <div className="grid gap-6 md:grid-cols-[0.85fr_1fr] md:items-center">
-                <div className="rounded-2xl bg-white p-6 text-center">
-                  <p className="rounded-t-xl bg-[#EAF2FF] py-3 text-xs font-black uppercase tracking-[0.12em] text-[#142436]">
-                    Today&apos;s Theme
-                  </p>
-                  <p className="mt-5 text-xl font-black text-[#142436]">{puzzle.themeHint}</p>
-                  <div className="mt-5 flex flex-wrap justify-center gap-2">
-                    {[puzzle.spangram, ...puzzle.wordList].map((word) => (
-                      <span key={word} className="rounded-lg bg-[#F3F0E9] px-3 py-2 font-mono text-xs font-black uppercase text-[#142436]">
-                        {word}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                <PuzzleGrid puzzle={puzzle} mode="answers" />
-              </div>
-            </RevealDetails>
-          </SectionCard>
+      <section className="mt-5 grid gap-3 sm:grid-cols-3">
+        <div className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-5 text-center shadow-sm">
+          <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#68645E]">Spangram</p>
+          <p className="mt-2 text-2xl font-black text-[#20201E]">{puzzle.spangram.length}</p>
+          <p className="mt-1 text-sm text-[#68645E]">letters</p>
         </div>
-
-        <aside className="space-y-5">
-          <div className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-lg shadow-[#315C4C]/8">
-            <h2 className="text-lg font-black text-[#142436]">Today&apos;s Puzzle Stats</h2>
-            <dl className="mt-5 grid gap-4 text-sm">
-              <div>
-                <dt className="text-[#68645E]">Theme</dt>
-                <dd className="mt-1 font-black text-[#16A66A]">{puzzle.themeHint}</dd>
-              </div>
-              <div>
-                <dt className="text-[#68645E]">Spangram</dt>
-                <dd className="mt-1 font-black text-[#16A66A]">{puzzle.spangram.length} letters</dd>
-              </div>
-              <div>
-                <dt className="text-[#68645E]">Theme Words</dt>
-                <dd className="mt-1 font-black text-[#142436]">{puzzle.wordList.length}</dd>
-              </div>
-              <div>
-                <dt className="text-[#68645E]">Difficulty</dt>
-                <dd className="mt-2">
-                  <DifficultyBadge difficulty={puzzle.difficulty} />
-                </dd>
-              </div>
-            </dl>
+        <div className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-5 text-center shadow-sm">
+          <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#68645E]">Theme words</p>
+          <p className="mt-2 text-2xl font-black text-[#20201E]">{puzzle.wordList.length || puzzle.hintList.length}</p>
+          <p className="mt-1 text-sm text-[#68645E]">to find</p>
+        </div>
+        <div className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-5 text-center shadow-sm">
+          <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#68645E]">Difficulty</p>
+          <div className="mt-3 flex justify-center">
+            <DifficultyBadge difficulty={puzzle.difficulty} />
           </div>
+        </div>
+      </section>
 
-          <div className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-lg shadow-[#315C4C]/8">
-            <div className="flex items-center gap-3">
-              <ShieldCheck className="h-6 w-6 text-[#16A66A]" />
-              <h2 className="text-lg font-black text-[#142436]">Spoiler Safe</h2>
-            </div>
-            <p className="mt-3 text-sm leading-6 text-[#68645E]">
-              Open only the help you need. The full word list is separated from the hint cards.
-            </p>
-          </div>
-        </aside>
+      <div className="mt-8">
+        <NextPuzzleCountdown />
       </div>
 
-      <section className="mx-auto mt-12 max-w-4xl">
-        <h2 className="text-center text-2xl font-black text-[#142436]">Frequently Asked Questions</h2>
-        <div className="mt-5 divide-y divide-[#E5DED3] overflow-hidden rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] shadow-sm">
+      <section className="mt-8">
+        <h2 className="text-center text-2xl font-black text-[#20201E]">More puzzle helpers</h2>
+        <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
+          {relatedTools.map(({ href, label, Icon }) => (
+            <Link
+              key={href}
+              prefetch={false}
+              href={href}
+              className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-4 text-center shadow-sm transition hover:border-[#315C4C]/30 hover:bg-white"
+            >
+              <span className="mx-auto grid h-10 w-10 place-items-center rounded-full bg-[#E9F2EE] text-[#315C4C]">
+                <Icon className="h-5 w-5" />
+              </span>
+              <p className="mt-3 text-sm font-bold text-[#20201E]">{label}</p>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {pastPuzzles.length ? (
+        <section className="mt-10">
+          <div className="flex items-end justify-between gap-4">
+            <h2 className="text-2xl font-black text-[#20201E]">Past Strands answers</h2>
+            <Link prefetch={false} href="/archive/" className="text-sm font-bold text-[#315C4C] hover:underline">
+              View all
+            </Link>
+          </div>
+          <div className="mt-4 divide-y divide-[#E5DED3] overflow-hidden rounded-2xl border border-[#E5DED3] bg-[#FFFDF9]">
+            {pastPuzzles.map((item) => (
+              <Link
+                key={item.id}
+                prefetch={false}
+                href={`/archive/${item.date}/`}
+                className="flex items-center justify-between gap-4 px-5 py-4 hover:bg-white"
+              >
+                <div>
+                  <p className="font-mono text-xs font-bold uppercase tracking-[0.16em] text-[#68645E]">
+                    {shortDate(item.date)}
+                  </p>
+                  <p className="mt-1 font-bold text-[#20201E]">{item.themeHint}</p>
+                </div>
+                <DifficultyBadge difficulty={item.difficulty} />
+              </Link>
+            ))}
+          </div>
+        </section>
+      ) : null}
+
+      <section className="mt-10 rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] p-6 shadow-sm">
+        <h2 className="text-2xl font-black text-[#20201E]">How to use today&apos;s Strands page</h2>
+        <div className="mt-4 space-y-4 text-sm leading-7 text-[#68645E]">
+          <p>
+            Start with the theme hint if you want a gentle push. If that is not enough, open the
+            spangram hint before revealing the full spangram. Theme-word cards let you unlock one answer
+            at a time instead of spoiling the whole board.
+          </p>
+          <p>
+            When you are ready to check the complete solution, use the final reveal. The archive keeps
+            earlier published days so you can revisit yesterday&apos;s board without digging through old
+            search results.
+          </p>
+          <p>{disclaimer}</p>
+        </div>
+      </section>
+
+      <section className="mt-10">
+        <h2 className="text-center text-2xl font-black text-[#20201E]">Frequently asked questions</h2>
+        <div className="mt-5 divide-y divide-[#E5DED3] overflow-hidden rounded-2xl border border-[#E5DED3] bg-[#FFFDF9]">
           {faqItems.map(([question, answer]) => (
             <details key={question} className="group p-4">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-black text-[#142436]">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-black text-[#20201E]">
                 {question}
-                <ArrowRight className="h-4 w-4 text-[#16A66A] transition group-open:rotate-90" />
+                <ArrowRight className="h-4 w-4 text-[#315C4C] transition group-open:rotate-90" />
               </summary>
               <p className="mt-3 text-sm leading-6 text-[#68645E]">{answer}</p>
             </details>
           ))}
         </div>
       </section>
-
-      <section className="mt-8 flex flex-wrap justify-center gap-3 text-sm">
-        <Link prefetch={false} href="/strands-hints/" className="rounded-xl border border-[#D4CABD] bg-[#FFFDF9] px-4 py-2 font-black hover:bg-[#EDE6DC]">
-          Back to hints
-        </Link>
-        <Link prefetch={false} href="/strands-solver/" className="rounded-xl border border-[#D4CABD] bg-[#FFFDF9] px-4 py-2 font-black hover:bg-[#EDE6DC]">
-          Try the solver
-        </Link>
-        <Link prefetch={false} href="/strands-word-finder/" className="rounded-xl border border-[#D4CABD] bg-[#FFFDF9] px-4 py-2 font-black hover:bg-[#EDE6DC]">
-          Open word finder
-        </Link>
-        <Link prefetch={false} href="/archive/" className="rounded-xl border border-[#D4CABD] bg-[#FFFDF9] px-4 py-2 font-black hover:bg-[#EDE6DC]">
-          Browse archive
-        </Link>
-      </section>
-
-      <p className="mt-8 text-center text-sm leading-6 text-[#68645E]">
-        This site is an independent fan-made helper and is not affiliated with The New York Times.
-      </p>
     </article>
   );
 }

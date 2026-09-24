@@ -16,13 +16,17 @@ function parseArgs(argv) {
   return { command, args };
 }
 
-function todayInShanghai() {
+function todayInEastern() {
   return new Intl.DateTimeFormat("en-CA", {
-    timeZone: "Asia/Shanghai",
+    timeZone: "America/New_York",
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
   }).format(new Date());
+}
+
+function todayPuzzleDate() {
+  return todayInEastern();
 }
 
 function isDate(value) {
@@ -126,7 +130,7 @@ function upsertPuzzle(puzzle, { force = false } = {}) {
   writePuzzles(puzzles);
 }
 
-function missingDates({ from = START_DATE, to = todayInShanghai() }) {
+function missingDates({ from = START_DATE, to = todayPuzzleDate() }) {
   const existing = new Set(readPuzzles().map((puzzle) => puzzle.date));
   return dateRange(from, to).filter((date) => !existing.has(date));
 }
@@ -200,7 +204,7 @@ async function main() {
   const { command, args } = parseArgs(process.argv.slice(2));
 
   if (command === "missing") {
-    const dates = missingDates({ from: args.from || START_DATE, to: args.to || todayInShanghai() });
+    const dates = missingDates({ from: args.from || START_DATE, to: args.to || todayPuzzleDate() });
     if (dates.length === 0) {
       console.log("No missing Strands puzzle dates.");
       return;
@@ -211,7 +215,7 @@ async function main() {
   }
 
   if (command === "new") {
-    const date = args.date || todayInShanghai();
+    const date = args.date || todayPuzzleDate();
     const puzzle = createTemplate(date, { published: args.publish === "true" });
     upsertPuzzle(puzzle, { force: args.force === "true" });
     console.log(`Created ${puzzle.published ? "published" : "draft"} puzzle for ${date}.`);
@@ -229,7 +233,7 @@ async function main() {
   }
 
   if (command === "import") {
-    const date = args.date || todayInShanghai();
+    const date = args.date || todayPuzzleDate();
     const puzzle = await importFromSource(date, args);
     console.log(`Imported ${puzzle.published ? "published" : "draft"} puzzle for ${date}.`);
     console.log(`Source: ${puzzle.sourceUrl}`);
@@ -240,7 +244,7 @@ async function main() {
   }
 
   if (command === "import-missing") {
-    const dates = missingDates({ from: args.from || START_DATE, to: args.to || todayInShanghai() });
+    const dates = missingDates({ from: args.from || START_DATE, to: args.to || todayPuzzleDate() });
     const limit = Number(args.limit || dates.length);
     for (const date of dates.slice(0, limit)) {
       try {
@@ -253,7 +257,29 @@ async function main() {
     return;
   }
 
-  console.error("Unknown command. Use missing, new, today, import, or import-missing.");
+  if (command === "publish") {
+    const date = args.date || todayPuzzleDate();
+    const puzzles = readPuzzles();
+    const index = puzzles.findIndex((item) => item.date === date);
+    if (index < 0) {
+      throw new Error(`No puzzle found for ${date}. Run daily:import first.`);
+    }
+    const puzzle = puzzles[index];
+    if (!puzzle.spangram || puzzle.spangram === "ADDSPANGRAM") {
+      throw new Error(`Spangram is incomplete for ${date}.`);
+    }
+    if ((!puzzle.words || puzzle.words.length === 0) && args["allow-incomplete"] !== "true") {
+      throw new Error(
+        `Theme words are empty for ${date}. Fill words in data/puzzles.json or pass --allow-incomplete=true.`,
+      );
+    }
+    puzzles[index] = { ...puzzle, published: true };
+    writePuzzles(puzzles);
+    console.log(`Published puzzle for ${date}.`);
+    return;
+  }
+
+  console.error("Unknown command. Use missing, new, today, import, import-missing, or publish.");
   process.exit(1);
 }
 

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { JsonLd } from "@/components/JsonLd";
 import { PuzzleAnswerContent } from "@/components/PuzzleAnswerContent";
-import { getTodayPuzzle } from "@/lib/puzzle-data";
+import { getPublishedPuzzles, getTodayPuzzle } from "@/lib/puzzle-data";
 import { breadcrumbSchema } from "@/lib/seo";
 
 function metaDate(date: string) {
@@ -17,7 +17,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const puzzle = await getTodayPuzzle();
   const dateLabel = puzzle ? metaDate(puzzle.date) : "Today";
   return {
-    title: `NYT Strands Hints & Answers ${dateLabel}`,
+    title: `Today's Strands Hint & Answer ${dateLabel}`,
     description:
       "Reveal today's Strands theme hint, spangram hint, spangram, and answer list one step at a time.",
     alternates: { canonical: "/todays-strands-answer" },
@@ -26,10 +26,20 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function TodaysAnswerPage() {
   const puzzle = await getTodayPuzzle();
+  const recentPuzzles = getPublishedPuzzles();
   return (
     <>
-      <JsonLd data={breadcrumbSchema([{ name: "Home", url: "/" }, { name: "Today's Strands Answer", url: "/todays-strands-answer" }])} />
-      {puzzle ? <PuzzleAnswerContent puzzle={puzzle} /> : <p>No published puzzle yet.</p>}
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: "Home", url: "/" },
+          { name: "Today's Strands Answer", url: "/todays-strands-answer" },
+        ])}
+      />
+      {puzzle ? (
+        <PuzzleAnswerContent puzzle={puzzle} recentPuzzles={recentPuzzles} mode="today" />
+      ) : (
+        <p>No published puzzle yet.</p>
+      )}
     </>
   );
 }
