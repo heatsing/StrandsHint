@@ -4,6 +4,7 @@ import path from "node:path";
 const DATA_FILE = path.join(process.cwd(), "data", "puzzles.json");
 const SOURCE_BASE_URL = "https://www.strands.today/strands-hint-and-answer";
 const START_DATE = "2026-01-01";
+const UNAVAILABLE_DATES = new Set(["2026-01-25"]);
 
 function parseArgs(argv) {
   const [command = "missing", ...rest] = argv;
@@ -132,7 +133,7 @@ function upsertPuzzle(puzzle, { force = false } = {}) {
 
 function missingDates({ from = START_DATE, to = todayPuzzleDate() }) {
   const existing = new Set(readPuzzles().map((puzzle) => puzzle.date));
-  return dateRange(from, to).filter((date) => !existing.has(date));
+  return dateRange(from, to).filter((date) => !existing.has(date) && !UNAVAILABLE_DATES.has(date));
 }
 
 function newestPuzzle() {
@@ -214,6 +215,9 @@ function extractSourcePuzzle(html, date) {
 }
 
 async function importFromSource(date, options) {
+  if (UNAVAILABLE_DATES.has(date)) {
+    throw new Error(`Source marks ${date} as unavailable.`);
+  }
   const sourceUrl = `${SOURCE_BASE_URL}/${date}/`;
   const response = await fetch(sourceUrl, {
     headers: {
