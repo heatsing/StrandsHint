@@ -29,6 +29,9 @@
     "daily:import:missing": "node scripts/strands-puzzle.mjs import-missing",
     "daily:backfill-words": "node scripts/strands-puzzle.mjs backfill-words",
     "daily:publish": "node scripts/strands-puzzle.mjs publish",
+    "daily:answer": "node scripts/daily-answer.mjs",
+    "daily:answer:new": "node scripts/daily-answer.mjs new",
+    "daily:answer:publish": "node scripts/daily-answer.mjs publish",
     "seo:audit": "node scripts/seo-audit.mjs",
     "browser:audit": "node scripts/browser-audit.mjs",
     "smoke": "node scripts/smoke.mjs"

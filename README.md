@@ -18,7 +18,19 @@ Daily puzzle notes are maintained manually in local JSON.
 - `npm run lint` runs Next lint.
 - `npm run build` creates the static export in `out/`.
 
-## Daily Publishing
+## Daily Answers (Wordle / Connections / etc.)
+
+1. Create a draft:
+   `npm run daily:answer -- new --game=wordle`
+2. Edit `data/daily-answers.json` for that date/game.
+3. Publish:
+   `npm run daily:answer -- publish --game=wordle`
+4. Build and deploy.
+
+Supported games: `wordle`, `connections`, `spelling-bee`, `pips`, `mini-crossword`, `crossword`.
+Strands continues to use `npm run daily:import` / `daily:publish` with `data/puzzles.json`.
+
+## Daily Publishing (Strands)
 
 1. Import a draft for today (or a date):
    `npm run daily:import`

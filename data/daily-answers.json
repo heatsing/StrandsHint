@@ -1,0 +1,183 @@
+[
+  {
+    "id": "2026-09-25-wordle",
+    "date": "2026-09-25",
+    "game": "wordle",
+    "published": true,
+    "title": "Today's Wordle Hint & Answer",
+    "summary": "Start with gentle letter help, then reveal today's Wordle only when you are ready.",
+    "difficulty": "MEDIUM",
+    "hints": [
+      "Think of a common household verb.",
+      "It contains one vowel used twice.",
+      "It often pairs with doors, windows, or cabinets."
+    ],
+    "answer": "CLOSE",
+    "answerNote": "Editorial demo entry for daily publishing workflow. Replace with the reviewed Wordle answer each day."
+  },
+  {
+    "id": "2026-09-25-connections",
+    "date": "2026-09-25",
+    "game": "connections",
+    "published": true,
+    "title": "Connections Hint & Answer Today",
+    "summary": "Use soft category nudges first, then open each color group only if you need it.",
+    "difficulty": "MEDIUM",
+    "boardWords": [
+      "BILL",
+      "CHECK",
+      "INVOICE",
+      "TAB",
+      "LEAF",
+      "PETAL",
+      "ROOT",
+      "STEM",
+      "RECEIPT",
+      "TICKET",
+      "STUB",
+      "VOUCHER",
+      "BARK",
+      "HOWL",
+      "YELP",
+      "GROWL"
+    ],
+    "hints": [
+      "One group is about parts of a plant.",
+      "Another group is paperwork you might keep after paying.",
+      "Watch for money words that also have non-money meanings."
+    ],
+    "groups": [
+      {
+        "color": "yellow",
+        "title": "Plant parts",
+        "words": ["LEAF", "PETAL", "ROOT", "STEM"],
+        "hint": "Think botanical anatomy."
+      },
+      {
+        "color": "green",
+        "title": "Things you pay",
+        "words": ["BILL", "CHECK", "INVOICE", "TAB"],
+        "hint": "Restaurant and account language."
+      },
+      {
+        "color": "blue",
+        "title": "Proof of purchase",
+        "words": ["RECEIPT", "TICKET", "STUB", "VOUCHER"],
+        "hint": "Paper left after a transaction."
+      },
+      {
+        "color": "purple",
+        "title": "Dog sounds",
+        "words": ["BARK", "HOWL", "YELP", "GROWL"],
+        "hint": "Things a dog might do."
+      }
+    ],
+    "answerNote": "Demo Connections board for the daily workflow. Replace groups and board words each day."
+  },
+  {
+    "id": "2026-09-25-spelling-bee",
+    "date": "2026-09-25",
+    "game": "spelling-bee",
+    "published": true,
+    "title": "Spelling Bee Answers Today",
+    "summary": "Check the hive, open pangrams when ready, then browse words by length.",
+    "difficulty": "MEDIUM",
+    "centerLetter": "N",
+    "outerLetters": ["O", "Q", "U", "E", "L", "B"],
+    "pangrams": ["OBLIQUE"],
+    "geniusScore": 70,
+    "hints": [
+      "The pangram uses every letter in the hive.",
+      "Several mid-length words lean on the center letter N."
+    ],
+    "wordsByLength": {
+      "4": ["BLUE", "BONE", "LONE", "NOEL"],
+      "5": ["NOBLE", "QUEEN"],
+      "6": ["BUBBLE"],
+      "7": ["OBLIQUE"]
+    },
+    "answerNote": "Demo Spelling Bee set for layout and daily updates. Replace letters and word lists daily."
+  },
+  {
+    "id": "2026-09-25-pips",
+    "date": "2026-09-25",
+    "game": "pips",
+    "published": true,
+    "title": "Pips Hint & Answer Today",
+    "summary": "Reveal one Pips clue at a time so you can keep solving the rest of the board.",
+    "difficulty": "MEDIUM",
+    "hints": [
+      "Start with regions that force a single pip value.",
+      "Use sum and equal constraints before guessing freely."
+    ],
+    "sections": [
+      {
+        "title": "Opening placement",
+        "hint": "Look for a cell that can only fit one domino orientation.",
+        "answer": "Place the first forced double along the top edge.",
+        "detail": "Editorial demo note for the daily Pips page."
+      },
+      {
+        "title": "Mid-board constraint",
+        "hint": "A sum region narrows two neighboring dominoes.",
+        "answer": "Fill the center sum with 3 and 4.",
+        "detail": "Replace with the reviewed daily explanation."
+      },
+      {
+        "title": "Final clear",
+        "hint": "Only one legal packing remains for the last three tiles.",
+        "answer": "Finish with 0-2, 1-5, and 6-6.",
+        "detail": "Keep answers behind reveals until needed."
+      }
+    ],
+    "answerNote": "Demo Pips walkthrough for publishing practice."
+  },
+  {
+    "id": "2026-09-25-mini-crossword",
+    "date": "2026-09-25",
+    "game": "mini-crossword",
+    "published": true,
+    "title": "Mini Crossword Answers Today",
+    "summary": "Open Across and Down answers one clue at a time.",
+    "difficulty": "EASY",
+    "hints": [
+      "Start with the shortest Across fill.",
+      "Use crossings before opening every answer."
+    ],
+    "across": [
+      { "number": 1, "clue": "Morning drink", "answer": "TEA", "hint": "Three letters" },
+      { "number": 4, "clue": "Quick nap", "answer": "REST", "hint": "Four letters" },
+      { "number": 5, "clue": "Tiny", "answer": "MINI", "hint": "Self-referential" }
+    ],
+    "down": [
+      { "number": 1, "clue": "Tree fluid", "answer": "SAP", "hint": "Sticky" },
+      { "number": 2, "clue": "Before", "answer": "ERE", "hint": "Poetic" },
+      { "number": 3, "clue": "Possess", "answer": "OWN", "hint": "Have" }
+    ],
+    "answerNote": "Demo Mini grid for daily publishing. Replace clues and answers each day."
+  },
+  {
+    "id": "2026-09-25-crossword",
+    "date": "2026-09-25",
+    "game": "crossword",
+    "published": true,
+    "title": "Crossword Answers Today",
+    "summary": "Reveal stubborn crossword clues without dumping the whole grid at once.",
+    "difficulty": "HARD",
+    "hints": [
+      "Use crossings on long theme entries first.",
+      "Question-mark clues usually hide wordplay."
+    ],
+    "across": [
+      { "number": 1, "clue": "Makes a sullen face", "answer": "POUTS", "hint": "Five letters" },
+      { "number": 6, "clue": "Sudden and unexpected", "answer": "ABRUPT", "hint": "Starts with A" },
+      { "number": 14, "clue": "Still in packaging", "answer": "UNOPENED", "hint": "Eight letters" }
+    ],
+    "down": [
+      { "number": 1, "clue": "Buddy", "answer": "PAL", "hint": "Three letters" },
+      { "number": 2, "clue": "Vase with a base", "answer": "URN", "hint": "Cemetery vibe" },
+      { "number": 3, "clue": "Declare definitively", "answer": "AVOW", "hint": "Four letters" }
+    ],
+    "answerNote": "Partial demo crossword set for layout and workflow. Expand Across/Down daily as needed."
+  }
+]

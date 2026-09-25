@@ -114,7 +114,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </Link>
 
               <Link prefetch={false}
-                href="/todays-strands-answer"
+                href="/todays-answers"
                 className="inline-flex items-center gap-1 rounded-full px-3 py-2 font-black text-[#24333A] hover:bg-[#EDE6DC] hover:text-[#008F83]"
               >
                 Today&apos;s Answers
