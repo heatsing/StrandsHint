@@ -139,30 +139,69 @@ function newestPuzzle() {
   return readPuzzles().sort((a, b) => b.date.localeCompare(a.date))[0] ?? null;
 }
 
+function parseEscapedJsonField(html, key) {
+  const arrayMatch = html.match(new RegExp(`\\\\"${key}\\\\":(\[[\\s\\S]*?\])`));
+  if (arrayMatch) {
+    try {
+      return JSON.parse(arrayMatch[1].replace(/\\"/g, '"'));
+    } catch {
+      // fall through
+    }
+  }
+
+  const stringMatch = html.match(new RegExp(`\\\\"${key}\\\\":\\\\"((?:\\\\.|[^\\\\])*?)\\\\"`));
+  if (stringMatch) {
+    return stringMatch[1].replace(/\\"/g, '"').replace(/\\\\/g, "\\");
+  }
+
+  return null;
+}
+
 function extractSourcePuzzle(html, date) {
   const sourceUrl = `${SOURCE_BASE_URL}/${date}/`;
+  const payloadClue = parseEscapedJsonField(html, "clue");
+  const payloadSpangram = parseEscapedJsonField(html, "spangram");
+  const payloadWords = parseEscapedJsonField(html, "theme_words");
+  const payloadSpangramHint = parseEscapedJsonField(html, "spangram_hint");
+  const payloadThemeDescription = parseEscapedJsonField(html, "theme_description");
+
   const spangramMatch = html.match(/Today&#x27;s spangram is:[\s\S]*?<div[^>]*>([A-Z][A-Z\s-]{2,})<\/div>/i);
   const altThemeMatch = html.match(/alt="Spangram for NYT Strands of [^:"]+:\s*([^"]+)"/i);
   const spoilerThemeMatch = html.match(/Spoiler Warning[\s\S]*?<span[^>]*>([^<]+)<\/span>/i);
-  const theme = stripTags(altThemeMatch?.[1] || spoilerThemeMatch?.[1] || "");
-  const spangram = stripTags(spangramMatch?.[1] || "").replace(/[^A-Z]/g, "");
+  const theme = stripTags(payloadClue || altThemeMatch?.[1] || spoilerThemeMatch?.[1] || "");
+  const spangram = String(payloadSpangram || stripTags(spangramMatch?.[1] || ""))
+    .toUpperCase()
+    .replace(/[^A-Z]/g, "");
   const themeHintMatch = html.match(/Today&#x27;s theme &#x27;.*?&#x27;([\s\S]*?)<\/p>/i);
   const themeHint = themeHintMatch
     ? stripTags(themeHintMatch[1]).replace(/^is\s+/i, "").trim()
     : "";
-  const prefixes = Array.from(html.matchAll(/<span[^>]*>\s*([A-Z]{3})\.\.\.\s*<\/span>/g)).map((match) => match[1]);
+  const words = Array.isArray(payloadWords)
+    ? payloadWords.map((word) => String(word).toUpperCase().replace(/[^A-Z]/g, "")).filter(Boolean)
+    : [];
+  const prefixes = words.length
+    ? words.map((word) => word.slice(0, 3))
+    : [...new Set(Array.from(html.matchAll(/<span[^>]*>\s*([A-Z]{3})\.\.\.\s*<\/span>/g)).map((match) => match[1]))];
   const uniquePrefixes = [...new Set(prefixes)];
+  const wordHints = words.length
+    ? words.map((word) => `Theme word starting with ${word.slice(0, 3)}.`)
+    : uniquePrefixes.map((prefix) => `Starts with ${prefix}. Verify the full word manually before publishing.`);
 
   return createTemplate(date, {
     title: theme ? `NYT Strands Hints & Answers ${titleDate(date)}: ${theme}` : undefined,
     themeHint: theme || "Manual theme hint needed.",
     spangram: spangram || "ADDSPANGRAM",
-    spangramHint1: themeHint || (theme ? `Think about the theme "${theme}" without revealing the full answer.` : undefined),
+    spangramHint1:
+      payloadSpangramHint ||
+      themeHint ||
+      (theme ? `Think about the theme "${theme}" without revealing the full answer.` : undefined),
     spangramHint2: spangram
       ? `The spangram has ${spangram.length} letters and ties the whole theme together.`
       : undefined,
-    wordHints: uniquePrefixes.map((prefix) => `Starts with ${prefix}. Verify the full word manually before publishing.`),
+    words,
+    wordHints,
     spoilerLevelContent:
+      payloadThemeDescription ||
       "Imported as an editorial draft from a public third-party page. Verify the theme, spangram, full words, and explanation before publishing.",
     seoDescription: theme
       ? `Spoiler-safe NYT Strands hints, spangram help, and answer reveals for ${titleDate(date)}. Theme: ${theme}.`
@@ -196,6 +235,12 @@ async function importFromSource(date, options) {
     );
   }
   puzzle.published = wantsPublish;
+  if (options.force === "true") {
+    const existing = readPuzzles().find((item) => item.date === date);
+    if (existing?.published && options.publish !== "false") {
+      puzzle.published = true;
+    }
+  }
   upsertPuzzle(puzzle, { force: options.force === "true" });
   return puzzle;
 }
@@ -257,6 +302,34 @@ async function main() {
     return;
   }
 
+  if (command === "backfill-words") {
+    const puzzles = readPuzzles();
+    const targets = puzzles
+      .filter((puzzle) => !Array.isArray(puzzle.words) || puzzle.words.length === 0)
+      .map((puzzle) => puzzle.date)
+      .sort();
+    const limit = Number(args.limit || targets.length);
+    let filled = 0;
+    let skipped = 0;
+    for (const date of targets.slice(0, limit)) {
+      try {
+        const puzzle = await importFromSource(date, { ...args, force: "true" });
+        if (puzzle.words?.length) {
+          filled += 1;
+          console.log(`Filled ${date}: ${puzzle.words.join(", ")}`);
+        } else {
+          skipped += 1;
+          console.log(`No words yet for ${date}`);
+        }
+      } catch (error) {
+        skipped += 1;
+        console.error(`Skipped ${date}: ${error.message}`);
+      }
+    }
+    console.log(`\nFilled ${filled} dates. Remaining empty/skipped: ${skipped}.`);
+    return;
+  }
+
   if (command === "publish") {
     const date = args.date || todayPuzzleDate();
     const puzzles = readPuzzles();
@@ -279,7 +352,7 @@ async function main() {
     return;
   }
 
-  console.error("Unknown command. Use missing, new, today, import, import-missing, or publish.");
+  console.error("Unknown command. Use missing, new, today, import, import-missing, backfill-words, or publish.");
   process.exit(1);
 }
 
