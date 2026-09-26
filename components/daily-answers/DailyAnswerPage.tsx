@@ -24,8 +24,9 @@ const faqByGame: Record<DailyAnswerGame, [string, string][]> = {
     ["Can I open one group only?", "Yes. Each category has its own reveal control."],
   ],
   "spelling-bee": [
-    ["What is a pangram?", "A pangram uses every letter in the hive at least once."],
-    ["Are all words shown at once?", "No. Pangrams and length lists stay behind reveals."],
+    ["What is a pangram?", "A pangram uses every hive letter at least once and scores a bonus."],
+    ["Do words need the center letter?", "Yes. Every Spelling Bee answer must include the yellow center letter."],
+    ["How is scoring calculated?", "4-letter words score 1 point. Longer words score 1 point per letter. Pangrams add +7."],
   ],
   pips: [
     ["How should I use the steps?", "Open earlier constraints first and keep later answers closed."],

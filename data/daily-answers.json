@@ -80,23 +80,26 @@
     "game": "spelling-bee",
     "published": true,
     "title": "Spelling Bee Answers Today",
-    "summary": "Check the hive, open pangrams when ready, then browse words by length.",
+    "summary": "Use the hive, chase the pangram, and unlock answers by length the same way Spelling Bee is scored.",
     "difficulty": "MEDIUM",
-    "centerLetter": "N",
-    "outerLetters": ["O", "Q", "U", "E", "L", "B"],
-    "pangrams": ["OBLIQUE"],
-    "geniusScore": 70,
+    "centerLetter": "C",
+    "outerLetters": ["A", "L", "M", "E", "R", "T"],
+    "pangrams": ["TELECAMERA"],
+    "geniusScore": 99,
     "hints": [
-      "The pangram uses every letter in the hive.",
-      "Several mid-length words lean on the center letter N."
+      "Every valid word must include the center letter C.",
+      "Look for cream / create / camera family words before forcing the pangram.",
+      "The pangram is a long camera-related compound."
     ],
     "wordsByLength": {
-      "4": ["BLUE", "BONE", "LONE", "NOEL"],
-      "5": ["NOBLE", "QUEEN"],
-      "6": ["BUBBLE"],
-      "7": ["OBLIQUE"]
+      "4": ["CARE", "CART", "CALM", "CAME", "CELL", "LACE", "MACE", "RACE", "TALC"],
+      "5": ["CAMEL", "CLEAR", "CLEAT", "CRATE", "CREAM", "ELECT", "RACER", "REACT", "TRACE"],
+      "6": ["CAMERA", "CARTEL", "CELLAR", "CLARET", "CRATER", "CREATE", "RECALL", "TRACER"],
+      "7": ["CARAMEL", "CREMATE"],
+      "8": ["RECREATE"],
+      "10": ["TELECAMERA"]
     },
-    "answerNote": "Demo Spelling Bee set for layout and daily updates. Replace letters and word lists daily."
+    "answerNote": "Editorial Spelling Bee page. Replace the hive letters and word lists each day before publishing."
   },
   {
     "id": "2026-09-25-pips",

@@ -56,7 +56,7 @@ export function NextPuzzleCountdown() {
 
   return (
     <section className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] px-6 py-8 text-center shadow-sm">
-      <p className="font-mono text-xs font-bold uppercase tracking-[0.22em] text-[#315C4C]">Next Strands in</p>
+      <p className="font-mono text-xs font-bold uppercase tracking-[0.22em] text-[#315C4C]">Next puzzle in</p>
       <div className="mt-5 flex items-end justify-center gap-4 sm:gap-8">
         {[
           ["Hours", remaining.hours],
@@ -70,7 +70,7 @@ export function NextPuzzleCountdown() {
         ))}
       </div>
       <p className="mt-5 text-sm leading-6 text-[#68645E]">
-        Countdown targets midnight Eastern Time, when many Strands solvers look for the next board.
+        Countdown targets midnight Eastern Time, when the next daily puzzle usually rolls over.
       </p>
     </section>
   );
