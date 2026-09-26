@@ -22,3 +22,6 @@
 /solvers/crossword-solver/ /crossword-solver/ 301
 /solvers/words-with-friends-solver/ /words-with-friends-solver/ 301
 /solvers/jumble-solver/ /jumble-solver/ 301
+
+/todays-answers/ /todays-strands-answer/ 301
+/todays-answers /todays-strands-answer/ 301

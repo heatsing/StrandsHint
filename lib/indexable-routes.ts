@@ -18,7 +18,6 @@ const staticRoutes: IndexableRoute[] = [
   { path: "/daily-hints", label: "All Daily Puzzle Hints", category: "Core", changeFrequency: "weekly", priority: 0.8 },
   { path: "/today", label: "Today's Puzzle Hints", category: "Daily Hints", changeFrequency: "weekly", priority: 0.8 },
   { path: "/todays-strands-answer", label: "Today's Strands Answer", category: "Daily Hints", changeFrequency: "weekly", priority: 0.8 },
-  { path: "/todays-answers", label: "Today's Answers Hub", category: "Daily Hints", changeFrequency: "daily", priority: 0.9 },
   { path: "/todays-wordle-answer", label: "Today's Wordle Answer", category: "Daily Hints", changeFrequency: "daily", priority: 0.85 },
   { path: "/todays-connections-answer", label: "Today's Connections Answer", category: "Daily Hints", changeFrequency: "daily", priority: 0.85 },
   { path: "/todays-spelling-bee-answer", label: "Today's Spelling Bee Answer", category: "Daily Hints", changeFrequency: "daily", priority: 0.85 },

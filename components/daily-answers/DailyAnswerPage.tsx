@@ -61,7 +61,6 @@ export function DailyAnswerPage({ game }: { game: DailyAnswerGame }) {
       <JsonLd
         data={breadcrumbSchema([
           { name: "Home", url: "/" },
-          { name: "Today's Answers", url: "/todays-answers" },
           { name: config.name, url: config.path },
         ])}
       />

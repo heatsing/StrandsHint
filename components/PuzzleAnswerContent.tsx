@@ -11,6 +11,7 @@ import {
   Star,
 } from "lucide-react";
 import { JsonLd } from "@/components/JsonLd";
+import { DailyAnswerSwitcher } from "@/components/daily-answers/DailyAnswerSwitcher";
 import { NextPuzzleCountdown } from "@/components/NextPuzzleCountdown";
 import type { PuzzleView } from "@/lib/puzzle-data";
 import { disclaimer } from "@/lib/seo";
@@ -145,24 +146,7 @@ export function PuzzleAnswerContent({
   return (
     <article className="mx-auto max-w-3xl">
       <JsonLd data={faqSchema} />
-
-      <nav className="text-xs font-semibold text-[#68645E]" aria-label="Breadcrumb">
-        <ol className="flex flex-wrap items-center gap-2">
-          <li>
-            <Link prefetch={false} href="/" className="hover:text-[#315C4C]">
-              Home
-            </Link>
-          </li>
-          <li>/</li>
-          <li>
-            <Link prefetch={false} href="/archive/" className="hover:text-[#315C4C]">
-              Archive
-            </Link>
-          </li>
-          <li>/</li>
-          <li className="text-[#20201E]">{mode === "today" ? "Today" : shortDate(puzzle.date)}</li>
-        </ol>
-      </nav>
+      <DailyAnswerSwitcher active="strands" />
 
       <header className="mt-8 text-center">
         <p className="font-mono text-xs font-bold uppercase tracking-[0.22em] text-[#315C4C]">

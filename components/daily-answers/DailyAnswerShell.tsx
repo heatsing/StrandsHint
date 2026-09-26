@@ -1,9 +1,8 @@
-import Link from "next/link";
 import { ArrowRight, CalendarDays, Eye } from "lucide-react";
 import { JsonLd } from "@/components/JsonLd";
+import { DailyAnswerSwitcher } from "@/components/daily-answers/DailyAnswerSwitcher";
 import { NextPuzzleCountdown } from "@/components/NextPuzzleCountdown";
 import {
-  dailyAnswerGames,
   formatAnswerDate,
   type DailyAnswerEntry,
   type DailyAnswerGameConfig,
@@ -63,25 +62,9 @@ export function DailyAnswerShell({
     <article className="mx-auto max-w-2xl pb-8">
       <JsonLd data={faqSchema} />
 
-      <nav className="text-xs font-semibold text-[#68645E]" aria-label="Breadcrumb">
-        <ol className="flex flex-wrap items-center gap-2">
-          <li>
-            <Link prefetch={false} href="/" className="hover:text-[#315C4C]">
-              Home
-            </Link>
-          </li>
-          <li>/</li>
-          <li>
-            <Link prefetch={false} href="/todays-answers/" className="hover:text-[#315C4C]">
-              Today&apos;s Answers
-            </Link>
-          </li>
-          <li>/</li>
-          <li className="text-[#20201E]">{config.name}</li>
-        </ol>
-      </nav>
+      <DailyAnswerSwitcher active={config.game} />
 
-      <header className="mt-10 text-center">
+      <header className="mt-8 text-center">
         <p className="font-mono text-[11px] font-bold uppercase tracking-[0.24em] text-[#315C4C]">
           Spoiler-safe daily page
         </p>
@@ -115,34 +98,6 @@ export function DailyAnswerShell({
       <div className="mt-10">
         <NextPuzzleCountdown />
       </div>
-
-      <section className="mt-12">
-        <h2 className="text-center text-2xl font-black text-[#20201E]">More daily answers</h2>
-        <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3">
-          {dailyAnswerGames.map((game) => (
-            <Link
-              key={game.path}
-              prefetch={false}
-              href={game.path}
-              className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] px-4 py-5 text-center transition hover:border-[#315C4C]/35 hover:bg-white"
-            >
-              <span
-                className="mx-auto mb-3 block h-2.5 w-2.5 rounded-full"
-                style={{ backgroundColor: game.accent }}
-              />
-              <p className="text-sm font-bold text-[#20201E]">{game.name}</p>
-            </Link>
-          ))}
-          <Link
-            prefetch={false}
-            href="/todays-strands-answer/"
-            className="rounded-2xl border border-[#E5DED3] bg-[#FFFDF9] px-4 py-5 text-center transition hover:border-[#315C4C]/35 hover:bg-white"
-          >
-            <span className="mx-auto mb-3 block h-2.5 w-2.5 rounded-full bg-[#16A66A]" />
-            <p className="text-sm font-bold text-[#20201E]">Strands</p>
-          </Link>
-        </div>
-      </section>
 
       <section className="mt-12 rounded-3xl border border-[#E5DED3] bg-[#FFFDF9] px-6 py-7">
         <h2 className="text-xl font-black text-[#20201E]">How to use this page</h2>
