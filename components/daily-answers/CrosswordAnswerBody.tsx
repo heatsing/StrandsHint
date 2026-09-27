@@ -157,32 +157,35 @@ export function CrosswordAnswerBody({
           Full {compact ? "Mini" : "NYT Crossword"} answers
         </h2>
         <p className="mt-2 text-sm leading-6 text-[#68645E]">
-          Plain list for quick scanning after you finish, or if you only need to confirm one entry.
+          Plain list for quick scanning after you finish. Stays closed until you choose to open it.
         </p>
-        <div className="mt-5 grid gap-6 sm:grid-cols-2">
-          <div>
-            <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#315C4C]">Across</p>
-            <ul className="mt-3 space-y-2 text-sm leading-6 text-[#68645E]">
-              {across.map((item) => (
-                <li key={`scan-a-${item.number}`}>
-                  {item.number}. {item.clue}:{" "}
-                  <span className="font-mono font-black uppercase text-[#20201E]">{item.answer}</span>
-                </li>
-              ))}
-            </ul>
+        <details className="group mt-5">
+          <RevealSummary label={`Show full ${compact ? "Mini" : "Crossword"} list`} tone="dark" />
+          <div className="mt-5 grid gap-6 sm:grid-cols-2">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#315C4C]">Across</p>
+              <ul className="mt-3 space-y-2 text-sm leading-6 text-[#68645E]">
+                {across.map((item) => (
+                  <li key={`scan-a-${item.number}`}>
+                    {item.number}. {item.clue}:{" "}
+                    <span className="font-mono font-black uppercase text-[#20201E]">{item.answer}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#315C4C]">Down</p>
+              <ul className="mt-3 space-y-2 text-sm leading-6 text-[#68645E]">
+                {down.map((item) => (
+                  <li key={`scan-d-${item.number}`}>
+                    {item.number}. {item.clue}:{" "}
+                    <span className="font-mono font-black uppercase text-[#20201E]">{item.answer}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
-          <div>
-            <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#315C4C]">Down</p>
-            <ul className="mt-3 space-y-2 text-sm leading-6 text-[#68645E]">
-              {down.map((item) => (
-                <li key={`scan-d-${item.number}`}>
-                  {item.number}. {item.clue}:{" "}
-                  <span className="font-mono font-black uppercase text-[#20201E]">{item.answer}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
+        </details>
         {entry.answerNote ? <p className="mt-5 text-sm leading-7 text-[#68645E]">{entry.answerNote}</p> : null}
       </section>
     </>
