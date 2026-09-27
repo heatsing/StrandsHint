@@ -15,30 +15,30 @@ import {
 import { breadcrumbSchema } from "@/lib/seo";
 
 const faqByGame: Record<DailyAnswerGame, [string, string][]> = {
-  wordle: [
-    ["Are answers shown immediately?", "No. Hints come first and the Wordle answer stays behind a reveal."],
-    ["Can I update this daily?", "Yes. Edit data/daily-answers.json or use npm run daily:answer, then publish and deploy."],
+  crossword: [
+    ["Will this dump the whole grid?", "No. You get a grid silhouette, per-clue Reveal buttons, and an optional full answer list."],
+    ["Is this affiliated with The New York Times?", "No. Strands Hint is an independent helper site."],
+  ],
+  "mini-crossword": [
+    ["Can I reveal one clue only?", "Yes. Each Across and Down row has its own Reveal control."],
+    ["How do I publish a new day?", "Fill across/down arrays for the date, set published true, then deploy."],
   ],
   connections: [
     ["Do colors reveal difficulty?", "Yes. Yellow is usually easiest and purple is usually hardest."],
-    ["Can I open one group only?", "Yes. Each category has its own reveal control."],
+    ["Can I open one group only?", "Yes. Use the Answers tab and reveal one color at a time."],
+  ],
+  pips: [
+    ["How should I use the steps?", "Tap Next clue to open constraints one by one, or reveal remaining clues when stuck."],
+    ["Is this official NYT content?", "No. This is an independent fan-made helper page."],
+  ],
+  wordle: [
+    ["Are answers shown immediately?", "No. Layered hints come first, then five tiles, then the answer behind Reveal."],
+    ["Can I update this daily?", "Yes. Edit data/daily-answers.json or use npm run daily:answer, then publish and deploy."],
   ],
   "spelling-bee": [
     ["What is a pangram?", "A pangram uses every hive letter at least once and scores a bonus."],
     ["Do words need the center letter?", "Yes. Every Spelling Bee answer must include the yellow center letter."],
     ["How is scoring calculated?", "4-letter words score 1 point. Longer words score 1 point per letter. Pangrams add +7."],
-  ],
-  pips: [
-    ["How should I use the steps?", "Open earlier constraints first and keep later answers closed."],
-    ["Is this official NYT content?", "No. This is an independent fan-made helper page."],
-  ],
-  "mini-crossword": [
-    ["Can I reveal one clue only?", "Yes. Each Across and Down row has its own Show control."],
-    ["How do I publish a new day?", "Fill across/down arrays for the date, set published true, then deploy."],
-  ],
-  crossword: [
-    ["Will this dump the whole grid?", "Not by default. Clues reveal one at a time, with an optional full list."],
-    ["Is this affiliated with The New York Times?", "No. Strands Hint is an independent helper site."],
   ],
 };
 

@@ -7,6 +7,10 @@
     "title": "Today's Wordle Hint & Answer",
     "summary": "Start with gentle letter help, then reveal today's Wordle only when you are ready.",
     "difficulty": "MEDIUM",
+    "difficultyScore": "medium",
+    "luckScore": "starter-dependent",
+    "firstLetter": "C",
+    "repeatedLetters": true,
     "hints": [
       "Think of a common household verb.",
       "It contains one vowel used twice.",
@@ -14,6 +18,39 @@
     ],
     "answer": "CLOSE",
     "answerNote": "Editorial demo entry for daily publishing workflow. Replace with the reviewed Wordle answer each day."
+  },
+  {
+    "id": "2026-09-24-wordle",
+    "date": "2026-09-24",
+    "game": "wordle",
+    "published": true,
+    "title": "Wordle Answer — Sep 24",
+    "summary": "Yesterday's Wordle for archive browsing.",
+    "difficulty": "EASY",
+    "hints": ["Past answer archive entry."],
+    "answer": "PROBE"
+  },
+  {
+    "id": "2026-09-23-wordle",
+    "date": "2026-09-23",
+    "game": "wordle",
+    "published": true,
+    "title": "Wordle Answer — Sep 23",
+    "summary": "Past Wordle archive entry.",
+    "difficulty": "MEDIUM",
+    "hints": ["Past answer archive entry."],
+    "answer": "SHONE"
+  },
+  {
+    "id": "2026-09-22-wordle",
+    "date": "2026-09-22",
+    "game": "wordle",
+    "published": true,
+    "title": "Wordle Answer — Sep 22",
+    "summary": "Past Wordle archive entry.",
+    "difficulty": "EASY",
+    "hints": ["Past answer archive entry."],
+    "answer": "WATER"
   },
   {
     "id": "2026-09-25-connections",
@@ -127,6 +164,12 @@
         "detail": "Replace with the reviewed daily explanation."
       },
       {
+        "title": "Equal region",
+        "hint": "Two faces in this region must match.",
+        "answer": "Drop a 2-2 into the equal cage.",
+        "detail": "Keeps the rest of the packing legal."
+      },
+      {
         "title": "Final clear",
         "hint": "Only one legal packing remains for the last three tiles.",
         "answer": "Finish with 0-2, 1-5, and 6-6.",
@@ -147,15 +190,24 @@
       "Start with the shortest Across fill.",
       "Use crossings before opening every answer."
     ],
+    "grid": [
+      ".....",
+      ".#.#.",
+      ".....",
+      ".#.#.",
+      "....."
+    ],
     "across": [
       { "number": 1, "clue": "Morning drink", "answer": "TEA", "hint": "Three letters" },
       { "number": 4, "clue": "Quick nap", "answer": "REST", "hint": "Four letters" },
-      { "number": 5, "clue": "Tiny", "answer": "MINI", "hint": "Self-referential" }
+      { "number": 5, "clue": "Tiny", "answer": "MINI", "hint": "Self-referential" },
+      { "number": 6, "clue": "Garden plot", "answer": "BED", "hint": "Three letters" }
     ],
     "down": [
       { "number": 1, "clue": "Tree fluid", "answer": "SAP", "hint": "Sticky" },
       { "number": 2, "clue": "Before", "answer": "ERE", "hint": "Poetic" },
-      { "number": 3, "clue": "Possess", "answer": "OWN", "hint": "Have" }
+      { "number": 3, "clue": "Possess", "answer": "OWN", "hint": "Have" },
+      { "number": 4, "clue": "Sprint", "answer": "RUN", "hint": "Three letters" }
     ],
     "answerNote": "Demo Mini grid for daily publishing. Replace clues and answers each day."
   },
@@ -164,7 +216,7 @@
     "date": "2026-09-25",
     "game": "crossword",
     "published": true,
-    "title": "Crossword Answers Today",
+    "title": "NYT Crossword Answers Today",
     "summary": "Reveal stubborn crossword clues without dumping the whole grid at once.",
     "difficulty": "HARD",
     "hints": [
@@ -174,12 +226,26 @@
     "across": [
       { "number": 1, "clue": "Makes a sullen face", "answer": "POUTS", "hint": "Five letters" },
       { "number": 6, "clue": "Sudden and unexpected", "answer": "ABRUPT", "hint": "Starts with A" },
-      { "number": 14, "clue": "Still in packaging", "answer": "UNOPENED", "hint": "Eight letters" }
+      { "number": 12, "clue": "Capital of Peru", "answer": "LIMA", "hint": "Four letters" },
+      { "number": 13, "clue": "Still in packaging", "answer": "UNOPENED", "hint": "Eight letters" },
+      { "number": 15, "clue": "Piano parts", "answer": "KEYS", "hint": "Black and white" },
+      { "number": 16, "clue": "One flatbread", "answer": "PITA", "hint": "Pocket bread" },
+      { "number": 17, "clue": "Halloween face covering", "answer": "MASK", "hint": "Four letters" },
+      { "number": 18, "clue": "Ready for business", "answer": "OPEN", "hint": "Shop sign" },
+      { "number": 19, "clue": "Coffee order size", "answer": "VENTI", "hint": "Starbucks-ish" },
+      { "number": 21, "clue": "Long theme entry starter", "answer": "THEMEWORD", "hint": "Editorial placeholder" }
     ],
     "down": [
       { "number": 1, "clue": "Buddy", "answer": "PAL", "hint": "Three letters" },
       { "number": 2, "clue": "Vase with a base", "answer": "URN", "hint": "Cemetery vibe" },
-      { "number": 3, "clue": "Declare definitively", "answer": "AVOW", "hint": "Four letters" }
+      { "number": 3, "clue": "Declare definitively", "answer": "AVOW", "hint": "Four letters" },
+      { "number": 4, "clue": "Great Lake", "answer": "ERIE", "hint": "Four letters" },
+      { "number": 5, "clue": "Tone down", "answer": "BATE", "hint": "Hold back" },
+      { "number": 6, "clue": "Victorious position", "answer": "ONTOP", "hint": "Two words vibe" },
+      { "number": 7, "clue": "City squares", "answer": "PLAZAS", "hint": "Six letters" },
+      { "number": 8, "clue": "Kitchen gadget brand", "answer": "OXO", "hint": "Three letters" },
+      { "number": 9, "clue": "Not closed", "answer": "AJAR", "hint": "Door status" },
+      { "number": 10, "clue": "Short sleep", "answer": "NAP", "hint": "Three letters" }
     ],
     "answerNote": "Partial demo crossword set for layout and workflow. Expand Across/Down daily as needed."
   }

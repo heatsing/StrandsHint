@@ -22,6 +22,13 @@ export type ConnectionsGroup = {
   hint?: string;
 };
 
+export type SectionAnswer = {
+  title: string;
+  hint?: string;
+  answer: string;
+  detail?: string;
+};
+
 export type DailyAnswerEntry = {
   id: string;
   date: string;
@@ -44,10 +51,17 @@ export type DailyAnswerEntry = {
   wordsByLength?: Record<string, string[]>;
   geniusScore?: number;
   // Pips / generic layered reveals
-  sections?: { title: string; hint?: string; answer: string; detail?: string }[];
+  sections?: SectionAnswer[];
   // Crossword family
   across?: ClueAnswer[];
   down?: ClueAnswer[];
+  /** Optional schematic grid rows. Use `#` for blocks and `.` / letters for open cells. */
+  grid?: string[];
+  // Wordle extras
+  firstLetter?: string;
+  repeatedLetters?: boolean | string;
+  difficultyScore?: string;
+  luckScore?: string;
 };
 
 export type DailyAnswerGameConfig = {
