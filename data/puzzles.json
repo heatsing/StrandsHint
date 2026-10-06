@@ -1,5 +1,329 @@
 [
   {
+    "id": "2026-10-06-nyt-strands-hints-answers",
+    "date": "2026-10-06",
+    "title": "NYT Strands Hints & Answers Oct 6, 2026: Changing course",
+    "themeHint": "Changing course",
+    "difficulty": "MEDIUM",
+    "spangram": "THEOLDSWITCHEROO",
+    "spangramHint1": "This playful phrase describes a classic deceptive tactic where one thing is swapped for another at the last second.",
+    "spangramHint2": "The spangram has 16 letters and ties the whole theme together.",
+    "spangramDirection": "unknown",
+    "words": [
+      "BACKPEDAL",
+      "FLIP",
+      "OVERTURN",
+      "REVERSE",
+      "UNDO"
+    ],
+    "wordHints": [
+      "Theme word starting with BAC.",
+      "Theme word starting with FLI.",
+      "Theme word starting with OVE.",
+      "Theme word starting with REV.",
+      "Theme word starting with UND."
+    ],
+    "spoilerLevelContent": "Today's theme 'Changing course' suggests a sudden shift or a complete reversal in direction. Think about actions someone might take when they decide to go back on a decision or move in the opposite way.",
+    "seoTitle": "NYT Strands Hints & Answers Oct 6, 2026",
+    "seoDescription": "Spoiler-safe NYT Strands hints, spangram help, and answer reveals for Oct 6, 2026. Theme: Changing course.",
+    "slug": "2026-10-06-nyt-strands-hints-answers",
+    "published": true,
+    "sourceUrl": "https://www.strands.today/strands-hint-and-answer/2026-10-06/",
+    "importedAt": "2026-10-06T13:48:59.061Z",
+    "importedWordPrefixes": [
+      "BAC",
+      "FLI",
+      "OVE",
+      "REV",
+      "UND"
+    ]
+  },
+  {
+    "id": "2026-10-05-nyt-strands-hints-answers",
+    "date": "2026-10-05",
+    "title": "NYT Strands Hints & Answers Oct 5, 2026: Oh well, too bad, such a shame",
+    "themeHint": "Oh well, too bad, such a shame",
+    "difficulty": "MEDIUM",
+    "spangram": "SADTROMBONE",
+    "spangramHint1": "This word represents the classic, comical sound effect played when someone fails at something, often heard in game shows or cartoons.",
+    "spangramHint2": "The spangram has 11 letters and ties the whole theme together.",
+    "spangramDirection": "unknown",
+    "words": [
+      "ALAS",
+      "BOOHOO",
+      "BUMMER",
+      "SORRY",
+      "SUCKS",
+      "UNFORTUNATE"
+    ],
+    "wordHints": [
+      "Theme word starting with ALA.",
+      "Theme word starting with BOO.",
+      "Theme word starting with BUM.",
+      "Theme word starting with SOR.",
+      "Theme word starting with SUC.",
+      "Theme word starting with UNF."
+    ],
+    "spoilerLevelContent": "Today's theme captures those moments when things don't go quite as planned. It focuses on the various ways we express disappointment or mock sympathy for a minor misfortune.",
+    "seoTitle": "NYT Strands Hints & Answers Oct 5, 2026",
+    "seoDescription": "Spoiler-safe NYT Strands hints, spangram help, and answer reveals for Oct 5, 2026. Theme: Oh well, too bad, such a shame.",
+    "slug": "2026-10-05-nyt-strands-hints-answers",
+    "published": true,
+    "sourceUrl": "https://www.strands.today/strands-hint-and-answer/2026-10-05/",
+    "importedAt": "2026-10-05T14:39:47.817Z",
+    "importedWordPrefixes": [
+      "ALA",
+      "BOO",
+      "BUM",
+      "SOR",
+      "SUC",
+      "UNF"
+    ]
+  },
+  {
+    "id": "2026-10-04-nyt-strands-hints-answers",
+    "date": "2026-10-04",
+    "title": "NYT Strands Hints & Answers Oct 4, 2026: Grab your tokens",
+    "themeHint": "Grab your tokens",
+    "difficulty": "MEDIUM",
+    "spangram": "ARCADEGAMES",
+    "spangramHint1": "This word describes the specific category of electronic entertainment machines found in a classic gaming hall, spanning from one side of the grid to the other.",
+    "spangramHint2": "The spangram has 11 letters and ties the whole theme together.",
+    "spangramDirection": "unknown",
+    "words": [
+      "ASTEROIDS",
+      "CENTIPEDE",
+      "FROGGER",
+      "PONG",
+      "SCRAMBLE"
+    ],
+    "wordHints": [
+      "Theme word starting with AST.",
+      "Theme word starting with CEN.",
+      "Theme word starting with FRO.",
+      "Theme word starting with PON.",
+      "Theme word starting with SCR."
+    ],
+    "spoilerLevelContent": "Today's theme 'Grab your tokens' takes you on a trip down memory lane to the golden age of electronic entertainment centers. Think about the sounds, the flashing lights, and the joystick-heavy machines that once dominated the 1980s landscape.",
+    "seoTitle": "NYT Strands Hints & Answers Oct 4, 2026",
+    "seoDescription": "Spoiler-safe NYT Strands hints, spangram help, and answer reveals for Oct 4, 2026. Theme: Grab your tokens.",
+    "slug": "2026-10-04-nyt-strands-hints-answers",
+    "published": true,
+    "sourceUrl": "https://www.strands.today/strands-hint-and-answer/2026-10-04/",
+    "importedAt": "2026-10-05T14:39:45.988Z",
+    "importedWordPrefixes": [
+      "AST",
+      "CEN",
+      "FRO",
+      "PON",
+      "SCR"
+    ]
+  },
+  {
+    "id": "2026-10-03-nyt-strands-hints-answers",
+    "date": "2026-10-03",
+    "title": "NYT Strands Hints & Answers Oct 3, 2026: A figment of your imagination",
+    "themeHint": "A figment of your imagination",
+    "difficulty": "MEDIUM",
+    "spangram": "WILLOTHEWISP",
+    "spangramHint1": "This word describes a mysterious, flickering light seen at night over bogs or marshes, often used metaphorically to represent a deceptive goal.",
+    "spangramHint2": "The spangram has 12 letters and ties the whole theme together.",
+    "spangramDirection": "unknown",
+    "words": [
+      "CHIMERA",
+      "ILLUSION",
+      "MIRAGE",
+      "PHANTASM",
+      "SPECTER"
+    ],
+    "wordHints": [
+      "Theme word starting with CHI.",
+      "Theme word starting with ILL.",
+      "Theme word starting with MIR.",
+      "Theme word starting with PHA.",
+      "Theme word starting with SPE."
+    ],
+    "spoilerLevelContent": "Today's theme, 'A figment of your imagination,' explores the ethereal and the unreal. It focuses on things that appear to be real but are actually mental fabrications or optical tricks.",
+    "seoTitle": "NYT Strands Hints & Answers Oct 3, 2026",
+    "seoDescription": "Spoiler-safe NYT Strands hints, spangram help, and answer reveals for Oct 3, 2026. Theme: A figment of your imagination.",
+    "slug": "2026-10-03-nyt-strands-hints-answers",
+    "published": true,
+    "sourceUrl": "https://www.strands.today/strands-hint-and-answer/2026-10-03/",
+    "importedAt": "2026-10-05T14:39:44.868Z",
+    "importedWordPrefixes": [
+      "CHI",
+      "ILL",
+      "MIR",
+      "PHA",
+      "SPE"
+    ]
+  },
+  {
+    "id": "2026-10-02-nyt-strands-hints-answers",
+    "date": "2026-10-02",
+    "title": "NYT Strands Hints & Answers Oct 2, 2026: On the sly ...",
+    "themeHint": "On the sly ...",
+    "difficulty": "MEDIUM",
+    "spangram": "SNEAKINGAROUND",
+    "spangramHint1": "Think about a two-word phrase that describes moving through a space quietly or acting in a secretive, suspicious manner to avoid detection.",
+    "spangramHint2": "The spangram has 14 letters and ties the whole theme together.",
+    "spangramDirection": "unknown",
+    "words": [
+      "COVERT",
+      "DEVIOUS",
+      "FURTIVE",
+      "SHIFTY",
+      "STEALTHY"
+    ],
+    "wordHints": [
+      "Theme word starting with COV.",
+      "Theme word starting with DEV.",
+      "Theme word starting with FUR.",
+      "Theme word starting with SHI.",
+      "Theme word starting with STE."
+    ],
+    "spoilerLevelContent": "Today's theme 'On the sly ...' focuses on the language of secrecy and hidden actions. It explores the various ways we describe behavior that isn't meant to be seen or noticed.",
+    "seoTitle": "NYT Strands Hints & Answers Oct 2, 2026",
+    "seoDescription": "Spoiler-safe NYT Strands hints, spangram help, and answer reveals for Oct 2, 2026. Theme: On the sly ....",
+    "slug": "2026-10-02-nyt-strands-hints-answers",
+    "published": true,
+    "sourceUrl": "https://www.strands.today/strands-hint-and-answer/2026-10-02/",
+    "importedAt": "2026-10-05T14:39:43.527Z",
+    "importedWordPrefixes": [
+      "COV",
+      "DEV",
+      "FUR",
+      "SHI",
+      "STE"
+    ]
+  },
+  {
+    "id": "2026-10-01-nyt-strands-hints-answers",
+    "date": "2026-10-01",
+    "title": "NYT Strands Hints & Answers Oct 1, 2026: Things fall apart",
+    "themeHint": "Things fall apart",
+    "difficulty": "MEDIUM",
+    "spangram": "BEYONDREPAIR",
+    "spangramHint1": "This word describes a state where something is so badly damaged that it cannot be fixed or restored to its original condition.",
+    "spangramHint2": "The spangram has 12 letters and ties the whole theme together.",
+    "spangramDirection": "unknown",
+    "words": [
+      "BREAK",
+      "COLLAPSE",
+      "CRUMBLE",
+      "DISSOLVE",
+      "FRAGMENT"
+    ],
+    "wordHints": [
+      "Theme word starting with BRE.",
+      "Theme word starting with COL.",
+      "Theme word starting with CRU.",
+      "Theme word starting with DIS.",
+      "Theme word starting with FRA."
+    ],
+    "spoilerLevelContent": "Today's theme 'Things fall apart' explores the various ways objects or structures lose their integrity. It focuses on the physical process of breaking down into smaller pieces or vanishing entirely.",
+    "seoTitle": "NYT Strands Hints & Answers Oct 1, 2026",
+    "seoDescription": "Spoiler-safe NYT Strands hints, spangram help, and answer reveals for Oct 1, 2026. Theme: Things fall apart.",
+    "slug": "2026-10-01-nyt-strands-hints-answers",
+    "published": true,
+    "sourceUrl": "https://www.strands.today/strands-hint-and-answer/2026-10-01/",
+    "importedAt": "2026-10-05T14:39:41.334Z",
+    "importedWordPrefixes": [
+      "BRE",
+      "COL",
+      "CRU",
+      "DIS",
+      "FRA"
+    ]
+  },
+  {
+    "id": "2026-09-30-nyt-strands-hints-answers",
+    "date": "2026-09-30",
+    "title": "NYT Strands Hints & Answers Sep 30, 2026: An instrumental destination",
+    "themeHint": "An instrumental destination",
+    "difficulty": "MEDIUM",
+    "spangram": "MUSICSTORE",
+    "spangramHint1": "Think of a two-word compound term for a physical location where you would go to purchase or rent the items listed in the clues.",
+    "spangramHint2": "The spangram has 10 letters and ties the whole theme together.",
+    "spangramDirection": "unknown",
+    "words": [
+      "AMPLIFIER",
+      "CAPO",
+      "DRUMS",
+      "GUITAR",
+      "PIANO",
+      "PICK",
+      "SYNTH"
+    ],
+    "wordHints": [
+      "Theme word starting with AMP.",
+      "Theme word starting with CAP.",
+      "Theme word starting with DRU.",
+      "Theme word starting with GUI.",
+      "Theme word starting with PIA.",
+      "Theme word starting with PIC.",
+      "Theme word starting with SYN."
+    ],
+    "spoilerLevelContent": "This theme explores a specific retail environment where melodies begin and rhythmic dreams come true. It focuses on the various items and accessories one might encounter while browsing a shop dedicated to sound.",
+    "seoTitle": "NYT Strands Hints & Answers Sep 30, 2026",
+    "seoDescription": "Spoiler-safe NYT Strands hints, spangram help, and answer reveals for Sep 30, 2026. Theme: An instrumental destination.",
+    "slug": "2026-09-30-nyt-strands-hints-answers",
+    "published": true,
+    "sourceUrl": "https://www.strands.today/strands-hint-and-answer/2026-09-30/",
+    "importedAt": "2026-09-30T14:53:16.649Z",
+    "importedWordPrefixes": [
+      "AMP",
+      "CAP",
+      "DRU",
+      "GUI",
+      "PIA",
+      "PIC",
+      "SYN"
+    ]
+  },
+  {
+    "id": "2026-09-29-nyt-strands-hints-answers",
+    "date": "2026-09-29",
+    "title": "NYT Strands Hints & Answers Sep 29, 2026: Have a heart",
+    "themeHint": "Have a heart",
+    "difficulty": "MEDIUM",
+    "spangram": "CARDIOVASCULAR",
+    "spangramHint1": "This word describes the entire system of your heart and blood vessels working together; it's a long, medical term that spans from one side of the grid to the other.",
+    "spangramHint2": "The spangram has 14 letters and ties the whole theme together.",
+    "spangramDirection": "unknown",
+    "words": [
+      "ARTERY",
+      "ATRIUM",
+      "BLOOD",
+      "PRESSURE",
+      "PULSE",
+      "VEIN"
+    ],
+    "wordHints": [
+      "Theme word starting with ART.",
+      "Theme word starting with ATR.",
+      "Theme word starting with BLO.",
+      "Theme word starting with PRE.",
+      "Theme word starting with PUL.",
+      "Theme word starting with VEI."
+    ],
+    "spoilerLevelContent": "Today's theme explores the heart and the vessels that move blood through the body. Theme words name parts and signals of that system, and the long spangram ties the whole board together.",
+    "seoTitle": "NYT Strands Hints & Answers Sep 29, 2026",
+    "seoDescription": "Spoiler-safe NYT Strands hints, spangram help, and answer reveals for Sep 29, 2026. Theme: Have a heart.",
+    "slug": "2026-09-29-nyt-strands-hints-answers",
+    "published": true,
+    "sourceUrl": "https://www.strands.today/strands-hint-and-answer/2026-09-29/",
+    "importedAt": "2026-09-30T14:53:15.196Z",
+    "importedWordPrefixes": [
+      "ART",
+      "ATR",
+      "BLO",
+      "PRE",
+      "PUL",
+      "VEI"
+    ]
+  },
+  {
     "id": "2026-09-28-nyt-strands-hints-answers",
     "date": "2026-09-28",
     "title": "NYT Strands Hints & Answers Sep 28, 2026: A form of art",
